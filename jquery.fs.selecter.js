@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.7
+ * @version 1.7.1
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -76,9 +76,9 @@ if (jQuery) (function($) {
 					$selecter.find(".selecter-selected").trigger("click");
 				}
 				
-				// Simple scroll support
-				if ($.fn.simpleScroll != undefined) {
-					$selecter.find(".selecter-options").simpleScroll("destroy");
+				// Scroller support
+				if ($.fn.scroller != undefined) {
+					$selecter.find(".selecter-options").scroller("destroy");
 				}
 				
 				$target.off(".selecter")
@@ -201,9 +201,9 @@ if (jQuery) (function($) {
 				guid: guid
 			}, opts);
 			
-			// Simple scroll support
-			if ($.fn.simpleScroll != undefined) {
-				data.$itemsWrapper.simpleScroll();
+			// Scroller support
+			if ($.fn.scroller != undefined) {
+				data.$itemsWrapper.scroller();
 			}
 			
 			// Bind click events
@@ -277,8 +277,8 @@ if (jQuery) (function($) {
 			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener)
 					 .on("keydown.selecter-" + data.guid, data, _keypress);
 			
-			if ($.fn.simpleScroll != undefined) {
-				data.$itemsWrapper.simpleScroll("reset");
+			if ($.fn.scroller != undefined) {
+				data.$itemsWrapper.scroller("reset");
 			}
 		}
 	}
