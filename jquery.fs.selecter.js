@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.7.1
+ * @version 1.7.3
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -208,9 +208,9 @@ if (jQuery) (function($) {
 			
 			// Bind click events
 			$selecter.on("click.selecter", ".selecter-selected", data, _handleClick)
-					  .on("click.selecter", ".selecter-item", data, _select)
-					  .on("selecter-close", data, _close)
-					  .data("selecter", data);
+					 .on("click.selecter", ".selecter-item", data, _select)
+					 .on("selecter-close", data, _close)
+					 .data("selecter", data);
 			
 			// Bind Blur/focus events
 			if (!opts.links) {
@@ -313,24 +313,22 @@ if (jQuery) (function($) {
 		e.preventDefault();
 		e.stopPropagation();
 		
-		var data = e.data;
 		var $target = $(this);
+		var data = e.data;
 		
 		if (data.links) {
+			// Open link
 			window.location.href = $target.attr("href");
 		} else {
-			var index = data.$items.index($target);
-			
-			// Open selected link
 			if (data.$itemsWrapper.is(":visible")) {
 				// Update 
+				var index = data.$items.index($target);
 				_update(index, data);
 			}
-			
-			// Clean up
-			e.data = data;
-			_close(e);
 		}
+		
+		// Clean up
+		_close(e);
 	}
 	
 	// Handle focus
