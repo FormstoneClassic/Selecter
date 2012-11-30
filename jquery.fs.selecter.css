@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 1.7.3
+ * @version 1.8
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -10,14 +10,14 @@
 	.selecter-element { left: -999999px; position: absolute; }
 	.selecter { display: block; margin: 10px 0; position: relative; max-width: 30%; z-index: 1; }
 	.selecter .selecter-selected { background: #F9F9F9 url(fs-selecter-arrow.png) no-repeat right center; border: 1px solid #ccc; border-radius: 3px; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; position: relative; text-overflow: clip; z-index: 49; }
-	.selecter .selecter-options { border: 1px solid #ccc; border-width: 0 1px 1px; background-color: #fefefe; border-radius: 0 0 3px 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); display: none; left: 0; margin: 0; max-height: 260px; padding: 0; overflow: auto; overflow-x: hidden; position: absolute; top: 100%; width: 100%; *width: auto; z-index: 50; }
+	.selecter .selecter-options { border: 1px solid #ccc; border-width: 0 1px 1px; background-color: #fefefe; border-radius: 0 0 3px 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); display: none; left: 0; margin: 0; max-height: 260px; overflow: auto; overflow-x: hidden; padding: 0; position: absolute; top: 100%; width: 100%; *width: auto; z-index: 50; }
 	.selecter .selecter-group { background: #F9F9F9; border-bottom: 1px solid #e3e3e3; color: #999; display: block; font-size: 11px; padding: 5px 10px 4px; text-transform: uppercase; }
 	.selecter .selecter-item { background: #fff; border-bottom: 1px solid #e3e3e3; color: #666; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; text-overflow: ellipsis; width: 100%; }
 	.selecter .selecter-item.selected { background: #F9F9F9; }
 	.selecter .selecter-item:hover, 
 	.selecter .selecter-item.selected:hover { background-color: #f3f3f3; }
 	.selecter .selecter-item.first { border-radius: 0; } 
-	.selecter .selecter-item.last { border-radius: 0 0 2px 2px; }
+	.selecter .selecter-item.last { border-radius: 0 0 2px 2px; border-bottom: 0; }
 	
 	/* Open */
 	.selecter.open { z-index: 3; }
@@ -43,6 +43,9 @@
 	.selecter.bottom.cover.open .selecter-selected { border-radius: 3px; }
 	.selecter.bottom.cover.open .selecter-options { border-radius: 3px; }
 	
+	/* Multiple Select */
+	.selecter.multiple .selecter-options { border-radius: 3px; border-width: 1px; box-shadow: none; display: block; position: static; }
+	
 	/* 'Mobile' Positioning */
 	.selecter.mobile .selecter-options { box-shadow: 0 0 15px rgba(0, 0, 0, 0.75); bottom: auto; border-radius: 5px; left: 5%; position: fixed; top: 5%; width: 90%; z-index: 101; }
 	.selecter.mobile .selecter-item.first { border-radius: 5px 5px 0 0; }
@@ -55,6 +58,11 @@
 	
 	/* 'Disabled' State */
 	.selecter.disabled .selecter-selected { background: #fff; border-color: #eee; color: #ccc; cursor: default; }
+	.selecter.disabled .selecter-options { background: #fff; border-color: #eee; }
+	.selecter.disabled .selecter-group,
+	.selecter.disabled .selecter-item { border-color: #eee; color: #ccc; cursor: default; }
+	.selecter.disabled .selecter-item:hover { background: #fff; }
+	.selecter.disabled .selecter-item.selected { background: #fafafa; }
 	
 	/* Media Queries */
 	@media screen and (max-width: 740px) {

@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.7.3
+ * @version 1.8
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -85,7 +85,7 @@ if (jQuery) (function($) {
 					   .removeClass("selecter-element")
 					   .show();
 				$selecter.off(".selecter")
-						  .remove();
+						 .remove();
 			}
 			return $items;
 		}
@@ -129,23 +129,31 @@ if (jQuery) (function($) {
 			var wrapperTag = (opts.links) ? "nav" : "div";
 			var itemTag = (opts.links) ? "a" : "span";
 			
+			opts.multiple = $selectEl.attr("multiple") == "multiple";
 			opts.disabled = $selectEl.is(":disabled");
 			
 			// Build HTML
-			var html = '<' + wrapperTag + ' class="selecter closed ' + opts.customClass;
+			var html = '<' + wrapperTag + ' class="selecter ' + opts.customClass;
 			// Special case classes
 			if (opts.mobile) {
 				html += ' mobile';
 			} else if (opts.cover) {
 				html += ' cover';
 			}
+			if (opts.multiple) {
+				html += ' multiple';
+			} else {
+				html += ' closed';
+			}
 			if (opts.disabled) {
 				html += ' disabled';
 			}
 			html += '">';
-			html += '<span class="selecter-selected">';
-			html += _checkLength(opts.trimOptions, ((opts.defaultLabel) ? opts.defaultLabel : $originalOption.text()));
-			html += '</span>';
+			if (!opts.multiple) {
+				html += '<span class="selecter-selected">';
+				html += _checkLength(opts.trimOptions, ((opts.defaultLabel) ? opts.defaultLabel : $originalOption.text()));
+				html += '</span>';
+			}
 			html += '<div class="selecter-options">';
 			var j = 0;
 			var $op = null;
@@ -316,19 +324,23 @@ if (jQuery) (function($) {
 		var $target = $(this);
 		var data = e.data;
 		
-		if (data.links) {
-			// Open link
-			window.location.href = $target.attr("href");
-		} else {
-			if (data.$itemsWrapper.is(":visible")) {
-				// Update 
-				var index = data.$items.index($target);
-				_update(index, data);
+		if (!data.$selectEl.is(":disabled")) {
+			if (data.links) {
+				// Open link
+				window.location.href = $target.attr("href");
+			} else {
+				if (data.$itemsWrapper.is(":visible")) {
+					// Update 
+					var index = data.$items.index($target);
+					_update(index, data);
+				}
+			}
+			
+			if (!data.multiple) {
+				// Clean up
+				_close(e);
 			}
 		}
-		
-		// Clean up
-		_close(e);
 	}
 	
 	// Handle focus
@@ -338,7 +350,7 @@ if (jQuery) (function($) {
 		
 		var data = e.data;
 		
-		if (!data.disabled) {
+		if (!data.$selectEl.is(":disabled") && !data.multiple) {
 			data.$selecter.addClass("focus");
 			$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
 			$("body").on("keydown.selecter-" + data.guid, data, _keypress);
@@ -415,21 +427,31 @@ if (jQuery) (function($) {
 	
 	// Update element value + DOM
 	function _update(index, data) {
+		var $item = data.$items.eq(index);
+		
 		// Make sure we have a new index to prevent false 'change' triggers
-		if (index != data.index) {
-			var newLabel = data.$items.eq(index).html();
-			var newValue = data.$items.eq(index).data("value");
+		if (!$item.hasClass("selected")) {
+			var newLabel = $item.html();
+			var newValue = $item.data("value");
 			
 			// Modify DOM
-			data.$selected.html(newLabel);
-			data.$selectEl.val(newValue).change();
+			if (!data.multiple) {
+				data.$optionEls.attr("selected", null);
+				data.$selected.html(newLabel);
+				data.$items.filter(".selected").removeClass("selected");
+			}
 			
-			data.$items.filter(".selected").removeClass("selected");
-			data.$items.eq(index).addClass("selected");
+			data.$optionEls.eq(index).attr("selected", "selected");
+			data.$selectEl.trigger("change");
+			
+			$item.addClass("selected");
 			
 			// Fire callback
-			data.callback.call(data.$selecter, newValue);
+			data.callback.call(data.$selecter, data.$selectEl.val());
 			data.index = index;
+		} else if (data.multiple) {
+			data.$optionEls.eq(index).attr("selected", null);
+			$item.removeClass("selected");
 		}
 	}
 	
