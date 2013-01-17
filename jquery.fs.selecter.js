@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.8
+ * @version 1.8.1
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
