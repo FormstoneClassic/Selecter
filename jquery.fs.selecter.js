@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.8.1
+ * @version 1.8.2
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -123,7 +123,7 @@ if (jQuery) (function($) {
 			var $optionEls = $allOptionEls.filter("option");
 			
 			var $originalOption = $optionEls.filter("[selected='selected']");
-			var originalIndex = $optionEls.index($originalOption);
+			var originalIndex = (opts.defaultLabel) ? -1 : $optionEls.index($originalOption);
 			var totalItems = $allOptionEls.length - 1;
 			
 			var wrapperTag = (opts.links) ? "nav" : "div";
