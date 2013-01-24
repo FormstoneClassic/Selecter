@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.8.2
+ * @version 1.8.3
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -10,7 +10,8 @@
 if (jQuery) (function($) {
 	
 	// Mobile Detect
-	var agent = isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (navigator.userAgent||navigator.vendor||window.opera) );
+	var isFirefox = isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
+		agent = isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (navigator.userAgent||navigator.vendor||window.opera) );
 	
 	// Default Options
 	var options = {
@@ -384,8 +385,8 @@ if (jQuery) (function($) {
 					data.$selected.trigger("click");
 				}
 			} else {
-				if (e.keyCode == 38 || e.keyCode == 40) {
-					// Up/down increment 
+				if ($.inArray(e.keyCode, (isFirefox) ? [38, 40, 37, 39] : [38, 40]) > -1) {
+					// Increment / decrement using the arrow keys
 					index = data.index + ((e.keyCode == 38) ? -1 : 1);
 					if (index < 0) {
 						index = 0;
@@ -405,7 +406,7 @@ if (jQuery) (function($) {
 						}
 					}
 					
-					// If not, start from the begining
+					// If not, start from the beginning
 					if (index < 0) {
 						for (i = 0; i <= total; i++) {
 							var letter = data.$optionEls.eq(i).text().charAt(0).toUpperCase();
@@ -436,7 +437,7 @@ if (jQuery) (function($) {
 			
 			// Modify DOM
 			if (!data.multiple) {
-				data.$optionEls.attr("selected", null);
+				if (!isFirefox) data.$optionEls.attr("selected", null);
 				data.$selected.html(newLabel);
 				data.$items.filter(".selected").removeClass("selected");
 			}
