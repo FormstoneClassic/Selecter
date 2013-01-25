@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.8.3
+ * @version 1.8.4
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -10,8 +10,8 @@
 if (jQuery) (function($) {
 	
 	// Mobile Detect
-	var isFirefox = isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
-		agent = isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (navigator.userAgent||navigator.vendor||window.opera) );
+	var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
+		isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (navigator.userAgent||navigator.vendor||window.opera) );
 	
 	// Default Options
 	var options = {
@@ -283,8 +283,8 @@ if (jQuery) (function($) {
 			
 			// Bind Events
 			data.$selecter.removeClass("closed").addClass("open");
-			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener)
-					 .on("keydown.selecter-" + data.guid, data, _keypress);
+			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener);
+					 //.on("keydown.selecter-" + data.guid, data, _keypress);
 			
 			if ($.fn.scroller != undefined) {
 				data.$itemsWrapper.scroller("reset");
@@ -380,40 +380,35 @@ if (jQuery) (function($) {
 			var total = data.$items.length - 1;
 			var index = -1;
 			
-			if (data.$selecter.hasClass("open")) {
-				if (e.keyCode == 27) {
-					data.$selected.trigger("click");
+			// Firefox left/right support thanks to Kylemade
+			if ($.inArray(e.keyCode, (isFirefox) ? [38, 40, 37, 39] : [38, 40]) > -1) {
+				// Increment / decrement using the arrow keys
+				index = data.index + ((e.keyCode == 38 || (isFirefox && e.keyCode == 37)) ? -1 : 1);
+				if (index < 0) {
+					index = 0;
+				}
+				if (index > total) {
+					index = total;
 				}
 			} else {
-				if ($.inArray(e.keyCode, (isFirefox) ? [38, 40, 37, 39] : [38, 40]) > -1) {
-					// Increment / decrement using the arrow keys
-					index = data.index + ((e.keyCode == 38) ? -1 : 1);
-					if (index < 0) {
-						index = 0;
+				var input = String.fromCharCode(e.keyCode).toUpperCase();
+				
+				// Search for input from original index
+				for (i = data.index + 1; i <= total; i++) {
+					var letter = data.$optionEls.eq(i).text().charAt(0).toUpperCase();
+					if (letter == input) {
+						index = i;
+						break;
 					}
-					if (index > total) {
-						index = total;
-					}
-				} else {
-					var input = String.fromCharCode(e.keyCode).toUpperCase();
-					
-					// Search for input from original index
-					for (i = data.index + 1; i <= total; i++) {
+				}
+				
+				// If not, start from the beginning
+				if (index < 0) {
+					for (i = 0; i <= total; i++) {
 						var letter = data.$optionEls.eq(i).text().charAt(0).toUpperCase();
 						if (letter == input) {
 							index = i;
 							break;
-						}
-					}
-					
-					// If not, start from the beginning
-					if (index < 0) {
-						for (i = 0; i <= total; i++) {
-							var letter = data.$optionEls.eq(i).text().charAt(0).toUpperCase();
-							if (letter == input) {
-								index = i;
-								break;
-							}
 						}
 					}
 				}
@@ -423,6 +418,7 @@ if (jQuery) (function($) {
 			if (index >= 0) {
 				_update(index, data);
 			}
+			return false;
 		}
 	}
 	
@@ -437,12 +433,13 @@ if (jQuery) (function($) {
 			
 			// Modify DOM
 			if (!data.multiple) {
-				if (!isFirefox) data.$optionEls.attr("selected", null);
 				data.$selected.html(newLabel);
 				data.$items.filter(".selected").removeClass("selected");
 			}
 			
-			data.$optionEls.eq(index).attr("selected", "selected");
+			if (!isFirefox) {
+				data.$selectEl[0].selectedIndex = index;
+			}
 			data.$selectEl.trigger("change");
 			
 			$item.addClass("selected");
