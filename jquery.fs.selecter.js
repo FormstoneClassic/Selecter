@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.8.5
+ * @version 1.8.6
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -333,7 +333,7 @@ if (jQuery) (function($) {
 				if (data.$itemsWrapper.is(":visible")) {
 					// Update 
 					var index = data.$items.index($target);
-					_update(index, data);
+					_update(index, data, false);
 				}
 			}
 			
@@ -416,14 +416,14 @@ if (jQuery) (function($) {
 			
 			// Update
 			if (index >= 0) {
-				_update(index, data);
+				_update(index, data, true);
 			}
 			return false;
 		}
 	}
 	
 	// Update element value + DOM
-	function _update(index, data) {
+	function _update(index, data, keypress) {
 		var $item = data.$items.eq(index);
 		
 		// Make sure we have a new index to prevent false 'change' triggers
@@ -437,7 +437,7 @@ if (jQuery) (function($) {
 			} else {
 				data.$selected.html(newLabel);
 				data.$items.filter(".selected").removeClass("selected");
-				if (!isFirefox) {
+				if (!keypress || (keypress && !isFirefox)) {
 					data.$selectEl[0].selectedIndex = index;
 				}
 			}

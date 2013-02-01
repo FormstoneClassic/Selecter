@@ -9,7 +9,7 @@
 		"formstone",
 		"benplum"
 	],
-	"version": "1.8.5",
+	"version": "1.8.6",
 	"author": {
 		"name": "Ben Plum",
 		"url": "http://www.benplum.com"
@@ -21,6 +21,7 @@
 		}
 	],
 	"docs": "http://www.benplum.com/formstone/selecter/",
+	"demo": "http://www.benplum.com/formstone/selecter/",
 	"download": "https://github.com/benplum/Selecter",
 	"bugs": "https://github.com/benplum/Boxer/Selecter",
 	"dependencies": {
