@@ -23,7 +23,7 @@
 	"docs": "http://www.benplum.com/formstone/selecter/",
 	"demo": "http://www.benplum.com/formstone/selecter/",
 	"download": "https://github.com/benplum/Selecter",
-	"bugs": "https://github.com/benplum/Boxer/Selecter",
+	"bugs": "https://github.com/benplum/Selecter/issues",
 	"dependencies": {
 		"jquery": ">=1.7"
 	}
