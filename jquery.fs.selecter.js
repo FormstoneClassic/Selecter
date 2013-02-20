@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.0
+ * @version 1.9.1
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -121,15 +121,13 @@ if (jQuery) (function($) {
 	function _build($selectEl, opts) {
 		if (!$selectEl.data("selecter")) {
 			// Build options array
-			var $allOptionEls = $selectEl.find("option, optgroup");
-			var $optionEls = $allOptionEls.filter("option");
-			
-			var $originalOption = $optionEls.filter("[selected='selected']");
-			var originalIndex = (opts.defaultLabel) ? -1 : $optionEls.index($originalOption);
-			var totalItems = $allOptionEls.length - 1;
-			
-			var wrapperTag = (opts.links) ? "nav" : "div";
-			var itemTag = (opts.links) ? "a" : "span";
+			var $allOptionEls = $selectEl.find("option, optgroup"),
+				$optionEls = $allOptionEls.filter("option"),
+				$originalOption = $optionEls.filter(":selected"),
+				originalIndex = (opts.defaultLabel) ? -1 : $optionEls.index($originalOption),
+				totalItems = $allOptionEls.length - 1,
+				wrapperTag = (opts.links) ? "nav" : "div",
+				itemTag = (opts.links) ? "a" : "span";
 			
 			opts.multiple = $selectEl.attr("multiple") == "multiple";
 			opts.disabled = $selectEl.is(":disabled");
@@ -153,7 +151,7 @@ if (jQuery) (function($) {
 			html += '">';
 			if (!opts.multiple) {
 				html += '<span class="selecter-selected">';
-				html += _checkLength(opts.trimOptions, ((opts.defaultLabel) ? opts.defaultLabel : $originalOption.text()));
+				html += _checkLength(opts.trimOptions, ((opts.defaultLabel != false) ? opts.defaultLabel : $originalOption.text()));
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
