@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 1.9.1
+ * @version 1.9.2
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -43,9 +43,6 @@
 	.selecter.bottom.cover.open .selecter-selected { border-radius: 3px; }
 	.selecter.bottom.cover.open .selecter-options { border-radius: 3px; }
 	
-	/* Multiple Select */
-	.selecter.multiple .selecter-options { border-radius: 3px; border-width: 1px; box-shadow: none; display: block; position: static; }
-	
 	/* 'Mobile' Positioning */
 	.selecter.mobile .selecter-options { box-shadow: 0 0 15px rgba(0, 0, 0, 0.75); bottom: auto; border-radius: 5px; left: 5%; position: fixed; top: 5%; width: 90%; z-index: 101; }
 	.selecter.mobile .selecter-item.first { border-radius: 5px 5px 0 0; }
@@ -55,6 +52,9 @@
 	/* 'Mobile' Overlay */
 	.selecter .selecter-overlay { background: rgba(0, 0, 0, 0.5); display: none; height: 100%; left: 0; position: fixed; top: 0; width: 100%; z-index: 100; }
 	.selecter.open .selecter-overlay { display: block; }
+	
+	/* Multiple Select */
+	.selecter.multiple .selecter-options { border-radius: 3px; border-width: 1px; box-shadow: none; display: block; position: static; width: 100%; }
 	
 	/* 'Disabled' State */
 	.selecter.disabled .selecter-selected { background: #fff; border-color: #eee; color: #ccc; cursor: default; }
