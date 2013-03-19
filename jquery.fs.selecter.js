@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.2
+ * @version 1.9.3
  *
  * Copyright © 2012 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -20,7 +20,6 @@ if (jQuery) (function($) {
 		customClass: "",
 		defaultLabel: false,
 		links: false,
-		mobile: false,
 		trimOptions: false
 	};
 	
@@ -98,13 +97,6 @@ if (jQuery) (function($) {
 	// Initialize
 	function _init(opts) {
 		opts = opts || {};
-		// Check for mobile
-		if (isMobile) {
-			opts.trueMobile = true;
-			if (typeof opts.mobile === "undefined") {
-				opts.mobile = true;
-			}
-		}
 		
 		// Define settings
 		var settings = $.extend({}, options, opts);
@@ -135,7 +127,7 @@ if (jQuery) (function($) {
 			// Build HTML
 			var html = '<' + wrapperTag + ' class="selecter ' + opts.customClass;
 			// Special case classes
-			if (opts.mobile) {
+			if (isMobile) {
 				html += ' mobile';
 			} else if (opts.cover) {
 				html += ' cover';
@@ -186,10 +178,6 @@ if (jQuery) (function($) {
 				}
 			}
 			html += '</div>';
-			// Add mobile Overlay
-			if (opts.mobile) {
-				html += '<div class="selecter-overlay"></div>';
-			}
 			html += '</' + wrapperTag + '>';
 			
 			// Modify DOM
@@ -221,10 +209,12 @@ if (jQuery) (function($) {
 					 .data("selecter", data);
 			
 			// Bind Blur/focus events
-			if (!opts.links) {
+			if ((!opts.links && !isMobile) || isMobile) {
 				$selectEl.on("change", data, _change)
-						 .on("focus.selecter", data, _focus)
 						 .on("blur.selecter", data, _blur);
+				if (!isMobile) {
+					$selectEl.on("focus.selecter", data, _focus);
+				}
 			} else {
 				// Disable browser focus/blur for jump links
 				$selectEl.hide();
@@ -244,11 +234,23 @@ if (jQuery) (function($) {
 		if (!data.$selectEl.is(":disabled")) {
 			$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
 			
-			// Delegate intent
-			if (data.$selecter.hasClass("closed")) {
-				_open(e);
-			} else if (data.$selecter.hasClass("open")) {
-				_close(e);
+			// Handle mobile
+			if (isMobile) {
+				var el = data.$selectEl[0];
+				if (document.createEvent) { // All
+					var evt = document.createEvent("MouseEvents");
+					evt.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					el.dispatchEvent(evt);
+				} else if (element.fireEvent) { // IE
+					el.fireEvent("onmousedown");
+				}
+			} else {
+				// Delegate intent
+				if (data.$selecter.hasClass("closed")) {
+					_open(e);
+				} else if (data.$selecter.hasClass("open")) {
+					_close(e);
+				}
 			}
 		}
 	}
@@ -267,19 +269,13 @@ if (jQuery) (function($) {
 			var optionsHeight = data.$itemsWrapper.outerHeight(true);
 			
 			// Calculate bottom of document if not mobile
-			if (selectOffset.top + optionsHeight > bodyHeight && !data.mobile) {
+			if (selectOffset.top + optionsHeight > bodyHeight && isMobile) {
 				data.$selecter.addClass("bottom");
 			} else {
 				data.$selecter.removeClass("bottom");
 			}
 			
 			data.$itemsWrapper.show();
-			
-			if (data.mobile) {
-				var clientHeight = document.documentElement.clientHeight;
-				var clientWidth = document.documentElement.clientWidth;
-				data.$itemsWrapper.css({ maxHeight: (clientHeight * 0.9), maxWidth: (clientWidth * 0.9) });
-			}
 			
 			// Bind Events
 			data.$selecter.removeClass("closed").addClass("open");
@@ -347,11 +343,18 @@ if (jQuery) (function($) {
 	// Handle outside changes
 	function _change(e, internal) {
 		if (!internal) {
-			var $target = $(this)
-				data = e.data,
-				index = data.$optionEls.index(data.$optionEls.filter("[value=" + $target.val() + "]"));
+			var $target = $(this),
+				data = e.data;
+				console.log(e);
 			
-			_update(index, data, false);
+			// Mobile link support
+			if (data.links) {
+				window.location = $target.val();
+			} else {
+				// Otherwise update
+				var index = data.$optionEls.index(data.$optionEls.filter("[value=" + $target.val() + "]"));
+				_update(index, data, false);
+			}
 		}
 	}
 	
