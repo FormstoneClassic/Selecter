@@ -20,7 +20,8 @@ if (jQuery) (function($) {
 		customClass: "",
 		defaultLabel: false,
 		links: false,
-		trimOptions: false
+		trimOptions: false,
+		externalLinks: false
 	};
 	
 	// Identify each instance
@@ -324,7 +325,12 @@ if (jQuery) (function($) {
 		if (!data.$selectEl.is(":disabled")) {
 			if (data.links) {
 				// Open link
-				window.location.href = $target.attr("href");
+				var $link = $target.attr("href");
+				if (data.externalLinks) { // Check if external links are enabled
+					window.open( $link ); // Open link in a new tab
+				} else { // If external links are not enabled
+					window.location.href = $link; // Open link in same tab
+				}
 			} else {
 				if (data.$itemsWrapper.is(":visible")) {
 					// Update 
