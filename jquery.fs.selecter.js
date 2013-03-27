@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.5
+ * @version 1.9.6
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -47,7 +47,7 @@ if (jQuery) (function($) {
 					$selecter.find(".selecter-selected").trigger("click");
 				}
 				
-				$target.prop("disabled", "disabled");
+				$target.prop("disabled", true);
 				$selecter.addClass("disabled");
 			}
 			return $items;
@@ -126,7 +126,7 @@ if (jQuery) (function($) {
 				wrapperTag = (opts.links) ? "nav" : "div",
 				itemTag = (opts.links) ? "a" : "span";
 			
-			opts.multiple = $selectEl.prop("multiple") == "multiple";
+			opts.multiple = $selectEl.prop("multiple");
 			opts.disabled = $selectEl.is(":disabled");
 			
 			// Build HTML
@@ -158,7 +158,7 @@ if (jQuery) (function($) {
 				$op = $($allOptionEls[i]);
 				// Option group
 				if ($op[0].tagName == "OPTGROUP") {
-					html += '<span class="selecter-group">' + $op.prop("label") + '</span>';
+					html += '<span class="selecter-group">' + $op.attr("label") + '</span>';
 				} else {
 					html += '<' + itemTag + ' class="selecter-item';
 					// Default selected value - now handles multi's thanks to @kuilkoff 
@@ -329,7 +329,7 @@ if (jQuery) (function($) {
 		if (!data.$selectEl.is(":disabled")) {
 			if (data.links) {
 				// Open link
-				_launch($target.prop("href"), data.externalLinks);
+				_launch($target.attr("href"), data.externalLinks);
 			} else {
 				if (data.$itemsWrapper.is(":visible")) {
 					// Update 
@@ -354,7 +354,7 @@ if (jQuery) (function($) {
 			
 			// Mobile link support
 			if (data.links) {
-				_launch($target.prop("href"), data.externalLinks);
+				_launch($target.attr("href"), data.externalLinks);
 			} else {
 				// Otherwise update
 				var index = data.$optionEls.index(data.$optionEls.filter("[value=" + $target.val() + "]"));
@@ -452,7 +452,7 @@ if (jQuery) (function($) {
 			
 			// Modify DOM
 			if (data.multiple) {
-				data.$optionEls.eq(index).prop("selected", "selected");
+				data.$optionEls.eq(index).prop("selected", true);
 			} else {
 				data.$selected.html(newLabel);
 				data.$items.filter(".selected").removeClass("selected");
