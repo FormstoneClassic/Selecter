@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.4
+ * @version 1.9.5
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -19,9 +19,9 @@ if (jQuery) (function($) {
 		cover: false,
 		customClass: "",
 		defaultLabel: false,
+		externalLinks: false,
 		links: false,
-		trimOptions: false,
-		externalLinks: false
+		trimOptions: false
 	};
 	
 	// Identify each instance
@@ -47,7 +47,7 @@ if (jQuery) (function($) {
 					$selecter.find(".selecter-selected").trigger("click");
 				}
 				
-				$target.attr("disabled", "disabled");
+				$target.prop("disabled", "disabled");
 				$selecter.addClass("disabled");
 			}
 			return $items;
@@ -60,7 +60,7 @@ if (jQuery) (function($) {
 				var $target = $items.eq(i);
 				var $selecter = $target.next(".selecter");
 				
-				$target.attr("disabled", null);
+				$target.prop("disabled", null);
 				$selecter.removeClass("disabled");
 			}
 			return $items;
@@ -113,6 +113,10 @@ if (jQuery) (function($) {
 	// Build each
 	function _build($selectEl, opts) {
 		if (!$selectEl.data("selecter")) {
+			if (opts.externalLinks) {
+				opts.links = true;
+			}
+			
 			// Build options array
 			var $allOptionEls = $selectEl.find("option, optgroup"),
 				$optionEls = $allOptionEls.filter("option"),
@@ -122,7 +126,7 @@ if (jQuery) (function($) {
 				wrapperTag = (opts.links) ? "nav" : "div",
 				itemTag = (opts.links) ? "a" : "span";
 			
-			opts.multiple = $selectEl.attr("multiple") == "multiple";
+			opts.multiple = $selectEl.prop("multiple") == "multiple";
 			opts.disabled = $selectEl.is(":disabled");
 			
 			// Build HTML
@@ -154,7 +158,7 @@ if (jQuery) (function($) {
 				$op = $($allOptionEls[i]);
 				// Option group
 				if ($op[0].tagName == "OPTGROUP") {
-					html += '<span class="selecter-group">' + $op.attr("label") + '</span>';
+					html += '<span class="selecter-group">' + $op.prop("label") + '</span>';
 				} else {
 					html += '<' + itemTag + ' class="selecter-item';
 					// Default selected value - now handles multi's thanks to @kuilkoff 
@@ -325,12 +329,7 @@ if (jQuery) (function($) {
 		if (!data.$selectEl.is(":disabled")) {
 			if (data.links) {
 				// Open link
-				var $link = $target.attr("href");
-				if (data.externalLinks) { // Check if external links are enabled
-					window.open( $link ); // Open link in a new tab
-				} else { // If external links are not enabled
-					window.location.href = $link; // Open link in same tab
-				}
+				_launch($target.prop("href"), data.externalLinks);
 			} else {
 				if (data.$itemsWrapper.is(":visible")) {
 					// Update 
@@ -355,7 +354,7 @@ if (jQuery) (function($) {
 			
 			// Mobile link support
 			if (data.links) {
-				window.location = $target.val();
+				_launch($target.prop("href"), data.externalLinks);
 			} else {
 				// Otherwise update
 				var index = data.$optionEls.index(data.$optionEls.filter("[value=" + $target.val() + "]"));
@@ -453,7 +452,7 @@ if (jQuery) (function($) {
 			
 			// Modify DOM
 			if (data.multiple) {
-				data.$optionEls.eq(index).attr("selected", "selected");
+				data.$optionEls.eq(index).prop("selected", "selected");
 			} else {
 				data.$selected.html(newLabel);
 				data.$items.filter(".selected").removeClass("selected");
@@ -468,7 +467,7 @@ if (jQuery) (function($) {
 			data.callback.call(data.$selecter, data.$selectEl.val());
 			data.index = index;
 		} else if (data.multiple) {
-			data.$optionEls.eq(index).attr("selected", null);
+			data.$optionEls.eq(index).prop("selected", null);
 			$item.removeClass("selected");
 		}
 	}
@@ -483,6 +482,17 @@ if (jQuery) (function($) {
 			} else {
 				return text;
 			}
+		}
+	}
+	
+	// Launch link
+	function _launch(link, external) {
+		if (external) { 
+			// Open link in a new tab/window
+			window.open(link);
+		} else { 
+			// Open link in same tab/window
+			window.location.href = link; 
 		}
 	}
 	
