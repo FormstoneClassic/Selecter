@@ -350,7 +350,6 @@ if (jQuery) (function($) {
 		if (!internal) {
 			var $target = $(this),
 				data = e.data;
-				console.log(e);
 			
 			// Mobile link support
 			if (data.links) {
