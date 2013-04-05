@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.6
+ * @version 1.9.7
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -162,7 +162,7 @@ if (jQuery) (function($) {
 				} else {
 					html += '<' + itemTag + ' class="selecter-item';
 					// Default selected value - now handles multi's thanks to @kuilkoff 
-					if ($op.is(':selected')) {
+					if ($op.is(':selected') && !opts.defaultLabel) {
 						html += ' selected';
 					}
 					// CSS styling classes - might ditch for pseudo selectors
