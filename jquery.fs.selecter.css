@@ -1,13 +1,13 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 1.9.7
+ * @version 1.9.8
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
  
-	.selecter-element { left: -999999px; position: absolute; }
+	.selecter-element { *left: -999999px; position: absolute; opacity: 0; }
 	.selecter { display: block; margin: 10px 0; position: relative; max-width: 30%; z-index: 1; }
 	.selecter .selecter-selected { background: #F9F9F9 url(fs-selecter-arrow.png) no-repeat right center; border: 1px solid #ccc; border-radius: 3px; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; position: relative; text-overflow: clip; z-index: 49; }
 	.selecter .selecter-options { border: 1px solid #ccc; border-width: 0 1px 1px; background-color: #fefefe; border-radius: 0 0 3px 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); display: none; left: 0; margin: 0; max-height: 260px; overflow: auto; overflow-x: hidden; padding: 0; position: absolute; top: 100%; width: 100%; *width: auto; z-index: 50; }
