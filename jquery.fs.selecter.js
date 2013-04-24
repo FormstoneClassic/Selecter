@@ -463,7 +463,7 @@ if (jQuery) (function($) {
 			$item.addClass("selected");
 			
 			// Fire callback
-			data.callback.call(data.$selecter, data.$selectEl.val());
+			data.callback.call(data.$selecter, data.$selectEl.val(), index);
 			data.index = index;
 		} else if (data.multiple) {
 			data.$optionEls.eq(index).prop("selected", null);
