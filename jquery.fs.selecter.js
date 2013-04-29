@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.8
+ * @version 1.9.9
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -40,8 +40,8 @@ if (jQuery) (function($) {
 		disable: function() {
 			var $items = $(this);
 			for (var i = 0, count = $items.length; i < count; i++) {
-				var $target = $items.eq(i);
-				var $selecter = $target.next(".selecter");
+				var $target = $items.eq(i),
+					$selecter = $target.next(".selecter");
 				
 				if ($selecter.hasClass("open")) {
 					$selecter.find(".selecter-selected").trigger("click");
@@ -57,8 +57,8 @@ if (jQuery) (function($) {
 		enable: function() {
 			var $items = $(this);
 			for (var i = 0, count = $items.length; i < count; i++) {
-				var $target = $items.eq(i);
-				var $selecter = $target.next(".selecter");
+				var $target = $items.eq(i),
+					$selecter = $target.next(".selecter");
 				
 				$target.prop("disabled", null);
 				$selecter.removeClass("disabled");
@@ -70,8 +70,8 @@ if (jQuery) (function($) {
 		destroy: function() {
 			var $items = $(this);
 			for (var i = 0, count = $items.length; i < count; i++) {
-				var $target = $items.eq(i);
-				var $selecter = $target.next(".selecter");
+				var $target = $items.eq(i),
+					$selecter = $target.next(".selecter");
 				
 				if ($selecter.hasClass("open")) {
 					$selecter.find(".selecter-selected").trigger("click");
@@ -152,8 +152,9 @@ if (jQuery) (function($) {
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
-			var j = 0;
-			var $op = null;
+			
+			var j = 0,
+				$op = null;
 			for (var i = 0, count = $allOptionEls.length; i < count; i++) {
 				$op = $($allOptionEls[i]);
 				// Option group
@@ -269,9 +270,9 @@ if (jQuery) (function($) {
 		
 		// Make sure it's not alerady open
 		if (!data.$selecter.hasClass("open")) {
-			var selectOffset = data.$selecter.offset();
-			var bodyHeight = $("body").outerHeight();
-			var optionsHeight = data.$itemsWrapper.outerHeight(true);
+			var selectOffset = data.$selecter.offset(),
+				bodyHeight = $("body").outerHeight(),
+				optionsHeight = data.$itemsWrapper.outerHeight(true);
 			
 			// Calculate bottom of document if not mobile
 			if (selectOffset.top + optionsHeight > bodyHeight && isMobile) {
@@ -323,8 +324,8 @@ if (jQuery) (function($) {
 		e.preventDefault();
 		e.stopPropagation();
 		
-		var $target = $(this);
-		var data = e.data;
+		var $target = $(this),
+		data = e.data;
 		
 		if (!data.$selectEl.is(":disabled")) {
 			if (data.links) {
@@ -394,9 +395,9 @@ if (jQuery) (function($) {
 			e.preventDefault();
 			e.stopPropagation();
 			
-			var data = e.data;
-			var total = data.$items.length - 1;
-			var index = -1;
+			var data = e.data,
+				total = data.$items.length - 1,
+				index = -1;
 			
 			// Firefox left/right support thanks to Kylemade
 			if ($.inArray(e.keyCode, (isFirefox) ? [38, 40, 37, 39] : [38, 40]) > -1) {
@@ -442,12 +443,13 @@ if (jQuery) (function($) {
 	
 	// Update element value + DOM
 	function _update(index, data, keypress) {
-		var $item = data.$items.eq(index);
+		var $item = data.$items.eq(index),
+			isSelected = $item.hasClass("selected");
 		
 		// Make sure we have a new index to prevent false 'change' triggers
-		if (!$item.hasClass("selected")) {
-			var newLabel = $item.html();
-			var newValue = $item.data("value");
+		if (!isSelected) {
+			var newLabel = $item.html(),
+				newValue = $item.data("value");
 			
 			// Modify DOM
 			if (data.multiple) {
@@ -458,23 +460,19 @@ if (jQuery) (function($) {
 				if (!keypress || (keypress && !isFirefox)) {
 					data.$selectEl[0].selectedIndex = index;
 				}
-
-
 			}
 			data.$selectEl.trigger("change", [ true ]);
 			$item.addClass("selected");
-			
-			
 		} else if (data.multiple) {
 			data.$optionEls.eq(index).prop("selected", null);
 			$item.removeClass("selected");
-
 		}
-
-		// Fire callback
-		data.callback.call(data.$selecter, data.$selectEl.val(), index);
-		data.index = index;
-
+		
+		if (!isSelected || data.multiple) {
+			// Fire callback
+			data.callback.call(data.$selecter, data.$selectEl.val(), index);
+			data.index = index;
+		}
 	}
 	
 	// Check label's length
