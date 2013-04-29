@@ -458,17 +458,23 @@ if (jQuery) (function($) {
 				if (!keypress || (keypress && !isFirefox)) {
 					data.$selectEl[0].selectedIndex = index;
 				}
+
+
 			}
 			data.$selectEl.trigger("change", [ true ]);
 			$item.addClass("selected");
 			
-			// Fire callback
-			data.callback.call(data.$selecter, data.$selectEl.val(), index);
-			data.index = index;
+			
 		} else if (data.multiple) {
 			data.$optionEls.eq(index).prop("selected", null);
 			$item.removeClass("selected");
+
 		}
+
+		// Fire callback
+		data.callback.call(data.$selecter, data.$selectEl.val(), index);
+		data.index = index;
+
 	}
 	
 	// Check label's length
