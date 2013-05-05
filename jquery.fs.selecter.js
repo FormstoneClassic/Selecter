@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 1.9.9
+ * @version 2.0.0
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -90,7 +90,6 @@ if (jQuery) (function($) {
 			}
 			return $items;
 		}
-		
 	};
 	
 	// Private Methods
@@ -285,8 +284,8 @@ if (jQuery) (function($) {
 			
 			// Bind Events
 			data.$selecter.removeClass("closed").addClass("open");
-			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener);
-					 //.on("keydown.selecter-" + data.guid, data, _keypress);
+			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener)
+					 .on("keydown.selecter-" + data.guid, data, _keypress);
 			
 			if ($.fn.scroller != undefined) {
 				data.$itemsWrapper.scroller("reset");
@@ -390,13 +389,17 @@ if (jQuery) (function($) {
 	
 	// Handle keydown on focus
 	function _keypress(e) {
-		// Ignore modifiers & tabs
-		if (e.keyCode != 9 && (!e.metaKey && !e.altKey && !e.ctrlKey && !e.shiftKey)) {
+		var data = e.data;
+		
+		if (data.$selecter.hasClass("open") && e.keyCode == 13) {
+			_update(data.index, data, false);
+			_close(e);
+		} else if (e.keyCode != 9 && (!e.metaKey && !e.altKey && !e.ctrlKey && !e.shiftKey)) {
+			// Ignore modifiers & tabs
 			e.preventDefault();
 			e.stopPropagation();
 			
-			var data = e.data,
-				total = data.$items.length - 1,
+			var total = data.$items.length - 1,
 				index = -1;
 			
 			// Firefox left/right support thanks to Kylemade
@@ -435,9 +438,8 @@ if (jQuery) (function($) {
 			
 			// Update
 			if (index >= 0) {
-				_update(index, data, true);
+				_update(index, data, !data.$selecter.hasClass("open"));
 			}
-			return false;
 		}
 	}
 	
@@ -457,7 +459,7 @@ if (jQuery) (function($) {
 			} else {
 				data.$selected.html(newLabel);
 				data.$items.filter(".selected").removeClass("selected");
-				if (!keypress || (keypress && !isFirefox)) {
+				if (!keypress/*  || (keypress && !isFirefox) */) {
 					data.$selectEl[0].selectedIndex = index;
 				}
 			}
