@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.0.0
+ * @version 2.1.0
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -104,7 +104,7 @@ if (jQuery) (function($) {
 		// Apply to each element
 		var $items = $(this);
 		for (var i = 0, count = $items.length; i < count; i++) {
-			_build($items.eq(i), settings);
+			_build($items.eq(i), $.extend({}, settings, $items.eq(i).data("selecter-options")));
 		}
 		return $items;
 	}
