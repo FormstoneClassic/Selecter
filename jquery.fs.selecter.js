@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.1
+ * @version 2.1.2
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -96,15 +96,13 @@ if (jQuery) (function($) {
 	
 	// Initialize
 	function _init(opts) {
-		opts = opts || {};
-		
-		// Define settings
-		var settings = $.extend({}, options, opts);
+		// Local options
+		opts = $.extend({}, options, opts || {});
 		
 		// Apply to each element
 		var $items = $(this);
 		for (var i = 0, count = $items.length; i < count; i++) {
-			_build($items.eq(i), $.extend({}, settings, $items.eq(i).data("selecter-options")));
+			_build($items.eq(i), opts);
 		}
 		return $items;
 	}
@@ -115,6 +113,9 @@ if (jQuery) (function($) {
 			if (opts.externalLinks) {
 				opts.links = true;
 			}
+			
+			// EXTEND OPTIONS
+			$.extend(opts, $selectEl.data("selecter-options"));
 			
 			// Build options array
 			var $allOptionEls = $selectEl.find("option, optgroup"),
