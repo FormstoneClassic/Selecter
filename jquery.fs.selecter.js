@@ -192,7 +192,7 @@ if (jQuery) (function($) {
 			
 			// Store plugin data
 			var $selecter = $selectEl.next(".selecter");
-			var data = $.extend({
+			opts = $.extend({
 				$selectEl: $selectEl,
 				$optionEls: $optionEls,
 				$selecter: $selecter,
@@ -205,21 +205,21 @@ if (jQuery) (function($) {
 			
 			// Scroller support
 			if ($.fn.scroller != undefined) {
-				data.$itemsWrapper.scroller();
+				opts.$itemsWrapper.scroller();
 			}
 			
 			// Bind click events
-			$selecter.on("click.selecter", ".selecter-selected", data, _handleClick)
-					 .on("click.selecter", ".selecter-item", data, _select)
-					 .on("selecter-close", data, _close)
-					 .data("selecter", data);
+			$selecter.on("click.selecter", ".selecter-selected", opts, _handleClick)
+					 .on("click.selecter", ".selecter-item", opts, _select)
+					 .on("selecter-close", opts, _close)
+					 .data("selecter", opts);
 			
 			// Bind Blur/focus events
 			if ((!opts.links && !isMobile) || isMobile) {
-				$selectEl.on("change", data, _change)
-						 .on("blur.selecter", data, _blur);
+				$selectEl.on("change", opts, _change)
+						 .on("blur.selecter", opts, _blur);
 				if (!isMobile) {
-					$selectEl.on("focus.selecter", data, _focus);
+					$selectEl.on("focus.selecter", opts, _focus);
 				}
 			} else {
 				// Disable browser focus/blur for jump links
