@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.2
+ * @version 2.1.3
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -38,40 +38,35 @@ if (jQuery) (function($) {
 		
 		// Disable field
 		disable: function() {
-			var $items = $(this);
-			for (var i = 0, count = $items.length; i < count; i++) {
-				var $target = $items.eq(i),
-					$selecter = $target.next(".selecter");
+			return $(this).each(function(i, input) {
+				var $input = $(input),
+					$selecter = $input.next(".selecter");
 				
 				if ($selecter.hasClass("open")) {
 					$selecter.find(".selecter-selected").trigger("click");
 				}
 				
-				$target.prop("disabled", true);
+				$input.prop("disabled", true);
 				$selecter.addClass("disabled");
-			}
-			return $items;
+			});
 		},
 		
 		// Enable field
 		enable: function() {
-			var $items = $(this);
-			for (var i = 0, count = $items.length; i < count; i++) {
-				var $target = $items.eq(i),
-					$selecter = $target.next(".selecter");
+			return $(this).each(function(i, input) {
+				var $input = $(input),
+					$selecter = $input.next(".selecter");
 				
-				$target.prop("disabled", null);
+				$input.prop("disabled", null);
 				$selecter.removeClass("disabled");
-			}
-			return $items;
+			});
 		},
 		
 		// Destroy selecter
 		destroy: function() {
-			var $items = $(this);
-			for (var i = 0, count = $items.length; i < count; i++) {
-				var $target = $items.eq(i),
-					$selecter = $target.next(".selecter");
+			return $(this).each(function(i, input) {
+				var $input = $(input),
+					$selecter = $input.next(".selecter");
 				
 				if ($selecter.hasClass("open")) {
 					$selecter.find(".selecter-selected").trigger("click");
@@ -82,13 +77,13 @@ if (jQuery) (function($) {
 					$selecter.find(".selecter-options").scroller("destroy");
 				}
 				
-				$target.off(".selecter")
+				$input.off(".selecter")
 					   .removeClass("selecter-element")
 					   .show();
+				
 				$selecter.off(".selecter")
 						 .remove();
-			}
-			return $items;
+			});
 		}
 	};
 	
