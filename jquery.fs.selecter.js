@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.3
+ * @version 2.1.4
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -323,19 +323,10 @@ if (jQuery) (function($) {
 		data = e.data;
 		
 		if (!data.$selectEl.is(":disabled")) {
-			if (data.links) {
-				// Open link
-				if (isMobile) {
-					_launch($target.val(), data.externalLinks);
-				} else {
-					_launch($target.attr("href"), data.externalLinks);
-				}
-			} else {
-				if (data.$itemsWrapper.is(":visible")) {
-					// Update 
-					var index = data.$items.index($target);
-					_update(index, data, false);
-				}
+			if (data.$itemsWrapper.is(":visible")) {
+				// Update 
+				var index = data.$items.index($target);
+				_update(index, data, false);
 			}
 			
 			if (!data.multiple) {
@@ -442,7 +433,7 @@ if (jQuery) (function($) {
 			
 			// Update
 			if (index >= 0) {
-				_update(index, data, !data.$selecter.hasClass("open"));
+				_update(index, data, true /* !data.$selecter.hasClass("open") */);
 			}
 		}
 	}
@@ -465,6 +456,16 @@ if (jQuery) (function($) {
 				data.$items.filter(".selected").removeClass("selected");
 				if (!keypress/*  || (keypress && !isFirefox) */) {
 					data.$selectEl[0].selectedIndex = index;
+				}
+				
+				if (data.links && !keypress) {
+					if (isMobile) {
+						_launch(data.$selectEl.val(), data.externalLinks);
+					} else {
+						_launch($item.attr("href"), data.externalLinks);
+					}
+					
+					return;
 				}
 			}
 			data.$selectEl.trigger("change", [ true ]);
