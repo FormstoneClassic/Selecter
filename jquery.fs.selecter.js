@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.4
+ * @version 2.1.5
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -280,8 +280,8 @@ if (jQuery) (function($) {
 			
 			// Bind Events
 			data.$selecter.removeClass("closed").addClass("open");
-			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener)
-					 .on("keydown.selecter-" + data.guid, data, _keypress);
+			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener);
+					 /* .on("keydown.selecter-" + data.guid, data, _keypress); */
 			
 			if ($.fn.scroller != undefined) {
 				data.$itemsWrapper.scroller("reset");
@@ -351,7 +351,7 @@ if (jQuery) (function($) {
 				}
 			} else {
 				// Otherwise update
-				var index = data.$optionEls.index(data.$optionEls.filter("[value=" + $target.val() + "]"));
+				var index = data.$optionEls.index(data.$optionEls.filter("[value='" + _escape($target.val()) + "']"));
 				_update(index, data, false);
 			}
 		}
@@ -443,6 +443,8 @@ if (jQuery) (function($) {
 		var $item = data.$items.eq(index),
 			isSelected = $item.hasClass("selected");
 		
+		console.log(index);
+		
 		// Make sure we have a new index to prevent false 'change' triggers
 		if (!isSelected) {
 			var newLabel = $item.html(),
@@ -504,6 +506,11 @@ if (jQuery) (function($) {
 			// Open link in same tab/window
 			window.location.href = link; 
 		}
+	}
+	
+	// Escape
+	function _escape(str) {
+		return str.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
 	}
 	
 	// Define Plugin
