@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.5
+ * @version 2.1.6
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -442,8 +442,6 @@ if (jQuery) (function($) {
 	function _update(index, data, keypress) {
 		var $item = data.$items.eq(index),
 			isSelected = $item.hasClass("selected");
-		
-		console.log(index);
 		
 		// Make sure we have a new index to prevent false 'change' triggers
 		if (!isSelected) {
