@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.7
+ * @version 2.1.8
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -78,8 +78,8 @@ if (jQuery) (function($) {
 				}
 				
 				$input.off(".selecter")
-					   .removeClass("selecter-element")
-					   .show();
+					  .removeClass("selecter-element")
+					  .show();
 				
 				$selecter.off(".selecter")
 						 .remove();
@@ -287,7 +287,8 @@ if (jQuery) (function($) {
 			var selectedOffset = (data.index >= 0) ? data.$items.eq(data.index).position() : { left: 0, top: 0 };
 			
 			if ($.fn.scroller != undefined) {
-				data.$itemsWrapper.scroller("scroll", (data.$itemsWrapper.find(".scroller-content").scrollTop() + selectedOffset.top), 0);
+				data.$itemsWrapper.scroller("scroll", (data.$itemsWrapper.find(".scroller-content").scrollTop() + selectedOffset.top), 0)
+								  .scroller("reset");
 			} else {
 				data.$itemsWrapper.scrollTop( data.$itemsWrapper.scrollTop() + selectedOffset.top );
 			}
