@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 2.1.8
+ * @version 2.2.0
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -12,14 +12,16 @@
 	.selecter .selecter-selected { background: #F9F9F9 url(fs-selecter-arrow.png) no-repeat right center; border: 1px solid #ccc; border-radius: 3px; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; position: relative; text-overflow: clip; z-index: 49; }
 	.selecter .selecter-options { border: 1px solid #ccc; border-width: 0 1px 1px; background-color: #fefefe; border-radius: 0 0 3px 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); display: none; left: 0; margin: 0; max-height: 260px; overflow: auto; overflow-x: hidden; padding: 0; position: absolute; top: 100%; width: 100%; *width: auto; z-index: 50; }
 	.selecter .selecter-group { background: #F9F9F9; border-bottom: 1px solid #e3e3e3; color: #999; display: block; font-size: 11px; padding: 5px 10px 4px; text-transform: uppercase; }
-	.selecter .selecter-item { background: #fff; border-bottom: 1px solid #e3e3e3; color: #666; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; text-overflow: ellipsis; width: 100%; }
+	.selecter .selecter-item { background: #fff; border-bottom: 1px solid #e3e3e3; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; text-overflow: ellipsis; width: 100%; }
 	.selecter .selecter-item.selected { background: #F9F9F9; }
+	.selecter .selecter-item.disabled { color: #999; cursor: default; }
 	.selecter .selecter-item.first { border-radius: 0; } 
 	.selecter .selecter-item.last { border-radius: 0 0 2px 2px; border-bottom: 0; }
 	
 	@media screen and (min-width: 740px) {
 		.selecter .selecter-item:hover, 
 		.selecter .selecter-item.selected:hover { background-color: #f3f3f3; }
+		.selecter .selecter-item.disabled:hover { background-color: #fff; }
 		
 		.selecter:hover .selecter-selected { background-color: #fff; }
 		

@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.1.8
+ * @version 2.2.0
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -37,28 +37,40 @@ if (jQuery) (function($) {
 		},
 		
 		// Disable field
-		disable: function() {
+		disable: function(option) {
 			return $(this).each(function(i, input) {
-				var $input = $(input),
-					$selecter = $input.next(".selecter");
+				var data = $(input).next(".selecter").data("selecter");
 				
-				if ($selecter.hasClass("open")) {
-					$selecter.find(".selecter-selected").trigger("click");
+				if (typeof option != "undefined") {
+					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
+					
+					data.$items.eq(index).addClass("disabled");
+					data.$optionEls.eq(index).prop("disabled", true);
+				} else {
+					if (data.$selecter.hasClass("open")) {
+						data.$selecter.find(".selecter-selected").trigger("click");
+					}
+					
+					data.$selecter.addClass("disabled");
+					data.$selectEl.prop("disabled", true);
 				}
-				
-				$input.prop("disabled", true);
-				$selecter.addClass("disabled");
 			});
 		},
 		
 		// Enable field
-		enable: function() {
+		enable: function(option) {
 			return $(this).each(function(i, input) {
-				var $input = $(input),
-					$selecter = $input.next(".selecter");
+				var data = $(input).next(".selecter").data("selecter");
 				
-				$input.prop("disabled", null);
-				$selecter.removeClass("disabled");
+				if (typeof option != "undefined") {
+					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") )
+					
+					data.$items.eq(index).removeClass("disabled");
+					data.$optionEls.eq(index).prop("disabled", false);
+				} else {
+					data.$selecter.removeClass("disabled");
+					data.$selectEl.prop("disabled", false);
+				}
 			});
 		},
 		
@@ -154,12 +166,21 @@ if (jQuery) (function($) {
 				$op = $($allOptionEls[i]);
 				// Option group
 				if ($op[0].tagName == "OPTGROUP") {
-					html += '<span class="selecter-group">' + $op.attr("label") + '</span>';
+					html += '<span class="selecter-group';
+					// Disabled groups
+					if ($op.is(":disabled")) {
+						html += ' disabled';
+					}
+					html += '">' + $op.attr("label") + '</span>';
 				} else {
 					html += '<' + itemTag + ' class="selecter-item';
 					// Default selected value - now handles multi's thanks to @kuilkoff 
 					if ($op.is(':selected') && !opts.defaultLabel) {
 						html += ' selected';
+					}
+					// Disabled options
+					if ($op.is(":disabled")) {
+						html += ' disabled';
 					}
 					// CSS styling classes - might ditch for pseudo selectors
 					if (i == 0) {
@@ -326,7 +347,7 @@ if (jQuery) (function($) {
 		e.stopPropagation();
 		
 		var $target = $(this),
-		data = e.data;
+			data = e.data;
 		
 		if (!data.$selectEl.is(":disabled")) {
 			if (data.$itemsWrapper.is(":visible")) {
@@ -447,44 +468,48 @@ if (jQuery) (function($) {
 	// Update element value + DOM
 	function _update(index, data, keypress) {
 		var $item = data.$items.eq(index),
-			isSelected = $item.hasClass("selected");
+			isSelected = $item.hasClass("selected"),
+			isDisabled = $item.hasClass("disabled");
 		
-		// Make sure we have a new index to prevent false 'change' triggers
-		if (!isSelected) {
-			var newLabel = $item.html(),
-				newValue = $item.data("value");
-			
-			// Modify DOM
-			if (data.multiple) {
-				data.$optionEls.eq(index).prop("selected", true);
-			} else {
-				data.$selected.html(newLabel);
-				data.$items.filter(".selected").removeClass("selected");
-				if (!keypress/*  || (keypress && !isFirefox) */) {
-					data.$selectEl[0].selectedIndex = index;
-				}
+		// Check for disabled options
+		if (!isDisabled) {
+			// Make sure we have a new index to prevent false 'change' triggers
+			if (!isSelected) {
+				var newLabel = $item.html(),
+					newValue = $item.data("value");
 				
-				if (data.links && !keypress) {
-					if (isMobile) {
-						_launch(data.$selectEl.val(), data.externalLinks);
-					} else {
-						_launch($item.attr("href"), data.externalLinks);
+				// Modify DOM
+				if (data.multiple) {
+					data.$optionEls.eq(index).prop("selected", true);
+				} else {
+					data.$selected.html(newLabel);
+					data.$items.filter(".selected").removeClass("selected");
+					if (!keypress/*  || (keypress && !isFirefox) */) {
+						data.$selectEl[0].selectedIndex = index;
 					}
 					
-					return;
+					if (data.links && !keypress) {
+						if (isMobile) {
+							_launch(data.$selectEl.val(), data.externalLinks);
+						} else {
+							_launch($item.attr("href"), data.externalLinks);
+						}
+						
+						return;
+					}
 				}
+				data.$selectEl.trigger("change", [ true ]);
+				$item.addClass("selected");
+			} else if (data.multiple) {
+				data.$optionEls.eq(index).prop("selected", null);
+				$item.removeClass("selected");
 			}
-			data.$selectEl.trigger("change", [ true ]);
-			$item.addClass("selected");
-		} else if (data.multiple) {
-			data.$optionEls.eq(index).prop("selected", null);
-			$item.removeClass("selected");
-		}
-		
-		if (!isSelected || data.multiple) {
-			// Fire callback
-			data.callback.call(data.$selecter, data.$selectEl.val(), index);
-			data.index = index;
+			
+			if (!isSelected || data.multiple) {
+				// Fire callback
+				data.callback.call(data.$selecter, data.$selectEl.val(), index);
+				data.index = index;
+			}
 		}
 	}
 	
