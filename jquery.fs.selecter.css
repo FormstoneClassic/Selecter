@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 2.2.0
+ * @version 2.2.1
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -60,6 +60,10 @@
 	.selecter.disabled .selecter-group,
 	.selecter.disabled .selecter-item { border-color: #eee; color: #ccc; cursor: default; }
 	.selecter.disabled .selecter-item.selected { background: #fafafa; }
+	
+	/* Scroller Support */
+	.selecter .selecter-options.scroller { overflow: hidden; }
+	.selecter .selecter-options.scroller .scroller-content { max-height: 260px; padding: 0; }
 	
 	/* Media Queries */
 	@media screen and (max-width: 740px) {
