@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.2.1
+ * @version 2.2.2
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -154,8 +154,9 @@ if (jQuery) (function($) {
 			}
 			html += '">';
 			if (!opts.multiple) {
+				var text = _checkLength(opts.trimOptions, ((opts.defaultLabel != false) ? opts.defaultLabel : $originalOption.text()));
 				html += '<span class="selecter-selected">';
-				html += _checkLength(opts.trimOptions, ((opts.defaultLabel != false) ? opts.defaultLabel : $originalOption.text()));
+				html += $('<span></span').text(text).html();
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
@@ -195,7 +196,8 @@ if (jQuery) (function($) {
 					} else {
 						html += 'data-value="' + $op.val() + '"';
 					}
-					html += '>' + _checkLength(opts.trimOptions, $op.text()) + '</' + itemTag + '>';
+					var text = _checkLength(opts.trimOptions, $op.text());
+					html += '>' + $("<span></span>").text(text).html() + '</' + itemTag + '>';
 					j++;
 				}
 			}
@@ -474,7 +476,7 @@ if (jQuery) (function($) {
 		// Check for disabled options
 		if (!isDisabled) {
 			// Make sure we have a new index to prevent false 'change' triggers
-			if (!isSelected) {
+			if (!isSelected || data.links) {
 				var newLabel = $item.html(),
 					newValue = $item.data("value");
 				
