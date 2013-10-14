@@ -1,0 +1,16 @@
+{
+	"name": "Selecter",
+	"version": "2.2.2",
+	"main": [
+		"./jquery.fs.selecter.css",
+		"./jquery.fs.selecter.min.js"
+	],
+	"ignore": [
+		"./*.md",
+		"./*.json"
+	],
+	"dependencies": {
+		"jquery": ">= 1.7.0"
+	},
+	"devDependencies": {}
+}
