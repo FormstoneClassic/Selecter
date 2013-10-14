@@ -3,11 +3,11 @@
 	"version": "2.2.2",
 	"main": [
 		"jquery.fs.selecter.css",
-		"jquery.fs.selecter.min.js"
+		"jquery.fs.selecter.min.js",
+		"fs-selecter-arrow.png"
 	],
 	"ignore": [
-		"**/*.md",
-		"**/*.json"
+		"/*.json"
 	],
 	"dependencies": {
 		"jquery": ">= 1.7.0"
