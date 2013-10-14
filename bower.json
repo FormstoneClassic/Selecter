@@ -20,7 +20,8 @@
 	"license": "MIT",
 	"homepage": "http://www.benplum.com/formstone/selecter/",
 	"ignore": [
-		"*.json"
+		"*.json",
+		"*.jquery.json"
 	],
 	"dependencies": {
 		"jquery": ">= 1.7.0"
