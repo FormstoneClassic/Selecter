@@ -2,12 +2,12 @@
 	"name": "Selecter",
 	"version": "2.2.2",
 	"main": [
-		"./jquery.fs.selecter.css",
-		"./jquery.fs.selecter.min.js"
+		"jquery.fs.selecter.css",
+		"jquery.fs.selecter.min.js"
 	],
 	"ignore": [
-		"./*.md",
-		"./*.json"
+		"**/*.md",
+		"**/*.json"
 	],
 	"dependencies": {
 		"jquery": ">= 1.7.0"
