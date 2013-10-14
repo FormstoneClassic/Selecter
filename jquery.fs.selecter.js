@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.2.2
+ * @version 2.2.3
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -116,7 +116,7 @@ if (jQuery) (function($) {
 	
 	// Build each
 	function _build($selectEl, opts) {
-		if (!$selectEl.data("selecter")) {
+		if (!$selectEl.hasClass("selecter-element")) {
 			if (opts.externalLinks) {
 				opts.links = true;
 			}
@@ -154,9 +154,8 @@ if (jQuery) (function($) {
 			}
 			html += '">';
 			if (!opts.multiple) {
-				var text = _checkLength(opts.trimOptions, ((opts.defaultLabel != false) ? opts.defaultLabel : $originalOption.text()));
 				html += '<span class="selecter-selected">';
-				html += $('<span></span').text(text).html();
+				html += $('<span></span').text( _checkLength(opts.trimOptions, ((opts.defaultLabel != false) ? opts.defaultLabel : $originalOption.text())) ).html();
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
@@ -196,8 +195,7 @@ if (jQuery) (function($) {
 					} else {
 						html += 'data-value="' + $op.val() + '"';
 					}
-					var text = _checkLength(opts.trimOptions, $op.text());
-					html += '>' + $("<span></span>").text(text).html() + '</' + itemTag + '>';
+					html += '>' + $("<span></span>").text( _checkLength(opts.trimOptions, $op.text()) ).html() + '</' + itemTag + '>';
 					j++;
 				}
 			}

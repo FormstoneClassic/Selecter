@@ -1,8 +1,10 @@
 {
 	"name": "Selecter",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"description": "A jQuery plugin for replacing default select elements. Part of the formstone library.",
 	"keywords": [
+		"javascript",
+		"jquery",
 		"select",
 		"input",
 		"ui",
@@ -20,8 +22,7 @@
 		"fs-selecter-arrow.png"
 	],
 	"ignore": [
-		"*.json",
-		"*.jquery.json"
+		"*.json"
 	],
 	"dependencies": {
 		"jquery": ">= 1.7.0"
