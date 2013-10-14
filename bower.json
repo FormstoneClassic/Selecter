@@ -1,11 +1,24 @@
 {
 	"name": "Selecter",
 	"version": "2.2.2",
+	"description": "A jQuery plugin for replacing default select elements. Part of the formstone library.",
 	"main": [
 		"jquery.fs.selecter.css",
 		"jquery.fs.selecter.min.js",
 		"fs-selecter-arrow.png"
 	],
+	"keywords": [
+		"select",
+		"input",
+		"ui",
+		"formstone",
+		"benplum"
+	],
+	"authors": [
+		"Ben Plum"
+	],
+	"license": "MIT",
+	"homepage": "http://www.benplum.com/formstone/selecter/",
 	"ignore": [
 		"*.json"
 	],
