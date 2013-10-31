@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 2.2.3
+ * @version 2.2.4
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -18,7 +18,7 @@
 	.selecter .selecter-item.first { border-radius: 0; } 
 	.selecter .selecter-item.last { border-radius: 0 0 2px 2px; border-bottom: 0; }
 	
-	@media screen and (min-width: 740px) {
+	@media screen and (min-width: 980px) {
 		.selecter .selecter-item:hover, 
 		.selecter .selecter-item.selected:hover { background-color: #f3f3f3; }
 		.selecter .selecter-item.disabled:hover { background-color: #fff; }

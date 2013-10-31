@@ -1,6 +1,6 @@
 {
 	"name": "Selecter",
-	"version": "2.2.3",
+	"version": "2.2.4",
 	"description": "A jQuery plugin for replacing default select elements. Part of the formstone library.",
 	"keywords": [
 		"javascript",
