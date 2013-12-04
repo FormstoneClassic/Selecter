@@ -1,21 +1,20 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.2.5
+ * @version 2.2.6
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
 if (jQuery) (function($) {
-	
-	// Mobile Detect
-	var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
+	var guid = 0,
+		isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
 		isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (navigator.userAgent||navigator.vendor||window.opera) );
 	
 	// Default Options
 	var options = {
-		callback: function() {},
+		callback: $.noop,
 		cover: false,
 		customClass: "",
 		defaultLabel: false,
@@ -23,9 +22,6 @@ if (jQuery) (function($) {
 		links: false,
 		trimOptions: false
 	};
-	
-	// Identify each instance
-	var guid = 0;
 	
 	// Public Methods
 	var pub = {
@@ -36,7 +32,7 @@ if (jQuery) (function($) {
 			return $(this);
 		},
 		
-		// Disable field
+		// Disable field / option
 		disable: function(option) {
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
@@ -45,31 +41,32 @@ if (jQuery) (function($) {
 					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
 					
 					data.$items.eq(index).addClass("disabled");
-					data.$optionEls.eq(index).prop("disabled", true);
+					data.$options.eq(index).prop("disabled", true);
 				} else {
 					if (data.$selecter.hasClass("open")) {
 						data.$selecter.find(".selecter-selected").trigger("click");
 					}
 					
 					data.$selecter.addClass("disabled");
-					data.$selectEl.prop("disabled", true);
+					data.$select.prop("disabled", true);
 				}
 			});
 		},
 		
-		// Enable field
+		// Enable field / option
 		enable: function(option) {
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 				
 				if (typeof option != "undefined") {
-					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") )
+					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
+					console.log(index);
 					
 					data.$items.eq(index).removeClass("disabled");
-					data.$optionEls.eq(index).prop("disabled", false);
+					data.$options.eq(index).prop("disabled", false);
 				} else {
 					data.$selecter.removeClass("disabled");
-					data.$selectEl.prop("disabled", false);
+					data.$select.prop("disabled", false);
 				}
 			});
 		},
@@ -115,26 +112,24 @@ if (jQuery) (function($) {
 	}
 	
 	// Build each
-	function _build($selectEl, opts) {
-		if (!$selectEl.hasClass("selecter-element")) {
+	function _build($select, opts) {
+		if (!$select.hasClass("selecter-element")) {
+			// EXTEND OPTIONS
+			opts = $.extend({}, opts, $select.data("selecter-options"));
+			
 			if (opts.externalLinks) {
 				opts.links = true;
 			}
 			
-			// EXTEND OPTIONS
-			$.extend(opts, $selectEl.data("selecter-options"));
-			
 			// Build options array
-			var $allOptionEls = $selectEl.find("option, optgroup"),
-				$optionEls = $allOptionEls.filter("option"),
-				$originalOption = $optionEls.filter(":selected"),
-				originalIndex = (opts.defaultLabel) ? -1 : $optionEls.index($originalOption),
-				totalItems = $allOptionEls.length - 1,
-				wrapperTag = (opts.links) ? "nav" : "div",
-				itemTag = (opts.links) ? "a" : "span";
+			var $allOptions = $select.find("option, optgroup"),
+				$options = $allOptions.filter("option"),
+				$originalOption = $options.filter(":selected"),
+				originalIndex = (opts.defaultLabel) ? -1 : $options.index($originalOption),
+				wrapperTag = (opts.links) ? "nav" : "div";
 			
-			opts.multiple = $selectEl.prop("multiple");
-			opts.disabled = $selectEl.is(":disabled");
+			opts.multiple = $select.prop("multiple");
+			opts.disabled = $select.is(":disabled");
 			
 			// Build HTML
 			var html = '<' + wrapperTag + ' class="selecter ' + opts.customClass;
@@ -159,99 +154,99 @@ if (jQuery) (function($) {
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
-			
-			var j = 0,
-				$op = null,
-				opVal = null;
-				
-			for (var i = 0, count = $allOptionEls.length; i < count; i++) {
-				$op = $($allOptionEls[i]);
-				
-				// Option group
-				if ($op[0].tagName == "OPTGROUP") {
-					html += '<span class="selecter-group';
-					// Disabled groups
-					if ($op.is(":disabled")) {
-						html += ' disabled';
-					}
-					html += '">' + $op.attr("label") + '</span>';
-				} else {
-					opVal = $op.val();
-					if (!$op.attr("value")) {
-						$op.attr("value", opVal);
-					}
-					
-					html += '<' + itemTag + ' class="selecter-item';
-					// Default selected value - now handles multi's thanks to @kuilkoff 
-					if ($op.is(':selected') && !opts.defaultLabel) {
-						html += ' selected';
-					}
-					// Disabled options
-					if ($op.is(":disabled")) {
-						html += ' disabled';
-					}
-					// CSS styling classes - might ditch for pseudo selectors
-					if (i == 0) {
-						html += ' first';
-					}
-					if (i == totalItems) {
-						html += ' last';
-					}
-					html += '" ';
-					if (opts.links) {
-						html += 'href="' + opVal + '"';
-					} else {
-						html += 'data-value="' + opVal + '"';
-					}
-					html += '>' + $("<span></span>").text( _checkLength(opts.trimOptions, $op.text()) ).html() + '</' + itemTag + '>';
-					j++;
-				}
-			}
 			html += '</div>';
 			html += '</' + wrapperTag + '>';
 			
 			// Modify DOM
-			$selectEl.addClass("selecter-element")
-					 .after(html);
+			$select.addClass("selecter-element")
+				   .after(html);
 			
 			// Store plugin data
-			var $selecter = $selectEl.next(".selecter");
-			opts = $.extend({
-				$selectEl: $selectEl,
-				$optionEls: $optionEls,
-				$selecter: $selecter,
-				$selected: $selecter.find(".selecter-selected"),
-				$itemsWrapper: $selecter.find(".selecter-options"),
-				$items: $selecter.find(".selecter-item"),
-				index: originalIndex,
-				guid: guid
-			}, opts);
+			var $selecter = $select.next(".selecter"),
+				data = $.extend({
+					$select: $select,
+					$allOptions: $allOptions,
+					$options: $options,
+					$selecter: $selecter,
+					$selected: $selecter.find(".selecter-selected"),
+					$itemsWrapper: $selecter.find(".selecter-options"),
+					index: originalIndex,
+					guid: guid++
+				}, opts);
+			
+			_buildOptions(data);
 			
 			// Scroller support
 			if ($.fn.scroller != undefined) {
-				opts.$itemsWrapper.scroller();
+				data.$itemsWrapper.scroller();
 			}
 			
 			// Bind click events
-			$selecter.on("click.selecter", ".selecter-selected", opts, _handleClick)
-					 .on("click.selecter", ".selecter-item", opts, _select)
-					 .on("selecter-close", opts, _close)
-					 .data("selecter", opts);
+			data.$selecter.on("click.selecter", ".selecter-selected", data, _handleClick)
+					 	  .on("click.selecter", ".selecter-item", data, _select)
+					 	  .on("selecter-close", data, _close)
+					 	  .data("selecter", data);
 			
 			// Bind Blur/focus events
-			if ((!opts.links && !isMobile) || isMobile) {
-				$selectEl.on("change", opts, _change)
-						 .on("blur.selecter", opts, _blur);
+			if ((!data.links && !isMobile) || isMobile) {
+				data.$select.on("change", data, _change)
+						 	.on("blur.selecter", data, _blur);
 				if (!isMobile) {
-					$selectEl.on("focus.selecter", opts, _focus);
+					data.$select.on("focus.selecter", data, _focus);
 				}
 			} else {
 				// Disable browser focus/blur for jump links
-				$selectEl.hide();
+				data.$select.hide();
 			}
-			
-			guid++;
 		}
+	}
+	
+	// Build options
+	function _buildOptions(data) {
+		var html = '',
+			itemTag = (data.links) ? "a" : "span",
+			j = 0;
+		
+		for (var i = 0, count = data.$allOptions.length; i < count; i++) {
+			var $op = data.$allOptions.eq(i);
+			
+			// Option group
+			if ($op[0].tagName == "OPTGROUP") {
+				html += '<span class="selecter-group';
+				// Disabled groups
+				if ($op.is(":disabled")) {
+					html += ' disabled';
+				}
+				html += '">' + $op.attr("label") + '</span>';
+			} else {
+				var opVal = $op.val();
+				
+				if (!$op.attr("value")) {
+					$op.attr("value", opVal);
+				}
+				
+				html += '<' + itemTag + ' class="selecter-item';
+				// Default selected value - now handles multi's thanks to @kuilkoff 
+				if ($op.is(':selected') && !data.defaultLabel) {
+					html += ' selected';
+				}
+				// Disabled options
+				if ($op.is(":disabled")) {
+					html += ' disabled';
+				}
+				html += '" ';
+				if (data.links) {
+					html += 'href="' + opVal + '"';
+				} else {
+					html += 'data-value="' + opVal + '"';
+				}
+				html += '>' + $("<span></span>").text( _checkLength(data.trimOptions, $op.text()) ).html() + '</' + itemTag + '>';
+				j++;
+			}
+		}
+		
+		data.$itemsWrapper.html(html);
+		data.$items = data.$selecter.find(".selecter-item");
 	}
 	
 	// Handle Click
@@ -261,12 +256,12 @@ if (jQuery) (function($) {
 		
 		var data = e.data;
 		
-		if (!data.$selectEl.is(":disabled")) {
+		if (!data.$select.is(":disabled")) {
 			$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
 			
 			// Handle mobile
 			if (isMobile) {
-				var el = data.$selectEl[0];
+				var el = data.$select[0];
 				if (document.createEvent) { // All
 					var evt = document.createEvent("MouseEvents");
 					evt.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
@@ -298,11 +293,9 @@ if (jQuery) (function($) {
 				bodyHeight = $("body").outerHeight(),
 				optionsHeight = data.$itemsWrapper.outerHeight(true);
 			
-			// Calculate bottom of document if not mobile
-			if (selectOffset.top + optionsHeight > bodyHeight && isMobile) {
+			// Calculate bottom of document
+			if (selectOffset.top + optionsHeight > bodyHeight) {
 				data.$selecter.addClass("bottom");
-			} else {
-				data.$selecter.removeClass("bottom");
 			}
 			
 			data.$itemsWrapper.show();
@@ -310,8 +303,7 @@ if (jQuery) (function($) {
 			// Bind Events
 			data.$selecter.removeClass("closed")
 						  .addClass("open");
-			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeListener);
-					 /* .on("keydown.selecter-" + data.guid, data, _keypress); */
+			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeHelper);
 			
 			var selectedOffset = (data.index >= 0) ? data.$items.eq(data.index).position() : { left: 0, top: 0 };
 			
@@ -339,8 +331,8 @@ if (jQuery) (function($) {
 		}
 	}
 	
-	// Close listener
-	function _closeListener(e) {
+	// Close helper
+	function _closeHelper(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -357,7 +349,7 @@ if (jQuery) (function($) {
 		var $target = $(this),
 			data = e.data;
 		
-		if (!data.$selectEl.is(":disabled")) {
+		if (!data.$select.is(":disabled")) {
 			if (data.$itemsWrapper.is(":visible")) {
 				// Update 
 				var index = data.$items.index($target);
@@ -386,7 +378,7 @@ if (jQuery) (function($) {
 				}
 			} else {
 				// Otherwise update
-				var index = data.$optionEls.index(data.$optionEls.filter("[value='" + _escape($target.val()) + "']"));
+				var index = data.$options.index(data.$options.filter("[value='" + _escape($target.val()) + "']"));
 				_update(index, data, false);
 			}
 		}
@@ -399,7 +391,7 @@ if (jQuery) (function($) {
 		
 		var data = e.data;
 		
-		if (!data.$selectEl.is(":disabled") && !data.multiple) {
+		if (!data.$select.is(":disabled") && !data.multiple) {
 			data.$selecter.addClass("focus");
 			$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
 			$("body").on("keydown.selecter-" + data.guid, data, _keypress);
@@ -447,7 +439,7 @@ if (jQuery) (function($) {
 				
 				// Search for input from original index
 				for (i = data.index + 1; i <= total; i++) {
-					var letter = data.$optionEls.eq(i).text().charAt(0).toUpperCase();
+					var letter = data.$options.eq(i).text().charAt(0).toUpperCase();
 					if (letter == input) {
 						index = i;
 						break;
@@ -457,7 +449,7 @@ if (jQuery) (function($) {
 				// If not, start from the beginning
 				if (index < 0) {
 					for (i = 0; i <= total; i++) {
-						var letter = data.$optionEls.eq(i).text().charAt(0).toUpperCase();
+						var letter = data.$options.eq(i).text().charAt(0).toUpperCase();
 						if (letter == input) {
 							index = i;
 							break;
@@ -488,17 +480,17 @@ if (jQuery) (function($) {
 				
 				// Modify DOM
 				if (data.multiple) {
-					data.$optionEls.eq(index).prop("selected", true);
+					data.$options.eq(index).prop("selected", true);
 				} else {
 					data.$selected.html(newLabel);
 					data.$items.filter(".selected").removeClass("selected");
-					if (!keypress/*  || (keypress && !isFirefox) */) {
-						data.$selectEl[0].selectedIndex = index;
+					if (!keypress) {
+						data.$select[0].selectedIndex = index;
 					}
 					
 					if (data.links && !keypress) {
 						if (isMobile) {
-							_launch(data.$selectEl.val(), data.externalLinks);
+							_launch(data.$select.val(), data.externalLinks);
 						} else {
 							_launch($item.attr("href"), data.externalLinks);
 						}
@@ -506,16 +498,16 @@ if (jQuery) (function($) {
 						return;
 					}
 				}
-				data.$selectEl.trigger("change", [ true ]);
+				data.$select.trigger("change", [ true ]);
 				$item.addClass("selected");
 			} else if (data.multiple) {
-				data.$optionEls.eq(index).prop("selected", null);
+				data.$options.eq(index).prop("selected", null);
 				$item.removeClass("selected");
 			}
 			
 			if (!isSelected || data.multiple) {
 				// Fire callback
-				data.callback.call(data.$selecter, data.$selectEl.val(), index);
+				data.callback.call(data.$selecter, data.$select.val(), index);
 				data.index = index;
 			}
 		}

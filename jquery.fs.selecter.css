@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 2.2.5
+ * @version 2.2.6
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -15,8 +15,8 @@
 	.selecter .selecter-item { background: #fff; border-bottom: 1px solid #e3e3e3; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; text-overflow: ellipsis; width: 100%; }
 	.selecter .selecter-item.selected { background: #F9F9F9; }
 	.selecter .selecter-item.disabled { color: #999; cursor: default; }
-	.selecter .selecter-item.first { border-radius: 0; } 
-	.selecter .selecter-item.last { border-radius: 0 0 2px 2px; border-bottom: 0; }
+	.selecter .selecter-item:first-child { border-radius: 0; } 
+	.selecter .selecter-item:last-child { border-radius: 0 0 2px 2px; border-bottom: 0; }
 	
 	@media screen and (min-width: 980px) {
 		.selecter .selecter-item:hover, 
@@ -42,7 +42,7 @@
 	
 	/* 'Bottom' Positioning */
 	.selecter.bottom .selecter-options { border-width: 1px 1px 0; bottom: 100%; top: auto; }
-	.selecter.bottom .selecter-item.last { border: none; }
+	.selecter.bottom .selecter-item:last-child { border: none; }
 	.selecter.bottom.open .selecter-selected { border-radius: 0 0 3px 3px; }
 	.selecter.bottom.open .selecter-options { border-radius: 3px 3px 0 0; }
 	
