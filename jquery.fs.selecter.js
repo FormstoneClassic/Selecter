@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.2.4
+ * @version 2.2.5
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -161,9 +161,12 @@ if (jQuery) (function($) {
 			html += '<div class="selecter-options">';
 			
 			var j = 0,
-				$op = null;
+				$op = null,
+				opVal = null;
+				
 			for (var i = 0, count = $allOptionEls.length; i < count; i++) {
 				$op = $($allOptionEls[i]);
+				
 				// Option group
 				if ($op[0].tagName == "OPTGROUP") {
 					html += '<span class="selecter-group';
@@ -173,6 +176,11 @@ if (jQuery) (function($) {
 					}
 					html += '">' + $op.attr("label") + '</span>';
 				} else {
+					opVal = $op.val();
+					if (!$op.attr("value")) {
+						$op.attr("value", opVal);
+					}
+					
 					html += '<' + itemTag + ' class="selecter-item';
 					// Default selected value - now handles multi's thanks to @kuilkoff 
 					if ($op.is(':selected') && !opts.defaultLabel) {
@@ -191,9 +199,9 @@ if (jQuery) (function($) {
 					}
 					html += '" ';
 					if (opts.links) {
-						html += 'href="' + $op.val() + '"';
+						html += 'href="' + opVal + '"';
 					} else {
-						html += 'data-value="' + $op.val() + '"';
+						html += 'data-value="' + opVal + '"';
 					}
 					html += '>' + $("<span></span>").text( _checkLength(opts.trimOptions, $op.text()) ).html() + '</' + itemTag + '>';
 					j++;
