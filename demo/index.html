@@ -26,6 +26,9 @@
 			.selecter.custom .selecter-options { border-width: 0 2px 2px; padding: 1%; }
 			.selecter.custom .selecter-item { border-radius: 3px !important; border: none; margin: 0 0 1%; }
 			.selecter.custom .selecter-item:last-child { margin: 0; }
+			
+			.callback_output { background: #fff; border: 1px solid #ccc; border-radius: 3px; height: 200px; overflow-y: scroll; overflow-x: hidden; margin: 20px 0 0; padding: 15px 20px; }
+		    .callback_output p:first-child { font-weight: 600; }
 		</style>
 		
 		<script>
@@ -39,7 +42,7 @@
 				});
 				
 				function selectCallback(value, index) {
-					alert("SELECTED VALUE: " + value + ", INDEX: " + index);
+					$(".callback_output").prepend("<p>SELECTED VALUE: " + value + ", INDEX: " + index + "</p>");
 				}
 				
 				// Disabled
@@ -283,6 +286,8 @@ function selectCallback(value, index) {
 						<option value="5">Five</option>
 					</select>
 				</form>
+				
+				<div class="callback_output"></div>
 				
 				<hr />
 				

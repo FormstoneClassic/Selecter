@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formtone Library]
  * @author Ben Plum
- * @version 2.2.7
+ * @version 2.2.8
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -60,8 +60,6 @@ if (jQuery) (function($) {
 				
 				if (typeof option != "undefined") {
 					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
-					console.log(index);
-					
 					data.$items.eq(index).removeClass("disabled");
 					data.$options.eq(index).prop("disabled", false);
 				} else {
@@ -378,8 +376,10 @@ if (jQuery) (function($) {
 				}
 			} else {
 				// Otherwise update
-				var index = data.$options.index(data.$options.filter("[value='" + _escape($target.val()) + "']"));
-				_update(index, data, false);
+				if (!data.multiple /* typeof val == "object" */) {
+					var index = data.$options.index(data.$options.filter("[value='" + _escape($target.val()) + "']"));
+					_update(index, data, false);
+				}
 			}
 		}
 	}
@@ -484,9 +484,8 @@ if (jQuery) (function($) {
 				} else {
 					data.$selected.html(newLabel);
 					data.$items.filter(".selected").removeClass("selected");
-					if (!keypress) {
-						data.$select[0].selectedIndex = index;
-					}
+					
+					data.$select[0].selectedIndex = index;
 					
 					if (data.links && !keypress) {
 						if (isMobile) {

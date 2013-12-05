@@ -1,7 +1,7 @@
 /*
  * Selecter Plugin [Formstone Library]
  * @author Ben Plum
- * @version 2.2.7
+ * @version 2.2.8
  *
  * Copyright © 2013 Ben Plum <mr@benplum.com>
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
@@ -33,7 +33,7 @@
 	.selecter.open .selecter-selected { border-radius: 3px 3px 0 0; z-index: 51; }
 	
 	.selecter.open .selecter-selected, 
-	.selecter.focus .selecter-selected { background-color: #fff; }
+	.selecter.focus .selecter-selected { background-color: #fff; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
 	
 	/* 'Cover' Positioning */
 	.selecter.cover .selecter-options { border-radius: 3px; border-width: 1px; top: 0; }
