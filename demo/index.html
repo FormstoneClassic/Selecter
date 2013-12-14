@@ -42,7 +42,7 @@
 				});
 				
 				function selectCallback(value, index) {
-					$(".callback_output").prepend("<p>SELECTED VALUE: " + value + ", INDEX: " + index + "</p>");
+					$(".callback_output").prepend("<p>VALUE: " + value + ", INDEX: " + index + "</p>");
 				}
 				
 				// Disabled
@@ -100,7 +100,7 @@
 		<article class="row page">
 			<div class="mobile-full tablet-full desktop-8 desktop-push-2">
 				
-				
+				<!-- BASIC -->
 				<h2>Basic</h2>
 				<p>The most basic method is simply applying the Selecter plugin:</p>
 				
@@ -117,6 +117,7 @@
 				
 				<hr />
 				
+				<!-- OPTION GROUPS -->
 				<h2>Option Groups</h2>
 				<p>Selecter automatically detects optgroup tags, allowing you to style groups:</p>
 				
@@ -146,6 +147,7 @@
 				
 				<hr />
 				
+				<!-- MULTIPLE -->
 				<h2>Multiple</h2>
 				<p>Selecter will also automatically detect mutiple select elements:</p>
 				
@@ -169,6 +171,7 @@
 				
 				<hr />
 				
+				<!-- DEFAULT LABEL -->
 				<h2>Default Label</h2>
 				<p>The default label will be displayed on initiallization instead of the selected element.</p>
 				
@@ -189,6 +192,7 @@
 				
 				<hr />
 				
+				<!-- LINKS -->
 				<h2>Links</h2>
 				<p>The options can also be links, think "jump navigation":</p>
 				
@@ -207,6 +211,7 @@
 				
 				<hr />
 				
+				<!-- EXTERNAL LINKS -->
 				<h2>External Links</h2>
 				<p>The links can also open in a new window or tab:</p>
 				
@@ -225,6 +230,7 @@
 				
 				<hr />
 				
+				<!-- COVER -->
 				<h2>Cover</h2>
 				<p>The options list can cover the handle, sort of Safari-style:</p>
 				
@@ -245,6 +251,7 @@
 				
 				<hr />
 				
+				<!-- CLASS -->
 				<h2>Class</h2>
 				<p>Define a custom CSS class to have multiple visually distinct Selecters on the same page:</p>
 				
@@ -265,6 +272,7 @@
 				
 				<hr />
 				
+				<!-- CALLBACK -->
 				<h2>Callback</h2>
 				<p>The function passed as a callback will receive the newly selected value as the first parameter:</p>
 				
@@ -273,7 +281,7 @@
 });
 
 function selectCallback(value, index) {
-    alert("OPTION SELECTED: " + value + ", INDEX: " + index);
+    alert("VALUE: " + value + ", INDEX: " + index);
 }</code></pre>
 				
 				<h5>Demo</h5>
@@ -291,6 +299,7 @@ function selectCallback(value, index) {
 				
 				<hr />
 				
+				<!-- DISABLE -->
 				<h2>Disable</h2>
 				<p>Selecter will automatically detect disabled fields, but you can always manually trigger the disable or enable event:</p>
 				
@@ -301,7 +310,7 @@ $("select").selecter("enable");</code></pre>
 				<h5>Demo</h5>
 				<a href="#" class="button small toggle_selecter">Enable</a>
 				
-				<form action="#" method="GET">
+				<form action="#" method="GET" class="clear_fix">
 					<select name="selecter_disabled" class="selecter_disabled" disabled="disabled">
 						<option value="1">One</option>
 						<option value="2">Two</option>
@@ -310,8 +319,7 @@ $("select").selecter("enable");</code></pre>
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
-				<br class="clear" />
+				<br />
 				
 				<p>You can also disable and enable individual options by passing that option's value:</p>
 				
