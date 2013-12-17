@@ -1,11 +1,3 @@
-/* 
- * Selecter v2.2.8 - 2013-12-17 
- * A jQuery plugin for replacing default select elements. Part of the formstone library. 
- * http://www.benplum.com/formstone/selecter/ 
- * 
- * Copyright 2013 Ben Plum; MIT Licensed 
- */ 
-
 	.selecter-element { *left: -999999px; position: absolute; opacity: 0; }
 	.selecter { display: block; margin: 10px 0; position: relative; max-width: 30%; z-index: 1; }
 	.selecter .selecter-selected { background: #F9F9F9 url(jquery.fs.selecter-arrow.png) no-repeat right center; border: 1px solid #ccc; border-radius: 3px; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; position: relative; text-overflow: clip; z-index: 49; }
