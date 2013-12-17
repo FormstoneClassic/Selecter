@@ -1,3 +1,5 @@
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 # Selecter
 
 A jQuery plugin for replacing default select elements. Part of the formstone library.
