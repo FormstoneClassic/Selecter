@@ -1,4 +1,4 @@
-<a href="http://bower.io" target="_blank"><img src="http://benschwarz.github.io/bower-badges/badge@2x.png" width="130" alt="Available on Bower"></a> <a href="http://gruntjs.com" target="_blank"><img src="https://cdn.gruntjs.com/builtwith.png" alt="Built with Grunt"></a>
+<a href="http://gruntjs.com" target="_blank"><img src="https://cdn.gruntjs.com/builtwith.png" alt="Built with Grunt"></a>
 # Selecter
 
 A jQuery plugin for replacing default select elements. Part of the formstone library.
