@@ -21,12 +21,13 @@
   "keywords": [
     "select",
     "input",
+    "form",
     "ui",
     "formstone",
     "benplum"
   ],
   "docs": "http://www.benplum.com/formstone/selecter/",
   "demo": "http://www.benplum.com/formstone/selecter/",
-  "download": "https://github.com/benplum/Selecter/issues",
+  "download": "https://github.com/benplum/Selecter",
   "bugs": "https://github.com/benplum/Selecter/issues"
 }

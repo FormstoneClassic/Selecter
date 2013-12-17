@@ -4,12 +4,6 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		meta: {
-			name:     'selecter',
-			codename: 'jquery.fs.selecter',
-			url: {
-				docs: 'http://www.benplum.com/formstone/selecter/',
-				repo: 'https://github.com/benplum/Selecter/issues'
-			},
 			banner: '/* \n' + 
 					' * <%= pkg.name %> v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n' +
 					' * <%= pkg.description %> \n' +
@@ -22,23 +16,25 @@ module.exports = function(grunt) {
 		jshint: {
 			options: {
 				globals: {
-					'window': true,
-					'jQuery': true
+					'jQuery': true,
+					'$'     : true
 				},
+				browser:   true,
 				curly:     true,
 				eqeqeq:    true,
 				forin:     true,
 				freeze:    true,
-				nonew:     true,
 				immed:	   true,
 				latedef:   true,
 				newcap:    true,
 				noarg:     true,
+				nonew:     true,
+				smarttabs: true,
 				sub:       true,
 				undef:     true,
-				smarttabs: true
+				validthis: true
 			},
-			files: ['src/<%= meta.codename %>.js']
+			files: ['src/<%= pkg.codename %>.js']
 		},
 		// Concat
 		concat: {
@@ -46,12 +42,12 @@ module.exports = function(grunt) {
 				banner: '<%= meta.banner %>'
 			},
 			js: {
-				src: 'src/<%= meta.codename %>.js',
-				dest: '<%= meta.codename %>.js'
+				src: 'src/<%= pkg.codename %>.js',
+				dest: '<%= pkg.codename %>.js'
 			},
 			css: {
-				src: 'src/<%= meta.codename %>.css',
-				dest: '<%= meta.codename %>.css'
+				src: 'src/<%= pkg.codename %>.css',
+				dest: '<%= pkg.codename %>.css'
 			}
 		},
 		// Uglify
@@ -62,7 +58,7 @@ module.exports = function(grunt) {
 			},
 			target: {
 				files: {
-					'<%= meta.codename %>.min.js': [ '<%= meta.codename %>.js' ]
+					'<%= pkg.codename %>.min.js': [ '<%= pkg.codename %>.js' ]
 				}
 			}
 		},
@@ -71,13 +67,13 @@ module.exports = function(grunt) {
 			options: {
 				source: grunt.file.readJSON('package.json'),
 				overrides: {
-					name: '<%= meta.name %>',
-					keywords: [ 'select', 'input', 'ui', 'formstone', 'benplum' ],
-					homepage: '<%= meta.url.docs %>',
-					docs: 	  '<%= meta.url.docs %>',
-					demo: 	  '<%= meta.url.docs %>',
-					download: '<%= meta.url.repo %>',
-					bugs: 	  '<%= meta.url.repo %>',
+					name: '<%= pkg.id %>',
+					keywords: '<%= pkg.keywords %>',
+					homepage: '<%= pkg.homepage %>',
+					docs: 	  '<%= pkg.homepage %>',
+					demo: 	  '<%= pkg.homepage %>',
+					download: '<%= pkg.repository.url %>',
+					bugs: 	  '<%= pkg.repository.url %>/issues',
 					dependencies: {
 						jquery: '>=1.7'
 					}
