@@ -1,7 +1,4 @@
 ;(function ($, window) {
-	/* global $:false, jQuery:false */
-	/* jshint validthis:true */
-	
 	"use strict";
 	
 	var guid = 0,
