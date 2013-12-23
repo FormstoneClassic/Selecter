@@ -17,7 +17,7 @@
     "jquery": ">=1.7"
   },
   "homepage": "http://www.benplum.com/formstone/selecter/",
-  "description": "A jQuery plugin for replacing default select elements. Part of the formstone library.",
+  "description": "A jQuery plugin for replacing default select elements. Part of the Formstone Library.",
   "keywords": [
     "select",
     "input",
