@@ -107,7 +107,7 @@
 				
 				<h5>Demo</h5>
 				<form action="#" method="GET">
-				  <select name="selecter_basic" class="selecter_basic" data-selecter-options='{"defaultLabel":"DEFAULT"}'>
+				  <select name="selecter_basic" class="selecter_basic">
 						<option>One</option>
 						<option>Two</option>
 				
@@ -175,12 +175,12 @@
 				<p>The default label will be displayed on initiallization instead of the selected element.</p>
 				
 				<pre><code class="language-javascript">$("select").selecter({
-	defaultLabel: "Select An Item"
+	label: "Select An Item"
 });</code></pre>
 				
 				<h5>Demo</h5>
 				<form action="#" method="GET">
-					<select name="selecter_label" data-selecter-options='{"defaultLabel":"Select An Item"}'>
+					<select name="selecter_label" data-selecter-options='{"label":"Select An Item"}'>
 						<option value="1">One</option>
 						<option value="2">Two</option>
 						<option value="3">Three</option>
@@ -201,7 +201,7 @@
 				
 				<h5>Demo</h5>
 				<form action="#" method="GET">
-					<select name="selecter_links" data-selecter-options='{"defaultLabel":"Jump Sites","links":"true"}'>
+					<select name="selecter_links" data-selecter-options='{"label":"Jump Sites","links":"true"}'>
 						<option value="http://google.com">Google Search</option>
 						<option value="http://boingboing.com">BoingBoing</option>
 						<option value="http://cnn.com">CNN News</option>
@@ -220,7 +220,7 @@
 				
 				<h5>Demo</h5>
 				<form action="#" method="GET">
-					<select name="selecter_links_external" data-selecter-options='{"defaultLabel":"Jump Sites","externalLinks":"true"}'>
+					<select name="selecter_links_external" data-selecter-options='{"label":"Jump Sites","external":"true"}'>
 						<option value="http://google.com">Google Search</option>
 						<option value="http://boingboing.com">BoingBoing</option>
 						<option value="http://cnn.com">CNN News</option>

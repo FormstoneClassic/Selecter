@@ -1,9 +1,16 @@
 /* 
- * Selecter v2.2.8 - 2013-12-23 
+ * Selecter v2.2.9 - 2014-01-01 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://www.benplum.com/formstone/selecter/ 
  * 
- * Copyright 2013 Ben Plum; MIT Licensed 
+ * Copyright 2014 Ben Plum; MIT Licensed 
+ */ 
+
+/** 
+ * @plugin 
+ * @name Selecter 
+ * @description A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
+ * @version 2.2.9 
  */ 
 
 ;(function ($, window) {
@@ -13,91 +20,127 @@
 		isFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
 		isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (window.navigator.userAgent||window.navigator.vendor||window.opera) );
 	
-	// Default Options
+	/**
+	 * @options
+	 * @param callback [function] <$.noop> "Select item callback"
+	 * @param cover [boolean] <false> "Cover handle with option set"
+	 * @param customClass [string] <''> "Class applied to Selecter element"
+	 * @param label [string] <''> "Label displayed before selection"
+	 * @param external [boolean] <false> "Open options as links in new window"
+	 * @param links [boolean] <false> "Open options as links in same window"
+	 * @param trim [int] <0> "Trim options to specified length; 0 to disable”
+	 */
 	var options = {
 		callback: $.noop,
 		cover: false,
 		customClass: "",
-		defaultLabel: false,
-		externalLinks: false,
+		label: "",
+		external: false,
 		links: false,
-		trimOptions: false
+		trim: 0
 	};
 	
-	// Public Methods
 	var pub = {
 		
-		// Set Defaults
+		/**
+		 * @method 
+		 * @name defaults
+		 * @description Sets default plugin options
+		 * @param opts [object] <{}> "Options object"
+		 */
 		defaults: function(opts) {
 			options = $.extend(options, opts || {});
 			return $(this);
 		},
 		
-		// Disable field / option
+		/**
+		 * @method 
+		 * @name disable
+		 * @description Disables target instance or option
+		 * @param option [string] <null> "Target option value"
+		 */
 		disable: function(option) {
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 				
-				if (typeof option !== undefined) {
-					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
-					
-					data.$items.eq(index).addClass("disabled");
-					data.$options.eq(index).prop("disabled", true);
-				} else {
-					if (data.$selecter.hasClass("open")) {
-						data.$selecter.find(".selecter-selected").trigger("click");
+				if (typeof data !== "undefined") {
+					if (typeof option !== "undefined") {
+						var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
+						
+						data.$items.eq(index).addClass("disabled");
+						data.$options.eq(index).prop("disabled", true);
+					} else {
+						if (data.$selecter.hasClass("open")) {
+							data.$selecter.find(".selecter-selected").trigger("click");
+						}
+						
+						data.$selecter.addClass("disabled");
+						data.$select.prop("disabled", true);
 					}
-					
-					data.$selecter.addClass("disabled");
-					data.$select.prop("disabled", true);
 				}
 			});
 		},
 		
-		// Enable field / option
+		/**
+		 * @method 
+		 * @name enable
+		 * @description Enables target instance or option
+		 * @param option [string] <null> "Target option value"
+		 */
 		enable: function(option) {
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 				
-				if (typeof option !== undefined) {
-					var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
-					data.$items.eq(index).removeClass("disabled");
-					data.$options.eq(index).prop("disabled", false);
-				} else {
-					data.$selecter.removeClass("disabled");
-					data.$select.prop("disabled", false);
+				if (typeof data !== "undefined") {
+					if (typeof option !== "undefined") {
+						var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
+						data.$items.eq(index).removeClass("disabled");
+						data.$options.eq(index).prop("disabled", false);
+					} else {
+						data.$selecter.removeClass("disabled");
+						data.$select.prop("disabled", false);
+					}
 				}
 			});
 		},
 		
-		// Destroy selecter
+		/**
+		 * @method 
+		 * @name destroy
+		 * @description Removes instance of plugin
+		 */
 		destroy: function() {
 			return $(this).each(function(i, input) {
 				var $input = $(input),
 					$selecter = $input.next(".selecter");
 				
-				if ($selecter.hasClass("open")) {
-					$selecter.find(".selecter-selected").trigger("click");
+				if ($selecter.length) {
+					if ($selecter.hasClass("open")) {
+						$selecter.find(".selecter-selected").trigger("click");
+					}
+					
+					// Scroller support
+					if ($.fn.scroller !== undefined) {
+						$selecter.find(".selecter-options").scroller("destroy");
+					}
+					
+					$input.off(".selecter")
+						  .removeClass("selecter-element")
+						  .show();
+					
+					$selecter.off(".selecter")
+							 .remove();
 				}
-				
-				// Scroller support
-				if ($.fn.scroller !== undefined) {
-					$selecter.find(".selecter-options").scroller("destroy");
-				}
-				
-				$input.off(".selecter")
-					  .removeClass("selecter-element")
-					  .show();
-				
-				$selecter.off(".selecter")
-						 .remove();
 			});
 		}
 	};
 	
-	// Private Methods
-	
-	// Initialize
+	/**
+	 * @method private
+	 * @name _init
+	 * @description Initializes plugin
+	 * @param opts [object] "Initialization options"
+	 */
 	function _init(opts) {
 		// Local options
 		opts = $.extend({}, options, opts || {});
@@ -110,13 +153,19 @@
 		return $items;
 	}
 	
-	// Build each
+	/**
+	 * @method private
+	 * @name _build
+	 * @description Builds each instance
+	 * @param $select [jQuery object] "Target jQuery object"
+	 * @param opts [object] <{}> "Options object"
+	 */
 	function _build($select, opts) {
 		if (!$select.hasClass("selecter-element")) {
 			// EXTEND OPTIONS
 			opts = $.extend({}, opts, $select.data("selecter-options"));
 			
-			if (opts.externalLinks) {
+			if (opts.external) {
 				opts.links = true;
 			}
 			
@@ -124,7 +173,7 @@
 			var $allOptions = $select.find("option, optgroup"),
 				$options = $allOptions.filter("option"),
 				$originalOption = $options.filter(":selected"),
-				originalIndex = (opts.defaultLabel) ? -1 : $options.index($originalOption),
+				originalIndex = (opts.label !== "") ? -1 : $options.index($originalOption),
 				wrapperTag = (opts.links) ? "nav" : "div";
 			
 			opts.multiple = $select.prop("multiple");
@@ -149,7 +198,7 @@
 			html += '">';
 			if (!opts.multiple) {
 				html += '<span class="selecter-selected">';
-				html += $('<span></span').text( _checkLength(opts.trimOptions, ((opts.defaultLabel !== false) ? opts.defaultLabel : $originalOption.text())) ).html();
+				html += $('<span></span').text( _trim(((opts.label !== "") ? opts.label : $originalOption.text()), opts.trim) ).html();
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
@@ -200,7 +249,12 @@
 		}
 	}
 	
-	// Build options
+	/**
+	 * @method private
+	 * @name _buildOptions
+	 * @description Builds instance's option set
+	 * @param data [object] "Instance data"
+	 */
 	function _buildOptions(data) {
 		var html = '',
 			itemTag = (data.links) ? "a" : "span",
@@ -226,7 +280,7 @@
 				
 				html += '<' + itemTag + ' class="selecter-item';
 				// Default selected value - now handles multi's thanks to @kuilkoff 
-				if ($op.is(':selected') && !data.defaultLabel) {
+				if ($op.is(':selected') && data.label === "") {
 					html += ' selected';
 				}
 				// Disabled options
@@ -239,7 +293,7 @@
 				} else {
 					html += 'data-value="' + opVal + '"';
 				}
-				html += '>' + $("<span></span>").text( _checkLength(data.trimOptions, $op.text()) ).html() + '</' + itemTag + '>';
+				html += '>' + $("<span></span>").text( _trim($op.text(), data.trim) ).html() + '</' + itemTag + '>';
 				j++;
 			}
 		}
@@ -248,7 +302,12 @@
 		data.$items = data.$selecter.find(".selecter-item");
 	}
 	
-	// Handle Click
+	/**
+	 * @method private
+	 * @name _handleClick
+	 * @description Handles click to selected item
+	 * @param e [object] "Event data"
+	 */
 	function _handleClick(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -279,7 +338,12 @@
 		}
 	}
 	
-	// Open Options
+	/**
+	 * @method private
+	 * @name _open
+	 * @description Opens option set
+	 * @param e [object] "Event data"
+	 */
 	function _open(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -315,7 +379,12 @@
 		}
 	}
 	
-	// Close Options
+	/**
+	 * @method private
+	 * @name _close
+	 * @description Closes option set
+	 * @param e [object] "Event data"
+	 */
 	function _close(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -330,7 +399,12 @@
 		}
 	}
 	
-	// Close helper
+	/**
+	 * @method private
+	 * @name _closeHelper
+	 * @description Determines if event target is outside instance before closing
+	 * @param e [object] "Event data"
+	 */
 	function _closeHelper(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -340,7 +414,12 @@
 		}
 	}
 	
-	// Select option
+	/**
+	 * @method private
+	 * @name _select
+	 * @description Handles option select
+	 * @param e [object] "Event data"
+	 */
 	function _select(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -362,7 +441,12 @@
 		}
 	}
 	
-	// Handle outside changes
+	/**
+	 * @method private
+	 * @name _change
+	 * @description Handles external changes
+	 * @param e [object] "Event data"
+	 */
 	function _change(e, internal) {
 		if (!internal) {
 			var $target = $(this),
@@ -371,9 +455,9 @@
 			// Mobile link support
 			if (data.links) {
 				if (isMobile) {
-					_launch($target.val(), data.externalLinks);
+					_launch($target.val(), data.external);
 				} else {
-					_launch($target.attr("href"), data.externalLinks);
+					_launch($target.attr("href"), data.external);
 				}
 			} else {
 				// Otherwise update
@@ -385,7 +469,12 @@
 		}
 	}
 	
-	// Handle focus
+	/**
+	 * @method private
+	 * @name _focus
+	 * @description Handles instance focus
+	 * @param e [object] "Event data"
+	 */
 	function _focus(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -399,7 +488,12 @@
 		}
 	}
 	
-	// Handle blur
+	/**
+	 * @method private
+	 * @name _focus
+	 * @description Handles instance blur
+	 * @param e [object] "Event data"
+	 */
 	function _blur(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -410,7 +504,12 @@
 		$("body").off(".selecter-" + data.guid);
 	}
 	
-	// Handle keydown on focus
+	/**
+	 * @method private
+	 * @name _keypress
+	 * @description Handles instance keypress, once focused
+	 * @param e [object] "Event data"
+	 */
 	function _keypress(e) {
 		var data = e.data;
 		
@@ -468,7 +567,14 @@
 		}
 	}
 	
-	// Update element value + DOM
+	/**
+	 * @method private
+	 * @name _update
+	 * @description Updates instance based on new target index
+	 * @param index [int] "Selected option index"
+	 * @param data [object] "instance data"
+	 * @param keypress [boolean] "Keypress flag"
+	 */
 	function _update(index, data, keypress) {
 		var $item = data.$items.eq(index),
 			isSelected = $item.hasClass("selected"),
@@ -492,9 +598,9 @@
 					
 					if (data.links && !keypress) {
 						if (isMobile) {
-							_launch(data.$select.val(), data.externalLinks);
+							_launch(data.$select.val(), data.external);
 						} else {
-							_launch($item.attr("href"), data.externalLinks);
+							_launch($item.attr("href"), data.external);
 						}
 						
 						return;
@@ -515,9 +621,33 @@
 		}
 	}
 	
-	// Check label's length
-	function _checkLength(length, text) {
-		if (length === false) {
+	/**
+	 * @method private
+	 * @name _launch
+	 * @description Launches link
+	 * @param url [string] "URL to open"
+	 * @param external [boolean] "External link flag"
+	 */
+	function _launch(url, external) {
+		if (external) { 
+			// Open link in a new tab/window
+			window.open(url);
+		} else { 
+			// Open link in same tab/window
+			window.location.href = url;
+		}
+	}
+	
+	/**
+	 * @method private
+	 * @name _trim
+	 * @description Trims text, if specified length is greater then 0
+	 * @param length [int] "Length to trim at"
+	 * @param text [string] "Text to trim"
+	 * @return [string] "Trimmed string"
+	 */
+	function _trim(text, length) {
+		if (length === 0) {
 			return text;
 		} else {
 			if (text.length > length) {
@@ -528,23 +658,16 @@
 		}
 	}
 	
-	// Launch link
-	function _launch(link, external) {
-		if (external) { 
-			// Open link in a new tab/window
-			window.open(link);
-		} else { 
-			// Open link in same tab/window
-			window.location.href = link; 
-		}
+	/**
+	 * @method private
+	 * @name _escape
+	 * @description Escapes text
+	 * @param text [string] "Text to escape"
+	 */
+	function _escape(text) {
+		return text.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
 	}
 	
-	// Escape
-	function _escape(str) {
-		return str.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
-	}
-	
-	// Define Plugin
 	$.fn.selecter = function(method) {
 		if (pub[method]) {
 			return pub[method].apply(this, Array.prototype.slice.call(arguments, 1));

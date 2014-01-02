@@ -38,16 +38,27 @@ module.exports = function(grunt) {
 		},
 		// Concat
 		concat: {
-			options: {
-				banner: '<%= meta.banner %>'
-			},
 			js: {
-				src: 'src/<%= pkg.codename %>.js',
-				dest: '<%= pkg.codename %>.js'
+				options: {
+					banner: '<%= meta.banner %>' + 
+							'/** \n' +
+							' * @plugin \n' +
+							' * @name <%= pkg.name %> \n' +
+							' * @description <%= pkg.description %> \n' +
+							' * @version <%= pkg.version %> \n' +
+							' */ \n\n'
+				},
+				files: {
+					'<%= pkg.codename %>.js': [ 'src/<%= pkg.codename %>.js' ]
+				}
 			},
 			css: {
-				src: 'src/<%= pkg.codename %>.css',
-				dest: '<%= pkg.codename %>.css'
+				options: {
+					banner: '<%= meta.banner %>' 
+				},
+				files: {
+					'<%= pkg.codename %>.css': [ 'src/<%= pkg.codename %>.css' ]
+				}
 			}
 		},
 		// Uglify
