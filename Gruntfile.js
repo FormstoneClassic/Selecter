@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 			options: {
 				source: grunt.file.readJSON('package.json'),
 				overrides: {
-					name: '<%= pkg.id %>',
+					name:     '<%= pkg.id %>',
 					keywords: '<%= pkg.keywords %>',
 					homepage: '<%= pkg.homepage %>',
 					docs: 	  '<%= pkg.homepage %>',
