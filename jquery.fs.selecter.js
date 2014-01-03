@@ -47,6 +47,7 @@
 		 * @name defaults
 		 * @description Sets default plugin options
 		 * @param opts [object] <{}> "Options object"
+		 * @example $(".target").selecter("defaults", opts);
 		 */
 		defaults: function(opts) {
 			options = $.extend(options, opts || {});
@@ -58,6 +59,7 @@
 		 * @name disable
 		 * @description Disables target instance or option
 		 * @param option [string] <null> "Target option value"
+		 * @example $(".target").selecter("disable", "1");
 		 */
 		disable: function(option) {
 			return $(this).each(function(i, input) {
@@ -86,6 +88,7 @@
 		 * @name enable
 		 * @description Enables target instance or option
 		 * @param option [string] <null> "Target option value"
+		 * @example $(".target").selecter("enable", "1");
 		 */
 		enable: function(option) {
 			return $(this).each(function(i, input) {
@@ -108,6 +111,7 @@
 		 * @method 
 		 * @name destroy
 		 * @description Removes instance of plugin
+		 * @example $(".target").selecter("destroy");
 		 */
 		destroy: function() {
 			return $(this).each(function(i, input) {
