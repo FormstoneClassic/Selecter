@@ -1,5 +1,5 @@
 /* 
- * Selecter v2.2.9 - 2014-01-01 
+ * Selecter v2.2.10 - 2014-01-03 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://www.benplum.com/formstone/selecter/ 
  * 
@@ -10,7 +10,7 @@
  * @plugin 
  * @name Selecter 
  * @description A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
- * @version 2.2.9 
+ * @version 2.2.10 
  */ 
 
 ;(function ($, window) {
@@ -24,7 +24,7 @@
 	 * @options
 	 * @param callback [function] <$.noop> "Select item callback"
 	 * @param cover [boolean] <false> "Cover handle with option set"
-	 * @param customClass [string] <''> "Class applied to Selecter element"
+	 * @param customClass [string] <''> "Class applied to instance"
 	 * @param label [string] <''> "Label displayed before selection"
 	 * @param external [boolean] <false> "Open options as links in new window"
 	 * @param links [boolean] <false> "Open options as links in same window"
@@ -230,17 +230,17 @@
 			}
 			
 			// Bind click events
-			data.$selecter.on("click.selecter", ".selecter-selected", data, _handleClick)
-						  .on("click.selecter", ".selecter-item", data, _select)
-						  .on("selecter-close", data, _close)
+			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick)
+						  .on("click.selecter", ".selecter-item", data, _onSelect)
+						  .on("close.selecter", data, _onClose)
 						  .data("selecter", data);
 			
 			// Bind Blur/focus events
 			if ((!data.links && !isMobile) || isMobile) {
-				data.$select.on("change", data, _change)
-							.on("blur.selecter", data, _blur);
+				data.$select.on("change.selecter", data, _onChange)
+							.on("blur.selecter", data, _onBlur);
 				if (!isMobile) {
-					data.$select.on("focus.selecter", data, _focus);
+					data.$select.on("focus.selecter", data, _onFocus);
 				}
 			} else {
 				// Disable browser focus/blur for jump links
@@ -304,18 +304,18 @@
 	
 	/**
 	 * @method private
-	 * @name _handleClick
+	 * @name _onClick
 	 * @description Handles click to selected item
 	 * @param e [object] "Event data"
 	 */
-	function _handleClick(e) {
+	function _onClick(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
 		var data = e.data;
 		
 		if (!data.$select.is(":disabled")) {
-			$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
+			$(".selecter").not(data.$selecter).trigger("close.selecter", [data]);
 			
 			// Handle mobile
 			if (isMobile) {
@@ -330,9 +330,9 @@
 			} else {
 				// Delegate intent
 				if (data.$selecter.hasClass("closed")) {
-					_open(e);
+					_onOpen(e);
 				} else if (data.$selecter.hasClass("open")) {
-					_close(e);
+					_onClose(e);
 				}
 			}
 		}
@@ -340,11 +340,11 @@
 	
 	/**
 	 * @method private
-	 * @name _open
+	 * @name _onOpen
 	 * @description Opens option set
 	 * @param e [object] "Event data"
 	 */
-	function _open(e) {
+	function _onOpen(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -366,7 +366,7 @@
 			// Bind Events
 			data.$selecter.removeClass("closed")
 						  .addClass("open");
-			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _closeHelper);
+			$("body").on("click.selecter-" + data.guid, ":not(.selecter-options)", data, _onCloseHelper);
 			
 			var selectedOffset = (data.index >= 0) ? data.$items.eq(data.index).position() : { left: 0, top: 0 };
 			
@@ -381,11 +381,11 @@
 	
 	/**
 	 * @method private
-	 * @name _close
+	 * @name _onClose
 	 * @description Closes option set
 	 * @param e [object] "Event data"
 	 */
-	function _close(e) {
+	function _onClose(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -401,26 +401,26 @@
 	
 	/**
 	 * @method private
-	 * @name _closeHelper
+	 * @name _onCloseHelper
 	 * @description Determines if event target is outside instance before closing
 	 * @param e [object] "Event data"
 	 */
-	function _closeHelper(e) {
+	function _onCloseHelper(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
 		if ($(e.currentTarget).parents(".selecter").length === 0) {
-			_close(e);
+			_onClose(e);
 		}
 	}
 	
 	/**
 	 * @method private
-	 * @name _select
+	 * @name _onSelect
 	 * @description Handles option select
 	 * @param e [object] "Event data"
 	 */
-	function _select(e) {
+	function _onSelect(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -436,18 +436,18 @@
 			
 			if (!data.multiple) {
 				// Clean up
-				_close(e);
+				_onClose(e);
 			}
 		}
 	}
 	
 	/**
 	 * @method private
-	 * @name _change
+	 * @name _onChange
 	 * @description Handles external changes
 	 * @param e [object] "Event data"
 	 */
-	function _change(e, internal) {
+	function _onChange(e, internal) {
 		if (!internal) {
 			var $target = $(this),
 				data = e.data;
@@ -471,11 +471,11 @@
 	
 	/**
 	 * @method private
-	 * @name _focus
+	 * @name _onFocus
 	 * @description Handles instance focus
 	 * @param e [object] "Event data"
 	 */
-	function _focus(e) {
+	function _onFocus(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -483,39 +483,39 @@
 		
 		if (!data.$select.is(":disabled") && !data.multiple) {
 			data.$selecter.addClass("focus");
-			$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
-			$("body").on("keydown.selecter-" + data.guid, data, _keypress);
+			$(".selecter").not(data.$selecter).trigger("close.selecter", [data]);
+			$("body").on("keydown.selecter-" + data.guid, data, _onKeypress);
 		}
 	}
 	
 	/**
 	 * @method private
-	 * @name _focus
-	 * @description Handles instance blur
+	 * @name _onBlur
+	 * @description Handles instance focus
 	 * @param e [object] "Event data"
 	 */
-	function _blur(e) {
+	function _onBlur(e) {
 		e.preventDefault();
 		e.stopPropagation();
 
 		var data = e.data;
 		data.$selecter.removeClass("focus");
-		$(".selecter").not(data.$selecter).trigger("selecter-close", [data]);
+		$(".selecter").not(data.$selecter).trigger("close.selecter", [data]);
 		$("body").off(".selecter-" + data.guid);
 	}
 	
 	/**
 	 * @method private
-	 * @name _keypress
+	 * @name _onKeypress
 	 * @description Handles instance keypress, once focused
 	 * @param e [object] "Event data"
 	 */
-	function _keypress(e) {
+	function _onKeypress(e) {
 		var data = e.data;
 		
 		if (data.$selecter.hasClass("open") && e.keyCode === 13) {
 			_update(data.index, data, false);
-			_close(e);
+			_onClose(e);
 		} else if (e.keyCode !== 9 && (!e.metaKey && !e.altKey && !e.ctrlKey && !e.shiftKey)) {
 			// Ignore modifiers & tabs
 			e.preventDefault();

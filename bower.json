@@ -1,6 +1,6 @@
 {
   "name": "Selecter",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "description": "A jQuery plugin for replacing default select elements. Part of the Formstone Library.",
   "license": "MIT",
   "homepage": "http://www.benplum.com/formstone/selecter/",
