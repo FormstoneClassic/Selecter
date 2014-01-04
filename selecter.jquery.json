@@ -1,6 +1,6 @@
 {
   "name": "selecter",
-  "version": "2.2.10",
+  "version": "3.0.0",
   "title": "Selecter",
   "author": {
     "name": "Ben Plum",
@@ -16,7 +16,7 @@
   "dependencies": {
     "jquery": ">=1.7"
   },
-  "homepage": "http://www.benplum.com/formstone/selecter/",
+  "homepage": "http://formstone.it/selecter/",
   "description": "A jQuery plugin for replacing default select elements. Part of the Formstone Library.",
   "keywords": [
     "select",
@@ -26,8 +26,8 @@
     "formstone",
     "benplum"
   ],
-  "docs": "http://www.benplum.com/formstone/selecter/",
-  "demo": "http://www.benplum.com/formstone/selecter/",
+  "docs": "http://formstone.it/selecter/",
+  "demo": "http://formstone.it/selecter/",
   "download": "https://github.com/benplum/Selecter",
   "bugs": "https://github.com/benplum/Selecter/issues"
 }

@@ -1,7 +1,7 @@
 /* 
- * Selecter v2.2.10 - 2014-01-03 
+ * Selecter v3.0.0 - 2014-01-04 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
- * http://www.benplum.com/formstone/selecter/ 
+ * http://formstone.it/selecter/ 
  * 
  * Copyright 2014 Ben Plum; MIT Licensed 
  */ 
