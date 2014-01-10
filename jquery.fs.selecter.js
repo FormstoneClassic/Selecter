@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.0 - 2014-01-06 
+ * Selecter v3.0.1 - 2014-01-10 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -10,7 +10,7 @@
  * @plugin 
  * @name Selecter 
  * @description A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
- * @version 3.0.0 
+ * @version 3.0.1 
  */ 
 
 ;(function ($, window) {
@@ -385,6 +385,21 @@
 	
 	/**
 	 * @method private
+	 * @name _onCloseHelper
+	 * @description Determines if event target is outside instance before closing
+	 * @param e [object] "Event data"
+	 */
+	function _onCloseHelper(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		if ($(e.currentTarget).parents(".selecter").length === 0) {
+			_onClose(e);
+		}
+	}
+	
+	/**
+	 * @method private
 	 * @name _onClose
 	 * @description Closes option set
 	 * @param e [object] "Event data"
@@ -398,24 +413,9 @@
 		// Make sure it's actually open
 		if (data.$selecter.hasClass("open")) {
 			data.$itemsWrapper.hide();
-			data.$selecter.removeClass("open").addClass("closed");
-			data.$selecter.removeClass("bottom");
+			data.$selecter.removeClass("open bottom")
+						  .addClass("closed");
 			$("body").off(".selecter-" + data.guid);
-		}
-	}
-	
-	/**
-	 * @method private
-	 * @name _onCloseHelper
-	 * @description Determines if event target is outside instance before closing
-	 * @param e [object] "Event data"
-	 */
-	function _onCloseHelper(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		
-		if ($(e.currentTarget).parents(".selecter").length === 0) {
-			_onClose(e);
 		}
 	}
 	
