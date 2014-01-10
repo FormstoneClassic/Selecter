@@ -3,45 +3,47 @@
 	<head>
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    	
+
 		<title>Selecter Demo</title>
-		
+
 		<link href="http://formstone.it/css/demo.css" rel="stylesheet" type="text/css" media="all" />
-		
+
 		<!--[if LTE IE 8]>
 			<link href="http://formstone.it/css/demo.ie.css" rel="stylesheet" type="text/css" media="all" />
 		<![endif]-->
-		
+
 		<script src="http://formstone.it/js/demo.js"></script>
-		
+
 		<link href="../jquery.fs.selecter.css" rel="stylesheet" type="text/css" media="all" />
-		<script src="../jquery.fs.selecter.js"></script>
-		
+		<script src="../src/jquery.fs.selecter.js"></script>
+
 		<style>
 			.selecter.custom { max-width: 500px; }
 			.selecter.custom .selecter-selected { border-width: 2px; }
 			.selecter.custom .selecter-options { border-width: 0 2px 2px; padding: 1%; }
 			.selecter.custom .selecter-item { border-radius: 3px !important; border: none; margin: 0 0 1%; }
 			.selecter.custom .selecter-item:last-child { margin: 0; }
-			
+
 			.callback_output { background: #fff; border: 1px solid #ccc; border-radius: 3px; height: 200px; overflow-y: scroll; overflow-x: hidden; margin: 20px 0 0; padding: 0 20px; }
 		    .callback_output p:first-child { font-weight: 600; }
+
+		    /* .selecter-element { position: static; opacity: 1; } */
 		</style>
-		
+
 		<script>
 			$(document).ready(function() {
 				// All
-				$("select").not(".selecter_callback").selecter();
-				
+				$("select").not(".selecter_callback, .selecter_test").selecter();
+
 				// Callback
 				$("select.selecter_callback").selecter({
 					callback: selectCallback
 				});
-				
+
 				function selectCallback(value, index) {
 					$(".callback_output").prepend("<p>VALUE: " + value + ", INDEX: " + index + "</p>");
 				}
-				
+
 				// Disabled
 				$(".toggle_selecter").on("click", toggleEnabled);
 				if (!$(".selecter_disabled").is(":disabled")) {
@@ -49,10 +51,10 @@
 				} else {
 					$(".toggle_selecter").text("Enable");
 				}
-				
+
 				function toggleEnabled(e) {
 					e.preventDefault();
-					
+
 					if ($(".selecter_disabled").is(":disabled")) {
 						$(".selecter_disabled").selecter("enable");
 						$(".toggle_selecter").text("Disable");
@@ -61,7 +63,7 @@
 						$(".toggle_selecter").text("Enable");
 					}
 				}
-				
+
 				// Disabled Option
 				$(".toggle_selecter_option").on("click", toggleEnabledOption);
 				if (!$(".selecter_disabled_option option").eq(0).is(":disabled")) {
@@ -69,10 +71,10 @@
 				} else {
 					$(".toggle_selecter_option").text("Enable Option 'One'");
 				}
-				
+
 				function toggleEnabledOption(e) {
 					e.preventDefault();
-					
+
 					if ($(".selecter_disabled_option option").eq(0).is(":disabled")) {
 						$(".selecter_disabled_option").selecter("enable", "1");
 						$(".toggle_selecter_option").text("Disable Option 'One'");
@@ -81,6 +83,13 @@
 						$(".toggle_selecter_option").text("Enable Option 'One'");
 					}
 				}
+
+				/*
+				var i = 0;
+				$("select").on("change", function() {
+					console.log("CHANGE", i++);
+				});
+				*/
 			});
 		</script>
 	</head>
@@ -100,30 +109,30 @@
 					<br />
 					<a href="http://formstone.it/selecter/" class="button">View Documentation</a>
 				</header>
-				
+
 				<!-- BASIC -->
 				<h2>Basic</h2>
 				<p>The most basic method is simply applying the Selecter plugin:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter();</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 				  <select name="selecter_basic" class="selecter_basic">
 						<option>One</option>
 						<option>Two</option>
-				
+
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- OPTION GROUPS -->
 				<h2>Option Groups</h2>
 				<p>Selecter automatically detects optgroup tags, allowing you to style groups:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter();</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_basic" class="selecter_basic">
@@ -145,15 +154,15 @@
 						</optgroup>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- MULTIPLE -->
-				<h2>Multiple</h2>
+<!--
 				<p>Selecter will also automatically detect mutiple select elements:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter();</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_multiple" class="selecter_multiple" multiple="multiple">
@@ -169,17 +178,18 @@
 						<option value="10">Ten</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+-->
+
 				<!-- DEFAULT LABEL -->
 				<h2>Default Label</h2>
 				<p>The default label will be displayed on initiallization instead of the selected element.</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	label: "Select An Item"
 });</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_label" data-selecter-options='{"label":"Select An Item"}'>
@@ -190,17 +200,17 @@
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- LINKS -->
 				<h2>Links</h2>
 				<p>The options can also be links, think "jump navigation":</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	links: true
 });</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_links" data-selecter-options='{"label":"Jump Sites","links":"true"}'>
@@ -209,17 +219,17 @@
 						<option value="http://cnn.com">CNN News</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- EXTERNAL LINKS -->
 				<h2>External Links</h2>
 				<p>The links can also open in a new window or tab:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	externalLinks: true
 });</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_links_external" data-selecter-options='{"label":"Jump Sites","external":"true"}'>
@@ -228,17 +238,17 @@
 						<option value="http://cnn.com">CNN News</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- COVER -->
 				<h2>Cover</h2>
 				<p>The options list can cover the handle, sort of Safari-style:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	cover: true
 });</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_cover" data-selecter-options='{"cover":"true"}'>
@@ -249,17 +259,17 @@
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- CLASS -->
 				<h2>Class</h2>
 				<p>Define a custom CSS class to have multiple visually distinct Selecters on the same page:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	customClass: "custom"
 });</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_custom" data-selecter-options='{"customClass":"custom"}'>
@@ -270,13 +280,13 @@
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<!-- CALLBACK -->
 				<h2>Callback</h2>
 				<p>The function passed as a callback will receive the newly selected value as the first parameter:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	callback: selectCallback
 });
@@ -284,7 +294,7 @@
 function selectCallback(value, index) {
     alert("VALUE: " + value + ", INDEX: " + index);
 }</code></pre>
-				
+
 				<h5>Demo</h5>
 				<form action="#" method="GET">
 					<select name="selecter_callback" class="selecter_callback">
@@ -295,22 +305,22 @@ function selectCallback(value, index) {
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
+
 				<div class="callback_output"></div>
-				
+
 				<br />
-				
+
 				<!-- DISABLE -->
 				<h2>Disable</h2>
 				<p>Selecter will automatically detect disabled fields, but you can always manually trigger the disable or enable event:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter("disable");
 
 $("select").selecter("enable");</code></pre>
-				
+
 				<h5>Demo</h5>
 				<a href="#" class="button small toggle_selecter">Enable</a>
-				
+
 				<form action="#" method="GET" class="clear_fix">
 					<select name="selecter_disabled" class="selecter_disabled" disabled="disabled">
 						<option value="1">One</option>
@@ -320,18 +330,18 @@ $("select").selecter("enable");</code></pre>
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
+
 				<br />
-				
+
 				<p>You can also disable and enable individual options by passing that option's value:</p>
-				
+
 				<pre class="example"><code class="language-javascript">$("select").selecter("disable", "value");
 
 $("select").selecter("enable", "value");</code></pre>
-				
+
 				<h5>Demo</h5>
 				<a href="#" class="button small toggle_selecter_option">Enable Option 'One'</a>
-				
+
 				<form action="#" method="GET">
 					<select name="selecter_disabled_option" class="selecter_disabled_option">
 						<option value="1" disabled="disabled">One</option>
@@ -341,10 +351,10 @@ $("select").selecter("enable", "value");</code></pre>
 						<option value="5">Five</option>
 					</select>
 				</form>
-				
+
 			</div>
 		</article>
-		
+
 		<footer id="footer" class="row">
 			<div class="all-full copyright">
 				Made with &hearts; in Hampden

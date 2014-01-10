@@ -1,10 +1,10 @@
 /*global module:false*/
 module.exports = function(grunt) {
-	
+
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		meta: {
-			banner: '/* \n' + 
+			banner: '/* \n' +
 					' * <%= pkg.name %> v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n' +
 					' * <%= pkg.description %> \n' +
 					' * <%= pkg.homepage %> \n' +
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 		concat: {
 			js: {
 				options: {
-					banner: '<%= meta.banner %>' + 
+					banner: '<%= meta.banner %>' +
 							'/** \n' +
 							' * @plugin \n' +
 							' * @name <%= pkg.name %> \n' +
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 			},
 			css: {
 				options: {
-					banner: '<%= meta.banner %>' 
+					banner: '<%= meta.banner %>'
 				},
 				files: {
 					'<%= pkg.codename %>.css': [ 'src/<%= pkg.codename %>.css' ]
@@ -95,12 +95,12 @@ module.exports = function(grunt) {
 		sync: {
 			all: {
 				options: {
-					sync: [ 'name', 'version', 'description', 'author', 'license', 'homepage' ]
+					sync: [ 'name', 'version', 'description', 'author', 'license', 'homepage', 'ignore' ]
 				}
 			}
 		}
 	});
-	
+
 	// Readme
 	grunt.registerTask('buildReadme', 'Build Formstone README.md file.', function () {
 		var pkg = grunt.file.readJSON('package.json'),
@@ -112,19 +112,19 @@ module.exports = function(grunt) {
 					   '- [Documentation](' + pkg.homepage + ') \n\n' +
 					   '#### Bower Support \n' +
 					   '`bower install ' + pkg.name + '`';
-		
+
 		grunt.file.write(destination, markdown);
 		grunt.log.writeln('File "' + destination + '" created.');
 	});
-	
+
 	// Load tasks
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-jquerymanifest');
 	grunt.loadNpmTasks('grunt-npm2bower-sync');
-	
+
 	// Default task.
 	grunt.registerTask('default', [ 'jshint', 'concat', 'uglify', 'jquerymanifest', 'sync', 'buildReadme' ]);
-	
+
 };
