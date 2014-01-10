@@ -399,6 +399,7 @@
 		if (data.$selecter.hasClass("open")) {
 			data.$itemsWrapper.hide();
 			data.$selecter.removeClass("open").addClass("closed");
+			data.$selecter.removeClass("bottom");
 			$("body").off(".selecter-" + data.guid);
 		}
 	}
