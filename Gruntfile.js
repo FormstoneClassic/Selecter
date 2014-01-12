@@ -40,13 +40,7 @@ module.exports = function(grunt) {
 		concat: {
 			js: {
 				options: {
-					banner: '<%= meta.banner %>' +
-							'/** \n' +
-							' * @plugin \n' +
-							' * @name <%= pkg.name %> \n' +
-							' * @description <%= pkg.description %> \n' +
-							' * @version <%= pkg.version %> \n' +
-							' */ \n\n'
+					banner: '<%= meta.banner %>'
 				},
 				files: {
 					'<%= pkg.codename %>.js': [ 'src/<%= pkg.codename %>.js' ]
@@ -95,7 +89,14 @@ module.exports = function(grunt) {
 		sync: {
 			all: {
 				options: {
-					sync: [ 'name', 'version', 'description', 'author', 'license', 'homepage', 'ignore' ]
+					sync: [ 'name', 'version', 'description', 'author', 'license', 'homepage' ],
+					overrides: {
+						main: [
+							'<%= pkg.codename %>.js',
+							'<%= pkg.codename %>.css'
+						],
+						ignore: [ "*.json", "Gruntfile.js" ]
+					}
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 {
   "name": "Selecter",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A jQuery plugin for replacing default select elements. Part of the Formstone Library.",
   "license": "MIT",
   "homepage": "http://formstone.it/selecter/",
@@ -10,7 +10,11 @@
     "url": "http://www.benplum.com"
   },
   "ignore": [
-    "*.jquery.json",
+    "*.json",
     "Gruntfile.js"
+  ],
+  "main": [
+    "jquery.fs.selecter.js",
+    "jquery.fs.selecter.css"
   ]
 }
