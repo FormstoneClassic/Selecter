@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.3 - 2014-01-12 
+ * Selecter v3.0.4 - 2014-01-13 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -41,7 +41,7 @@
 		 * @name defaults
 		 * @description Sets default plugin options
 		 * @param opts [object] <{}> "Options object"
-		 * @example $(".target").selecter("defaults", opts);
+		 * @example $.selecter("defaults", opts);
 		 */
 		defaults: function(opts) {
 			options = $.extend(options, opts || {});
@@ -716,5 +716,11 @@
 			return _init.apply(this, arguments);
 		}
 		return this;
+	};
+
+	$.selecter = function(method) {
+		if (method === "defaults") {
+			pub.defaults.apply(this, Array.prototype.slice.call(arguments, 1));
+		}
 	};
 })(jQuery, window);
