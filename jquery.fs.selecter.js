@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.4 - 2014-01-13 
+ * Selecter v3.0.5 - 2014-01-24 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -315,11 +315,9 @@
 
 				html += '<' + itemTag + ' class="selecter-item';
 				// Default selected value - now handles multi's thanks to @kuilkoff
-				/*
 				if ($op.is(':selected') && data.label === "") {
 					html += ' selected';
 				}
-				*/
 				// Disabled options
 				if ($op.is(":disabled")) {
 					html += ' disabled';
@@ -621,9 +619,10 @@
 		// Check for disabled options
 		if (!isDisabled) {
 			// Make sure we have a new index to prevent false 'change' triggers
-			//if (data.links) {
-			//} else
-			if (!isSelected) {
+
+			if (index === -1 && data.label !== "") {
+				data.$selected.html(data.label);
+			} else if (!isSelected) {
 				var newLabel = $item.html(),
 					newValue = $item.data("value");
 
