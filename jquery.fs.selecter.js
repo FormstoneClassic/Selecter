@@ -230,7 +230,7 @@
 			}
 			html += '" tabindex="' + opts.tabIndex + '">';
 			if (!opts.multiple) {
-				html += '<span class="selecter-selected">';
+				html += '<span class="selecter-selected' + ((opts.label !== "") ? ' placeholder' : '') + '">';
 				html += $('<span></span').text( _trim(((opts.label !== "") ? opts.label : $originalOption.text()), opts.trim) ).html();
 				html += '</span>';
 			}
@@ -630,7 +630,7 @@
 				if (data.multiple) {
 					data.$options.eq(index).prop("selected", true);
 				} else {
-					data.$selected.html(newLabel);
+					data.$selected.html(newLabel).removeClass('placeholder');
 					data.$items.filter(".selected")
 							   .removeClass("selected");
 
