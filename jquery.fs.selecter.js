@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.5 - 2014-01-24 
+ * Selecter v3.0.6 - 2014-01-27 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -277,6 +277,12 @@
 				if (!isMobile) {
 					data.$selecter.on("focus.selecter", data, _onFocus);
 				}
+
+				// handle clicks to associated labels
+				data.$select.on("focus.selecter", data, function(e) {
+					e.data.$selecter.trigger("focus");
+				});
+
 			//} else {
 				// Disable browser focus/blur for jump links
 				//data.$select.hide();
@@ -550,19 +556,19 @@
 				_update(data.index, data);
 			}
 			_handleChange(data);
-
 		} else if (e.keyCode !== 9 && (!e.metaKey && !e.altKey && !e.ctrlKey && !e.shiftKey)) {
 			// Ignore modifiers & tabs
 			e.preventDefault();
 			e.stopPropagation();
 
 			var total = data.$items.length - 1,
-				index = -1;
+				index = (data.index < 0) ? 0 : data.index;
 
 			// Firefox left/right support thanks to Kylemade
 			if ($.inArray(e.keyCode, (isFirefox) ? [38, 40, 37, 39] : [38, 40]) > -1) {
 				// Increment / decrement using the arrow keys
-				index = data.index + ((e.keyCode === 38 || (isFirefox && e.keyCode === 37)) ? -1 : 1);
+				index = index + ((e.keyCode === 38 || (isFirefox && e.keyCode === 37)) ? -1 : 1);
+
 				if (index < 0) {
 					index = 0;
 				}
@@ -573,7 +579,6 @@
 				var input = String.fromCharCode(e.keyCode).toUpperCase(),
 					letter,
 					i;
-
 
 				// Search for input from original index
 				for (i = data.index + 1; i <= total; i++) {
@@ -630,7 +635,8 @@
 				if (data.multiple) {
 					data.$options.eq(index).prop("selected", true);
 				} else {
-					data.$selected.html(newLabel).removeClass('placeholder');
+					data.$selected.html(newLabel)
+								  .removeClass('placeholder');
 					data.$items.filter(".selected")
 							   .removeClass("selected");
 
