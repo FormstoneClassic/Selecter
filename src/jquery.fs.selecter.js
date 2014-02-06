@@ -51,7 +51,7 @@
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 
-				if (data !== null) {
+				if (data) {
 					if (typeof option !== "undefined") {
 						var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
 
@@ -80,7 +80,7 @@
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 
-				if (data !== null) {
+				if (data) {
 					if (typeof option !== "undefined") {
 						var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
 						data.$items.eq(index).removeClass("disabled");
@@ -103,7 +103,7 @@
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 
-				if (data !== null) {
+				if (data) {
 					if (data.$selecter.hasClass("open")) {
 						data.$selecter.find(".selecter-selected").trigger("click.selecter");
 					}
@@ -135,7 +135,7 @@
 			return $(this).each(function(i, input) {
 				var data = $(input).next(".selecter").data("selecter");
 
-				if (data !== null) {
+				if (data) {
 					var index = data.index;
 
 					data.$allOptions = data.$select.find("option, optgroup");
