@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.8 - 2014-02-10 
+ * Selecter v3.0.9 - 2014-02-10 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -264,14 +264,14 @@
 			}
 
 			// Bind click events
-			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick)
+			data.$selecter.on("touchstart.selecter click.selecter", ".selecter-selected", data, _onClick)
 						  .on("click.selecter", ".selecter-item", data, _onSelect)
 						  .on("close.selecter", data, _onClose)
 						  .data("selecter", data);
 
 			// Bind Blur/focus events
 			//if ((!data.links && !isMobile) || isMobile) {
-				data.$selecter.on("change.selecter", data, _onChange);
+				data.$select.on("change.selecter", data, _onChange);
 
 				if (!isMobile) {
 					data.$selecter.on("focus.selecter", data, _onFocus)
