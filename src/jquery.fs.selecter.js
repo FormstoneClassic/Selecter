@@ -263,17 +263,17 @@
 
 			// Bind Blur/focus events
 			//if ((!data.links && !isMobile) || isMobile) {
-				data.$selecter.on("change.selecter", data, _onChange)
-							  .on("blur.selecter", data, _onBlur);
+				data.$selecter.on("change.selecter", data, _onChange);
 
 				if (!isMobile) {
-					data.$selecter.on("focus.selecter", data, _onFocus);
-				}
+					data.$selecter.on("focus.selecter", data, _onFocus)
+								  .on("blur.selecter", data, _onBlur);
 
-				// handle clicks to associated labels
-				data.$select.on("focus.selecter", data, function(e) {
-					e.data.$selecter.trigger("focus");
-				});
+					// handle clicks to associated labels - not on mobile
+					data.$select.on("focus.selecter", data, function(e) {
+						e.data.$selecter.trigger("focus");
+					});
+				}
 
 			//} else {
 				// Disable browser focus/blur for jump links
@@ -355,7 +355,7 @@
 				var el = data.$select[0];
 				if (window.document.createEvent) { // All
 					var evt = window.document.createEvent("MouseEvents");
-					evt.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					evt.initMouseEvent("mousedown", false, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 					el.dispatchEvent(evt);
 				} else if (el.fireEvent) { // IE
 					el.fireEvent("onmousedown");
