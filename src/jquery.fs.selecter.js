@@ -471,8 +471,11 @@
 			if (data.$itemsWrapper.is(":visible")) {
 				// Update
 				var index = data.$items.index($target);
-				_update(index, data);
-				_handleChange(data);
+
+				if (index !== data.index) {
+					_update(index, data);
+					_handleChange(data);
+				}
 			}
 
 			if (!data.multiple) {
