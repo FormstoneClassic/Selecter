@@ -2,7 +2,7 @@
   "name": "Selecter",
   "id": "selecter",
   "codename": "jquery.fs.selecter",
-  "version": "3.0.11",
+  "version": "3.0.12",
   "description": "A jQuery plugin for replacing default select elements. Part of the Formstone Library.",
   "keywords": [
   	"select",

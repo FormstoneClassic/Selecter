@@ -197,8 +197,12 @@
 			var $allOptions = $select.find("option, optgroup"),
 				$options = $allOptions.filter("option"),
 				$originalOption = $options.filter(":selected"),
-				originalIndex = ($originalOption.length === 0 || opts.label !== "") ? -1 : $options.index($originalOption),
+				originalIndex = ($originalOption.length > 0) ? $options.index($originalOption) : 1,
 				wrapperTag = (opts.links) ? "nav" : "div";
+
+			if (opts.label !== "") {
+				originalIndex = -1;
+			}
 
 			// Swap tab index, no more interacting with the actual select!
 			opts.tabIndex = $select[0].tabIndex;
@@ -605,7 +609,6 @@
 			// Update
 			if (index >= 0) {
 				_update(index, data);
-				//_fireChange(data);
 			}
 		}
 	}
@@ -650,7 +653,7 @@
 				$item.removeClass("selected");
 			}
 
-			if (!isSelected || data.multiple) {
+			if (/* !isSelected ||  */ !data.multiple) {
 				// Update index
 				data.index = index;
 			}
