@@ -145,7 +145,10 @@
 					index = data.$options.index(data.$options.filter(":selected"));
 
 					_buildOptions(data);
-					_update(index, data);
+
+					if (!data.multiple) {
+						_update(index, data);
+					}
 				}
 			});
 		}
@@ -194,7 +197,7 @@
 			var $allOptions = $select.find("option, optgroup"),
 				$options = $allOptions.filter("option"),
 				$originalOption = $options.filter(":selected"),
-				originalIndex = (opts.label !== "") ? -1 : $options.index($originalOption),
+				originalIndex = ($originalOption.length === 0 || opts.label !== "") ? -1 : $options.index($originalOption),
 				wrapperTag = (opts.links) ? "nav" : "div";
 
 			// Swap tab index, no more interacting with the actual select!
@@ -248,7 +251,10 @@
 				}, opts);
 
 			_buildOptions(data);
-			_update(originalIndex, data);
+
+			if (!data.multiple) {
+				_update(originalIndex, data);
+			}
 
 			// Scroller support
 			if ($.fn.scroller !== undefined) {
