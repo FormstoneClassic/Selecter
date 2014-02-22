@@ -1,10 +1,10 @@
-/* 
- * Selecter v3.0.12 - 2014-02-14 
- * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
- * http://formstone.it/selecter/ 
- * 
- * Copyright 2014 Ben Plum; MIT Licensed 
- */ 
+/*
+ * Selecter v3.0.12 - 2014-02-14
+ * A jQuery plugin for replacing default select elements. Part of the Formstone Library.
+ * http://formstone.it/selecter/
+ *
+ * Copyright 2014 Ben Plum; MIT Licensed
+ */
 
 ;(function ($, window) {
 	"use strict";
@@ -46,6 +46,38 @@
 		defaults: function(opts) {
 			options = $.extend(options, opts || {});
 			return $(this);
+		},
+
+		/**
+		 * @method
+		 * @name destroy
+		 * @description Removes instance of plugin
+		 * @example $(".target").selecter("destroy");
+		 */
+		destroy: function() {
+			return $(this).each(function(i, input) {
+				var data = $(input).next(".selecter").data("selecter");
+
+				if (data) {
+					if (data.$selecter.hasClass("open")) {
+						data.$selecter.find(".selecter-selected").trigger("click.selecter");
+					}
+
+					// Scroller support
+					if ($.fn.scroller !== undefined) {
+						data.$selecter.find(".selecter-options").scroller("destroy");
+					}
+
+					data.$select[0].tabIndex = data.tabIndex;
+
+					data.$select.off(".selecter")
+								.removeClass("selecter-element")
+								.show();
+
+					data.$selecter.off(".selecter")
+								  .remove();
+				}
+			});
 		},
 
 		/**
@@ -97,38 +129,6 @@
 						data.$selecter.removeClass("disabled");
 						data.$select.prop("disabled", false);
 					}
-				}
-			});
-		},
-
-		/**
-		 * @method
-		 * @name destroy
-		 * @description Removes instance of plugin
-		 * @example $(".target").selecter("destroy");
-		 */
-		destroy: function() {
-			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
-
-				if (data) {
-					if (data.$selecter.hasClass("open")) {
-						data.$selecter.find(".selecter-selected").trigger("click.selecter");
-					}
-
-					// Scroller support
-					if ($.fn.scroller !== undefined) {
-						data.$selecter.find(".selecter-options").scroller("destroy");
-					}
-
-					data.$select[0].tabIndex = data.tabIndex;
-
-					data.$select.off(".selecter")
-								.removeClass("selecter-element")
-								.show();
-
-					data.$selecter.off(".selecter")
-								  .remove();
 				}
 			});
 		},
