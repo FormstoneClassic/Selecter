@@ -2,10 +2,10 @@
 	"use strict";
 
 	var guid = 0,
-		ua = window.navigator.userAgent.toLowerCase(),
-		isFirefox = (ua.indexOf('firefox') > -1),
-		isFirefoxMobile = (isFirefox && ua.indexOf('android') > -1),
-		isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test( (window.navigator.userAgent||window.navigator.vendor||window.opera) ),
+		userAgent = (window.navigator.userAgent||window.navigator.vendor||window.opera),
+		isFirefox = /Firefox/i.test(userAgent),
+		isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(userAgent),
+		isFirefoxMobile = (isFirefox && isMobile),
 		$body = null;
 
 	/**
@@ -362,12 +362,13 @@
 		if (!data.$select.is(":disabled")) {
 			$(".selecter").not(data.$selecter).trigger("close.selecter", [data]);
 
-			// Handle mobile
+			// Handle mobile, but not Firefox
 			if (isMobile && !isFirefoxMobile) {
 				var el = data.$select[0];
 				if (window.document.createEvent) { // All
 					var evt = window.document.createEvent("MouseEvents");
 					evt.initMouseEvent("mousedown", false, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					el.dispatchEvent(evt);
 				} else if (el.fireEvent) { // IE
 					el.fireEvent("onmousedown");
 				}
