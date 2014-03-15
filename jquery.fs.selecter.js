@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.15 - 2014-03-01 
+ * Selecter v3.0.16 - 2014-03-15 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -525,7 +525,7 @@
 
 		if (!data.$select.is(":disabled") && !data.multiple) {
 			data.$selecter.addClass("focus")
-						  .on("keydown.selecter" + data.guid, data, _onKeypress);
+						  .on("keydown.selecter-" + data.guid, data, _onKeypress);
 
 			$(".selecter").not(data.$selecter)
 						  .trigger("close.selecter", [ data ]);
@@ -545,7 +545,7 @@
 		var data = e.data;
 
 		data.$selecter.removeClass("focus")
-					  .off("keydown.selecter" + data.guid + " keyup.selecter" + data.guid);
+					  .off("keydown.selecter-" + data.guid);
 
 		$(".selecter").not(data.$selecter)
 					  .trigger("close.selecter", [ data ]);

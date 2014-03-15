@@ -517,7 +517,7 @@
 
 		if (!data.$select.is(":disabled") && !data.multiple) {
 			data.$selecter.addClass("focus")
-						  .on("keydown.selecter" + data.guid, data, _onKeypress);
+						  .on("keydown.selecter-" + data.guid, data, _onKeypress);
 
 			$(".selecter").not(data.$selecter)
 						  .trigger("close.selecter", [ data ]);
@@ -537,7 +537,7 @@
 		var data = e.data;
 
 		data.$selecter.removeClass("focus")
-					  .off("keydown.selecter" + data.guid + " keyup.selecter" + data.guid);
+					  .off("keydown.selecter-" + data.guid);
 
 		$(".selecter").not(data.$selecter)
 					  .trigger("close.selecter", [ data ]);
