@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.16 - 2014-03-15 
+ * Selecter v3.0.17 - 2014-03-21 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -506,6 +506,7 @@
 
 		if (!internal && !data.multiple) {
 			var index = data.$options.index(data.$options.filter("[value='" + _escape($target.val()) + "']"));
+
 			_update(index, data);
 			_handleChange(data);
 		}
@@ -742,7 +743,7 @@
 	 * @param text [string] "Text to escape"
 	 */
 	function _escape(text) {
-		return text.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
+		return (typeof text === "string") ? text.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1') : text;
 	}
 
 	$.fn.selecter = function(method) {
