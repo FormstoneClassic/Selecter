@@ -17,6 +17,9 @@
 		<link href="../jquery.fs.selecter.css" rel="stylesheet" type="text/css" media="all" />
 		<script src="../jquery.fs.selecter.js"></script>
 
+		<link href="http://formstone.it/components/Scroller/jquery.fs.scroller.css" rel="stylesheet" type="text/css" media="all" />
+		<script src="http://formstone.it/components/Scroller/jquery.fs.scroller.js"></script>
+
 		<style>
 			.selecter.custom { max-width: 500px; }
 			.selecter.custom .selecter-selected { border-width: 2px; }
@@ -27,7 +30,8 @@
 			.callback_output { background: #fff; border: 1px solid #ccc; border-radius: 3px; height: 200px; overflow-y: scroll; overflow-x: hidden; margin: 20px 0 0; padding: 0 20px; }
 		    .callback_output p:first-child { font-weight: 600; }
 
-		    /* .selecter-element { position: static; opacity: 1; } */
+			.selecter.multiple { border: 1px solid #ccc; border-radius: 3px; }
+		    .selecter.multiple .selecter-options { border: none; }
 		</style>
 
 		<script>
@@ -83,13 +87,6 @@
 						$(".toggle_selecter_option").text("Enable Option 'One'");
 					}
 				}
-
-				/*
-				var i = 0;
-				$("select").on("change", function() {
-					console.log("CHANGE", i++);
-				});
-				*/
 			});
 		</script>
 	</head>
@@ -106,7 +103,7 @@
 				<header class="header">
 					<h1>Selecter Demo</h1>
 					<!-- <p>A technical demonstration of the jQuery plugin.</p> -->
-					<br />
+					<br>
 					<a href="http://formstone.it/selecter/" class="button">View Documentation</a>
 				</header>
 
@@ -125,7 +122,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- OPTION GROUPS -->
 				<h2>Option Groups</h2>
@@ -155,7 +152,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- MULTIPLE -->
 				<p>Selecter will also automatically detect mutiple select elements:</p>
@@ -178,7 +175,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- DEFAULT LABEL -->
 				<h2>Default Label</h2>
@@ -245,7 +242,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- LINKS -->
 				<h2>Links</h2>
@@ -264,7 +261,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- EXTERNAL LINKS -->
 				<h2>External Links</h2>
@@ -283,7 +280,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- COVER -->
 				<h2>Cover</h2>
@@ -304,7 +301,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- CLASS -->
 				<h2>Class</h2>
@@ -325,7 +322,7 @@
 					</select>
 				</form>
 
-				<br />
+				<br>
 
 				<!-- CALLBACK -->
 				<h2>Callback</h2>
@@ -349,10 +346,9 @@ function selectCallback(value, index) {
 						<option value="5">Five</option>
 					</select>
 				</form>
-
 				<div class="callback_output"></div>
 
-				<br />
+				<br>
 
 				<!-- DISABLE -->
 				<h2>Disable</h2>
@@ -364,7 +360,6 @@ $("select").selecter("enable");</code></pre>
 
 				<h5>Demo</h5>
 				<a href="#" class="button small toggle_selecter">Enable</a>
-
 				<form action="#" method="GET" class="clear_fix">
 					<select name="selecter_disabled" class="selecter_disabled" disabled="disabled">
 						<option value="1">One</option>
@@ -375,8 +370,9 @@ $("select").selecter("enable");</code></pre>
 					</select>
 				</form>
 
-				<br />
+				<br>
 
+				<!-- DISABLE ITEM -->
 				<p>You can also disable and enable individual options by passing that option's value:</p>
 
 				<pre class="example"><code class="language-javascript">$("select").selecter("disable", "value");
@@ -385,9 +381,25 @@ $("select").selecter("enable", "value");</code></pre>
 
 				<h5>Demo</h5>
 				<a href="#" class="button small toggle_selecter_option">Enable Option 'One'</a>
-
 				<form action="#" method="GET">
 					<select name="selecter_disabled_option" class="selecter_disabled_option">
+						<option value="1" disabled="disabled">One</option>
+						<option value="2">Two</option>
+						<option value="3">Three</option>
+						<option value="4">Four</option>
+						<option value="5">Five</option>
+					</select>
+				</form>
+
+				<br>
+
+				<!-- Scroller -->
+				<h2>Scroller</h2>
+				<p>With Scroller Support:</p>
+
+				<h5>Demo</h5>
+				<form action="#" method="GET">
+					<select name="selecter_scroll" class="selecter_scroll">
 						<option value="1" disabled="disabled">One</option>
 						<option value="2">Two</option>
 						<option value="3">Three</option>
