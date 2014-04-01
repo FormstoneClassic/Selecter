@@ -202,10 +202,6 @@
 				originalIndex = ($originalOption.length > 0) ? $options.index($originalOption) : 1,
 				wrapperTag = (opts.links) ? "nav" : "div";
 
-			if (opts.label !== "") {
-				originalIndex = -1;
-			}
-
 			// Swap tab index, no more interacting with the actual select!
 			opts.tabIndex = $select[0].tabIndex;
 			$select[0].tabIndex = -1;
@@ -232,7 +228,7 @@
 			html += '" tabindex="' + opts.tabIndex + '">';
 			if (!opts.multiple) {
 				html += '<span class="selecter-selected' + ((opts.label !== "") ? ' placeholder' : '') + '">';
-				html += $('<span></span').text( _trim(((opts.label !== "") ? opts.label : $originalOption.text()), opts.trim) ).html();
+        			html += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
@@ -325,7 +321,7 @@
 
 				html += '<' + itemTag + ' class="selecter-item';
 				// Default selected value - now handles multi's thanks to @kuilkoff
-				if ($op.is(':selected') && data.label === "") {
+				if ($op.is(':selected')) {
 					html += ' selected';
 				}
 				// Disabled options
