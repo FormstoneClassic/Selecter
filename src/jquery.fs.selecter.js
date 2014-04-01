@@ -228,7 +228,7 @@
 			html += '" tabindex="' + opts.tabIndex + '">';
 			if (!opts.multiple) {
 				html += '<span class="selecter-selected' + ((opts.label !== "") ? ' placeholder' : '') + '">';
-        			html += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
+				html += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
 				html += '</span>';
 			}
 			html += '<div class="selecter-options">';
