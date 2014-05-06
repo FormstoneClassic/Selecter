@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.0.18 - 2014-04-01 
+ * Selecter v3.0.19 - 2014-05-06 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -272,7 +272,8 @@
 			}
 
 			// Bind click events
-			data.$selecter.on("touchstart.selecter click.selecter", ".selecter-selected", data, _onClick)
+			data.$selecter.on("touchstart.selecter", ".selecter-selected", data, _onTouchStart)
+						  .on("click.selecter", ".selecter-selected", data, _onClick)
 						  .on("click.selecter", ".selecter-item", data, _onSelect)
 						  .on("close.selecter", data, _onClose)
 						  .data("selecter", data);
@@ -349,6 +350,61 @@
 
 		data.$itemsWrapper.html(html);
 		data.$items = data.$selecter.find(".selecter-item");
+	}
+
+	/**
+	 * @method private
+	 * @name _onTouchStart
+	 * @description Handles touchstart to selected item
+	 * @param e [object] "Event data"
+	 */
+	function _onTouchStart(e) {
+		e.stopPropagation();
+
+		var data = e.data,
+			oe = e.originalEvent;
+
+		_clearTimer(data.timer);
+
+		data.touchStartX = oe.touches[0].clientX;
+		data.touchStartY = oe.touches[0].clientY;
+
+		data.$selecter.on("touchmove.selecter", ".selecter-selected", data, _onTouchMove)
+					  .on("touchend.selecter", ".selecter-selected", data, _onTouchEnd);
+	}
+
+	/**
+	 * @method private
+	 * @name _onTouchMove
+	 * @description Handles touchmove to selected item
+	 * @param e [object] "Event data"
+	 */
+	function _onTouchMove(e) {
+		var data = e.data,
+			oe = e.originalEvent;
+
+		if (Math.abs(oe.touches[0].clientX - data.touchStartX) > 10 || Math.abs(oe.touches[0].clientY - data.touchStartY) > 10) {
+			data.$selecter.off("touchmove.selecter touchend.selecter");
+		}
+	}
+
+	/**
+	 * @method private
+	 * @name _onTouchEnd
+	 * @description Handles touchend to selected item
+	 * @param e [object] "Event data"
+	 */
+	function _onTouchEnd(e) {
+		var data = e.data;
+
+		data.$selecter.off("touchmove.selecter touchend.selecter click.selecter");
+
+		// prevent ghosty clicks
+		data.timer = _startTimer(data.timer, 1000, function() {
+			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick);
+		});
+
+		_onClick(e);
 	}
 
 	/**
@@ -740,6 +796,37 @@
 	 */
 	function _escape(text) {
 		return (typeof text === "string") ? text.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1') : text;
+	}
+
+	/**
+	 * @method private
+	 * @name _startTimer
+	 * @description Starts an internal timer
+	 * @param timer [int] "Timer ID"
+	 * @param time [int] "Time until execution"
+	 * @param callback [int] "Function to execute"
+	 * @param interval [boolean] "Flag for recurring interval"
+	 */
+	function _startTimer(timer, time, func, interval) {
+		_clearTimer(timer, interval);
+		if (interval === true) {
+			return setInterval(func, time);
+		} else {
+			return setTimeout(func, time);
+		}
+	}
+
+	/**
+	 * @method private
+	 * @name _clearTimer
+	 * @description Clears an internal timer
+	 * @param timer [int] "Timer ID"
+	 */
+	function _clearTimer(timer) {
+		if (timer !== null) {
+			clearInterval(timer);
+			timer = null;
+		}
 	}
 
 	$.fn.selecter = function(method) {
