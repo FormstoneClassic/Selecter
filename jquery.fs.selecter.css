@@ -1,14 +1,21 @@
 /* 
- * Selecter v3.0.19 - 2014-05-06 
+ * Selecter v3.1.0 - 2014-05-06 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
  * Copyright 2014 Ben Plum; MIT Licensed 
  */ 
 
-	.selecter-element { *left: -999999px; position: absolute; opacity: 0; }
 	.selecter { display: block; margin: 10px 0; position: relative; max-width: 30%; z-index: 1; }
-	.selecter .selecter-selected { background: #F9F9F9 url(jquery.fs.selecter-arrow.png) no-repeat right center; border: 1px solid #ccc; border-radius: 3px; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; position: relative; text-overflow: clip; z-index: 49; }
+
+	.selecter .selecter-element { *left: -999999px; height: 100%; left: 0; position: absolute; opacity: 0; width: 100%; z-index: 0; }
+	.selecter .selecter-element,
+	.selecter .selecter-element:focus { outline: none;
+		-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.selecter .selecter-selected { background: #F9F9F9 url(jquery.fs.selecter-arrow.png) no-repeat right center; border: 1px solid #ccc; border-radius: 3px; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; position: relative; text-overflow: clip; z-index: 2; }
 	.selecter .selecter-options { border: 1px solid #ccc; border-width: 0 1px 1px; background-color: #fefefe; border-radius: 0 0 3px 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); display: none; left: 0; margin: 0; max-height: 260px; overflow: auto; overflow-x: hidden; padding: 0; position: absolute; top: 100%; width: 100%; *width: auto; z-index: 50; }
 	.selecter .selecter-group { background: #F9F9F9; border-bottom: 1px solid #e3e3e3; color: #999; display: block; font-size: 11px; padding: 5px 10px 4px; text-transform: uppercase; }
 	.selecter .selecter-item { background: #fff; border-bottom: 1px solid #e3e3e3; color: #333; cursor: pointer; display: block; font-size: 13px; margin: 0; overflow: hidden; padding: 8px 10px; text-overflow: ellipsis; width: 100%; }

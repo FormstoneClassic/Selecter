@@ -200,7 +200,8 @@
 				$options = $allOptions.filter("option"),
 				$originalOption = $options.filter(":selected"),
 				originalIndex = ($originalOption.length > 0) ? $options.index($originalOption) : 1,
-				wrapperTag = (opts.links) ? "nav" : "div";
+				wrapperTag = "div";
+				//wrapperTag = (opts.links) ? "nav" : "div"; // nav's usage still up for debate...
 
 			// Swap tab index, no more interacting with the actual select!
 			opts.tabIndex = $select[0].tabIndex;
@@ -210,37 +211,44 @@
 			opts.disabled = $select.is(":disabled");
 
 			// Build HTML
-			var html = '<' + wrapperTag + ' class="selecter ' + opts.customClass;
+			var inner = "",
+				wrapper = "";
+
+			// Build wrapper
+			wrapper += '<' + wrapperTag + ' class="selecter ' + opts.customClass;
 			// Special case classes
 			if (isMobile) {
-				html += ' mobile';
+				wrapper += ' mobile';
 			} else if (opts.cover) {
-				html += ' cover';
+				wrapper += ' cover';
 			}
 			if (opts.multiple) {
-				html += ' multiple';
+				wrapper += ' multiple';
 			} else {
-				html += ' closed';
+				wrapper += ' closed';
 			}
 			if (opts.disabled) {
-				html += ' disabled';
+				wrapper += ' disabled';
 			}
-			html += '" tabindex="' + opts.tabIndex + '">';
+			wrapper += '" tabindex="' + opts.tabIndex + '">';
+			wrapper += '</' + wrapperTag + '>';
+
+			// Build inner
 			if (!opts.multiple) {
-				html += '<span class="selecter-selected' + ((opts.label !== "") ? ' placeholder' : '') + '">';
-				html += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
-				html += '</span>';
+				inner += '<span class="selecter-selected' + ((opts.label !== "") ? ' placeholder' : '') + '">';
+				inner += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
+				inner += '</span>';
 			}
-			html += '<div class="selecter-options">';
-			html += '</div>';
-			html += '</' + wrapperTag + '>';
+			inner += '<div class="selecter-options">';
+			inner += '</div>';
 
 			// Modify DOM
 			$select.addClass("selecter-element")
-				   .after(html);
+				   .wrap(wrapper)
+				   .after(inner);
 
 			// Store plugin data
-			var $selecter = $select.next(".selecter"),
+			var $selecter = $select.parent(".selecter"),
 				data = $.extend({
 					$select: $select,
 					$allOptions: $allOptions,
