@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.0 - 2014-05-06 
+ * Selecter v3.1.1 - 2014-05-13 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -59,7 +59,7 @@
 		 */
 		disable: function(option) {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					if (typeof option !== "undefined") {
@@ -88,7 +88,7 @@
 		 */
 		enable: function(option) {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					if (typeof option !== "undefined") {
@@ -111,7 +111,7 @@
 		 */
 		destroy: function() {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					if (data.$selecter.hasClass("open")) {
@@ -143,7 +143,7 @@
 		*/
 		refresh: function() {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					var index = data.index;

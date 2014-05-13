@@ -51,7 +51,7 @@
 		 */
 		disable: function(option) {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					if (typeof option !== "undefined") {
@@ -80,7 +80,7 @@
 		 */
 		enable: function(option) {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					if (typeof option !== "undefined") {
@@ -103,7 +103,7 @@
 		 */
 		destroy: function() {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					if (data.$selecter.hasClass("open")) {
@@ -135,7 +135,7 @@
 		*/
 		refresh: function() {
 			return $(this).each(function(i, input) {
-				var data = $(input).next(".selecter").data("selecter");
+				var data = $(input).parent(".selecter").data("selecter");
 
 				if (data) {
 					var index = data.index;
