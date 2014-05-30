@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.1 - 2014-05-13 
+ * Selecter v3.1.2 - 2014-05-30 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -125,12 +125,15 @@
 
 					data.$select[0].tabIndex = data.tabIndex;
 
+					data.$selected.remove();
+					data.$itemsWrapper.remove();
+
+					data.$selecter.off(".selecter");
+
 					data.$select.off(".selecter")
 								.removeClass("selecter-element")
-								.show();
-
-					data.$selecter.off(".selecter")
-								  .remove();
+								.show()
+								.unwrap();
 				}
 			});
 		},

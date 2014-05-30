@@ -117,12 +117,15 @@
 
 					data.$select[0].tabIndex = data.tabIndex;
 
+					data.$selected.remove();
+					data.$itemsWrapper.remove();
+
+					data.$selecter.off(".selecter");
+
 					data.$select.off(".selecter")
 								.removeClass("selecter-element")
-								.show();
-
-					data.$selecter.off(".selecter")
-								  .remove();
+								.show()
+								.unwrap();
 				}
 			});
 		},
