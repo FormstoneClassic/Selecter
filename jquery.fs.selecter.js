@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.2 - 2014-05-30 
+ * Selecter v3.1.3 - 2014-07-08 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -81,30 +81,6 @@
 
 		/**
 		 * @method
-		 * @name enable
-		 * @description Enables target instance or option
-		 * @param option [string] <null> "Target option value"
-		 * @example $(".target").selecter("enable", "1");
-		 */
-		enable: function(option) {
-			return $(this).each(function(i, input) {
-				var data = $(input).parent(".selecter").data("selecter");
-
-				if (data) {
-					if (typeof option !== "undefined") {
-						var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
-						data.$items.eq(index).removeClass("disabled");
-						data.$options.eq(index).prop("disabled", false);
-					} else {
-						data.$selecter.removeClass("disabled");
-						data.$select.prop("disabled", false);
-					}
-				}
-			});
-		},
-
-		/**
-		 * @method
 		 * @name destroy
 		 * @description Removes instance of plugin
 		 * @example $(".target").selecter("destroy");
@@ -125,6 +101,7 @@
 
 					data.$select[0].tabIndex = data.tabIndex;
 
+					data.$select.find(".selecter-placeholder").remove();
 					data.$selected.remove();
 					data.$itemsWrapper.remove();
 
@@ -134,6 +111,30 @@
 								.removeClass("selecter-element")
 								.show()
 								.unwrap();
+				}
+			});
+		},
+
+		/**
+		 * @method
+		 * @name enable
+		 * @description Enables target instance or option
+		 * @param option [string] <null> "Target option value"
+		 * @example $(".target").selecter("enable", "1");
+		 */
+		enable: function(option) {
+			return $(this).each(function(i, input) {
+				var data = $(input).parent(".selecter").data("selecter");
+
+				if (data) {
+					if (typeof option !== "undefined") {
+						var index = data.$items.index( data.$items.filter("[data-value=" + option + "]") );
+						data.$items.eq(index).removeClass("disabled");
+						data.$options.eq(index).prop("disabled", false);
+					} else {
+						data.$selecter.removeClass("disabled");
+						data.$select.prop("disabled", false);
+					}
 				}
 			});
 		},
@@ -201,25 +202,36 @@
 		if (!$select.hasClass("selecter-element")) {
 			// EXTEND OPTIONS
 			opts = $.extend({}, opts, $select.data("selecter-options"));
+			opts.multiple = $select.prop("multiple");
+			opts.disabled = $select.is(":disabled");
 
 			if (opts.external) {
 				opts.links = true;
 			}
 
+			// Test for selected option in case we need to override the custom label
+			var $originalOption = $select.find("[selected]");
+			if (!opts.multiple && opts.label !== "" && $originalOption.length < 1) {
+				$select.prepend('<option value="" class="selecter-placeholder" selected>' + opts.label + '</option>');
+			} else {
+				opts.label = "";
+			}
+
 			// Build options array
 			var $allOptions = $select.find("option, optgroup"),
-				$options = $allOptions.filter("option"),
-				$originalOption = $options.filter(":selected"),
-				originalIndex = ($originalOption.length > 0) ? $options.index($originalOption) : 1,
+				$options = $allOptions.filter("option");
+
+			// update original in case we needed a custom label placeholder
+			$originalOption = $options.filter(":selected");
+
+			var originalIndex = ($originalOption.length > 0) ? $options.index($originalOption) : 0,
+				originalLabel = (opts.label !== "") ? opts.label : $originalOption.text(),
 				wrapperTag = "div";
 				//wrapperTag = (opts.links) ? "nav" : "div"; // nav's usage still up for debate...
 
 			// Swap tab index, no more interacting with the actual select!
 			opts.tabIndex = $select[0].tabIndex;
 			$select[0].tabIndex = -1;
-
-			opts.multiple = $select.prop("multiple");
-			opts.disabled = $select.is(":disabled");
 
 			// Build HTML
 			var inner = "",
@@ -246,8 +258,9 @@
 
 			// Build inner
 			if (!opts.multiple) {
-				inner += '<span class="selecter-selected' + ((opts.label !== "") ? ' placeholder' : '') + '">';
-				inner += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
+				inner += '<span class="selecter-selected">';
+				// inner += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
+				inner += $('<span></span>').text( _trim(originalLabel, opts.trim) ).html();
 				inner += '</span>';
 			}
 			inner += '<div class="selecter-options">';
@@ -340,6 +353,9 @@
 				}
 
 				html += '<' + itemTag + ' class="selecter-item';
+				if ($op.hasClass('selecter-placeholder')) {
+					html += ' placeholder';
+				}
 				// Default selected value - now handles multi's thanks to @kuilkoff
 				if ($op.is(':selected')) {
 					html += ' selected';
@@ -735,7 +751,8 @@
 	 * @param data [object] "Instance data"
 	 */
 	function _scrollOptions(data) {
-		var selectedOffset = (data.index >= 0) ? data.$items.eq(data.index).position() : { left: 0, top: 0 };
+		var $selected = data.$items.eq(data.index),
+			selectedOffset = (data.index >= 0 && !$selected.hasClass("placeholder")) ? $selected.position() : { left: 0, top: 0 };
 
 		if ($.fn.scroller !== undefined) {
 			data.$itemsWrapper.scroller("scroll", (data.$itemsWrapper.find(".scroller-content").scrollTop() + selectedOffset.top), 0)
