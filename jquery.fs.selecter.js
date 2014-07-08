@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.3 - 2014-07-08 
+ * Selecter v3.1.4 - 2014-07-08 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -24,6 +24,7 @@
 	 * @param label [string] <''> "Label displayed before selection"
 	 * @param external [boolean] <false> "Open options as links in new window"
 	 * @param links [boolean] <false> "Open options as links in same window"
+	 * @param mobile [boolean] <false> "Force desktop interaction on mobile"
 	 * @param trim [int] <0> "Trim options to specified length; 0 to disable”
 	 */
 	var options = {
@@ -33,6 +34,7 @@
 		label: "",
 		external: false,
 		links: false,
+		mobile: false,
 		trim: 0
 	};
 
@@ -449,8 +451,8 @@
 		if (!data.$select.is(":disabled")) {
 			$(".selecter").not(data.$selecter).trigger("close.selecter", [data]);
 
-			// Handle mobile, but not Firefox
-			if (isMobile && !isFirefoxMobile) {
+			// Handle mobile, but not Firefox, unless desktop forced
+			if (!data.mobile && isMobile && !isFirefoxMobile) {
 				var el = data.$select[0];
 				if (window.document.createEvent) { // All
 					var evt = window.document.createEvent("MouseEvents");
