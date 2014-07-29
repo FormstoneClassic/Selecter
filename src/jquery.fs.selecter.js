@@ -422,7 +422,8 @@
 
 		// prevent ghosty clicks
 		data.timer = _startTimer(data.timer, 1000, function() {
-			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick);
+			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick)
+						  .on("click.selecter", ".selecter-item", data, _onSelect);
 		});
 
 		_onClick(e);
