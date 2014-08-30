@@ -212,7 +212,7 @@
 			}
 
 			// Test for selected option in case we need to override the custom label
-			var $originalOption = $select.find("[selected]");
+			var $originalOption = $select.find(":selected");
 			if (!opts.multiple && opts.label !== "" && $originalOption.length < 1) {
 				$select.prepend('<option value="" class="selecter-placeholder" selected>' + opts.label + '</option>');
 			} else {
