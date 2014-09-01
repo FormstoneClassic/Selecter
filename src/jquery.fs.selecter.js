@@ -133,13 +133,24 @@
 			});
 		},
 
+
 		/**
-		* @method
+		* @method private
 		* @name refresh
-		* @description Updates instance base on target options
+		* @description DEPRECATED - Updates instance base on target options
 		* @example $(".target").selecter("refresh");
 		*/
 		refresh: function() {
+			return pub.update.apply($(this));
+		},
+
+		/**
+		* @method
+		* @name update
+		* @description Updates instance base on target options
+		* @example $(".target").selecter("update");
+		*/
+		update: function() {
 			return $(this).each(function(i, input) {
 				var data = $(input).parent(".selecter").data("selecter");
 
@@ -204,7 +215,7 @@
 			}
 
 			// Test for selected option in case we need to override the custom label
-			var $originalOption = $select.find("[selected]");
+			var $originalOption = $select.find(":selected");
 			if (!opts.multiple && opts.label !== "" && $originalOption.length < 1) {
 				$select.prepend('<option value="" class="selecter-placeholder" selected>' + opts.label + '</option>');
 			} else {

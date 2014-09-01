@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.5 - 2014-07-29 
+ * Selecter v3.1.5 - 2014-09-01 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -141,13 +141,24 @@
 			});
 		},
 
+
 		/**
-		* @method
+		* @method private
 		* @name refresh
-		* @description Updates instance base on target options
+		* @description DEPRECATED - Updates instance base on target options
 		* @example $(".target").selecter("refresh");
 		*/
 		refresh: function() {
+			return pub.update.apply($(this));
+		},
+
+		/**
+		* @method
+		* @name update
+		* @description Updates instance base on target options
+		* @example $(".target").selecter("update");
+		*/
+		update: function() {
 			return $(this).each(function(i, input) {
 				var data = $(input).parent(".selecter").data("selecter");
 
