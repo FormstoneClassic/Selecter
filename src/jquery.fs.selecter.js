@@ -723,7 +723,7 @@
 			if (data.multiple) {
 				data.$options.eq(index).prop("selected", null);
 				$item.removeClass("selected");
-			} else if (isSelected) {
+			} else {
 				var newLabel = $item.html(),
 					newValue = $item.data("value");
 

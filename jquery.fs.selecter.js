@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.7 - 2014-09-01 
+ * Selecter v3.1.8 - 2014-09-01 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -731,7 +731,7 @@
 			if (data.multiple) {
 				data.$options.eq(index).prop("selected", null);
 				$item.removeClass("selected");
-			} else if (isSelected) {
+			} else {
 				var newLabel = $item.html(),
 					newValue = $item.data("value");
 
