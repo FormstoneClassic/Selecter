@@ -207,6 +207,7 @@
 		if (!$select.hasClass("selecter-element")) {
 			// EXTEND OPTIONS
 			opts = $.extend({}, opts, $select.data("selecter-options"));
+
 			opts.multiple = $select.prop("multiple");
 			opts.disabled = $select.is(":disabled");
 
@@ -216,7 +217,7 @@
 
 			// Test for selected option in case we need to override the custom label
 			var $originalOption = $select.find(":selected");
-			if (!opts.multiple && opts.label !== "" && $originalOption.length < 1) {
+			if (!opts.multiple && opts.label !== "") {
 				$select.prepend('<option value="" class="selecter-placeholder" selected>' + opts.label + '</option>');
 			} else {
 				opts.label = "";
@@ -718,10 +719,11 @@
 			isDisabled = $item.hasClass("disabled");
 
 		// Check for disabled options
-		if (!isDisabled) {
-			if (index === -1 && data.label !== "") {
-				data.$selected.html(data.label);
-			} else if (!isSelected) {
+		if (!isDisabled && index > -1 && index < data.$items.length) {
+			if (data.multiple) {
+				data.$options.eq(index).prop("selected", null);
+				$item.removeClass("selected");
+			} else if (isSelected) {
 				var newLabel = $item.html(),
 					newValue = $item.data("value");
 
@@ -738,15 +740,14 @@
 				}
 
 				$item.addClass("selected");
-			} else if (data.multiple) {
-				data.$options.eq(index).prop("selected", null);
-				$item.removeClass("selected");
 			}
 
 			if (!data.multiple) {
 				// Update index
 				data.index = index;
 			}
+		} else if (data.label !== "") {
+			data.$selected.html(data.label);
 		}
 	}
 
