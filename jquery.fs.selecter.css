@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.8 - 2014-09-01 
+ * Selecter v3.1.9 - 2014-09-02 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -8,7 +8,7 @@
 
 	.selecter { display: block; margin: 10px 0; position: relative; max-width: 30%; z-index: 1; }
 
-	.selecter .selecter-element { *left: -999999px; height: 100%; left: 0; position: absolute; opacity: 0; width: 100%; z-index: 0; }
+	.selecter .selecter-element { *left: -999999px; height: 100%; left: 0; position: absolute; opacity: 0; width: 100%; z-index: -1; }
 	.selecter .selecter-element,
 	.selecter .selecter-element:focus { outline: none;
 		-webkit-tap-highlight-color: rgba(255, 255, 255, 0);

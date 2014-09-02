@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.8 - 2014-09-01 
+ * Selecter v3.1.9 - 2014-09-02 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -727,35 +727,32 @@
 			isDisabled = $item.hasClass("disabled");
 
 		// Check for disabled options
-		if (!isDisabled && index > -1 && index < data.$items.length) {
+		if (!isDisabled) {
 			if (data.multiple) {
-				data.$options.eq(index).prop("selected", null);
-				$item.removeClass("selected");
-			} else {
+				if (isSelected) {
+					data.$options.eq(index).prop("selected", null);
+					$item.removeClass("selected");
+				} else {
+					data.$options.eq(index).prop("selected", true);
+					$item.addClass("selected");
+				}
+			} else if (index > -1 && index < data.$items.length) {
 				var newLabel = $item.html(),
 					newValue = $item.data("value");
 
-				// Modify DOM
-				if (data.multiple) {
-					data.$options.eq(index).prop("selected", true);
-				} else {
-					data.$selected.html(newLabel)
-								  .removeClass('placeholder');
-					data.$items.filter(".selected")
-							   .removeClass("selected");
+				data.$selected.html(newLabel)
+							  .removeClass('placeholder');
 
-					data.$select[0].selectedIndex = index;
-				}
+				data.$items.filter(".selected")
+						   .removeClass("selected");
+
+				data.$select[0].selectedIndex = index;
 
 				$item.addClass("selected");
-			}
-
-			if (!data.multiple) {
-				// Update index
 				data.index = index;
+			} else if (data.label !== "") {
+				data.$selected.html(data.label);
 			}
-		} else if (data.label !== "") {
-			data.$selected.html(data.label);
 		}
 	}
 
