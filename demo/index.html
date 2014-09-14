@@ -17,78 +17,89 @@
 		<link href="../jquery.fs.selecter.css" rel="stylesheet" type="text/css" media="all" />
 		<script src="../jquery.fs.selecter.js"></script>
 
+		<!--[DEMO:START-RESOURCES]-->
+
 		<link href="http://formstone.it/components/Scroller/jquery.fs.scroller.css" rel="stylesheet" type="text/css" media="all" />
 		<script src="http://formstone.it/components/Scroller/jquery.fs.scroller.js"></script>
 
 		<style>
-			.selecter.custom { max-width: 500px; }
-			.selecter.custom .selecter-selected { border-width: 2px; }
-			.selecter.custom .selecter-options { border-width: 0 2px 2px; padding: 1%; }
-			.selecter.custom .selecter-item { border-radius: 3px !important; border: none; margin: 0 0 1%; }
-			.selecter.custom .selecter-item:last-child { margin: 0; }
+			.demo .selecter.custom { max-width: 500px; }
+			.demo .selecter.custom .selecter-selected { border-width: 2px; }
+			.demo .selecter.custom .selecter-options { border-width: 0 2px 2px; padding: 1%; }
+			.demo .selecter.custom .selecter-item { border-radius: 3px !important; border: none; margin: 0 0 1%; }
+			.demo .selecter.custom .selecter-item:last-child { margin: 0; }
 
-			.callback_output { background: #fff; border: 1px solid #ccc; border-radius: 3px; height: 200px; overflow-y: scroll; overflow-x: hidden; margin: 20px 0 0; padding: 0 20px; }
-		    .callback_output p:first-child { font-weight: 600; }
+			.demo .callback_output { background: #fff; border: 1px solid #ccc; border-radius: 3px; height: 200px; overflow-y: scroll; overflow-x: hidden; margin: 20px 0 0; padding: 0 20px; }
+		    .demo .callback_output p:first-child { font-weight: 600; }
 
-			.selecter.multiple { border: 1px solid #ccc; border-radius: 3px; }
-		    .selecter.multiple .selecter-options { border: none; }
+			.demo .selecter.multiple { border: 1px solid #ccc; border-radius: 3px; }
+		    .demo .selecter.multiple .selecter-options { border: none; }
 		</style>
 
 		<script>
 			$(document).ready(function() {
 				// All
-				$("select").not(".selecter_callback, .selecter_test").selecter();
+				$(".demo select").not(".demo .selecter_callback, .demo .selecter_test").selecter();
 
 				// Callback
-				$("select.selecter_callback").selecter({
+				$(".demo select.selecter_callback").selecter({
 					callback: selectCallback
 				});
 
-				function selectCallback(value, index) {
-					$(".callback_output").prepend("<p>VALUE: " + value + ", INDEX: " + index + "</p>");
-				}
-
 				// Disabled
-				$(".toggle_selecter").on("click", toggleEnabled);
-				if (!$(".selecter_disabled").is(":disabled")) {
-					$(".toggle_selecter").text("Disable");
+				$(".demo .toggle_selecter").on("click", toggleEnabled);
+				if (!$(".demo .selecter_disabled").is(":disabled")) {
+					$(".demo .toggle_selecter").text("Disable");
 				} else {
-					$(".toggle_selecter").text("Enable");
-				}
-
-				function toggleEnabled(e) {
-					e.preventDefault();
-
-					if ($(".selecter_disabled").is(":disabled")) {
-						$(".selecter_disabled").selecter("enable");
-						$(".toggle_selecter").text("Disable");
-					} else {
-						$(".selecter_disabled").selecter("disable");
-						$(".toggle_selecter").text("Enable");
-					}
+					$(".demo .toggle_selecter").text("Enable");
 				}
 
 				// Disabled Option
-				$(".toggle_selecter_option").on("click", toggleEnabledOption);
-				if (!$(".selecter_disabled_option option").eq(0).is(":disabled")) {
-					$(".toggle_selecter_option").text("Disable Option 'One'");
+				$(".demo .toggle_selecter_option").on("click", toggleEnabledOption);
+				if (!$(".demo .selecter_disabled_option option").eq(0).is(":disabled")) {
+					$(".demo .toggle_selecter_option").text("Disable Option 'One'");
 				} else {
-					$(".toggle_selecter_option").text("Enable Option 'One'");
+					$(".demo .toggle_selecter_option").text("Enable Option 'One'");
 				}
 
-				function toggleEnabledOption(e) {
-					e.preventDefault();
-
-					if ($(".selecter_disabled_option option").eq(0).is(":disabled")) {
-						$(".selecter_disabled_option").selecter("enable", "1");
-						$(".toggle_selecter_option").text("Disable Option 'One'");
-					} else {
-						$(".selecter_disabled_option").selecter("disable", "1");
-						$(".toggle_selecter_option").text("Enable Option 'One'");
-					}
-				}
+				$(window).one("pronto.load", function() {
+					$(".demo select").selecter("destroy");
+					$(".demo .toggle_selecter").off("click");
+					$(".demo .toggle_selecter_option").off("click");
+				});
 			});
+
+			function selectCallback(value, index) {
+				$(".demo .callback_output").prepend("<p>VALUE: " + value + ", INDEX: " + index + "</p>");
+			}
+
+			function toggleEnabled(e) {
+				e.preventDefault();
+
+				if ($(".demo .selecter_disabled").is(":disabled")) {
+					$(".demo .selecter_disabled").selecter("enable");
+					$(".demo .toggle_selecter").text("Disable");
+				} else {
+					$(".demo .selecter_disabled").selecter("disable");
+					$(".demo .toggle_selecter").text("Enable");
+				}
+			}
+
+			function toggleEnabledOption(e) {
+				e.preventDefault();
+
+				if ($(".demo .selecter_disabled_option option").eq(0).is(":disabled")) {
+					$(".demo .selecter_disabled_option").selecter("enable", "1");
+					$(".demo .toggle_selecter_option").text("Disable Option 'One'");
+				} else {
+					$(".demo .selecter_disabled_option").selecter("disable", "1");
+					$(".demo .toggle_selecter_option").text("Enable Option 'One'");
+				}
+			}
 		</script>
+
+		<!--[DEMO:END-RESOURCES]-->
+
 	</head>
 	<body class="gridlock demo">
 		<header id="header">
@@ -106,6 +117,8 @@
 					<br>
 					<a href="http://formstone.it/selecter/" class="button">View Documentation</a>
 				</header>
+
+				<!--[DEMO:START-CONTENT]-->
 
 				<!-- BASIC -->
 				<h2>Basic</h2>
@@ -407,6 +420,8 @@ $("select").selecter("enable", "value");</code></pre>
 						<option value="5">Five</option>
 					</select>
 				</form>
+
+				<!--[DEMO:END-CONTENT]-->
 
 			</div>
 		</article>

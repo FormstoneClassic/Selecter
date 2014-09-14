@@ -1,6 +1,6 @@
 {
   "name": "selecter",
-  "version": "3.1.9",
+  "version": "3.1.10",
   "title": "Selecter",
   "author": {
     "name": "Ben Plum",
@@ -24,12 +24,11 @@
     "ui",
     "javascript",
     "jquery",
-    "formstone",
-    "benplum"
+    "formstone"
   ],
   "docs": "http://formstone.it/selecter/",
   "demo": "http://formstone.it/selecter/",
-  "download": "https://github.com/benplum/Selecter",
-  "bugs": "https://github.com/benplum/Selecter/issues",
+  "download": "https://github.com/Formstone/Selecter",
+  "bugs": "https://github.com/Formstone/Selecter/issues",
   "homepage": "http://formstone.it/selecter/"
 }
