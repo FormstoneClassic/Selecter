@@ -397,10 +397,12 @@
 		var data = e.data,
 			oe = e.originalEvent;
 
+		data.touchStartEvent = oe;
+
 		_clearTimer(data.timer);
 
-		data.touchStartX = oe.touches[0].clientX;
-		data.touchStartY = oe.touches[0].clientY;
+		data.touchStartX = data.oe.touches[0].clientX;
+		data.touchStartY = data.oe.touches[0].clientY;
 
 		data.$selecter.on("touchmove.selecter", ".selecter-selected", data, _onTouchMove)
 					  .on("touchend.selecter", ".selecter-selected", data, _onTouchEnd);
@@ -430,6 +432,11 @@
 	function _onTouchEnd(e) {
 		var data = e.data;
 
+		data.touchStartEvent.preventDefault();
+
+		data.$selecter.off("touchmove.selecter touchend.selecter");
+
+/*
 		data.$selecter.off("touchmove.selecter touchend.selecter click.selecter");
 
 		// prevent ghosty clicks
@@ -437,6 +444,7 @@
 			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick)
 						  .on("click.selecter", ".selecter-item", data, _onSelect);
 		});
+*/
 
 		_onClick(e);
 	}
