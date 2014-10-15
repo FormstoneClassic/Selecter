@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.10 - 2014-10-10 
+ * Selecter v3.1.11 - 2014-10-15 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -321,11 +321,11 @@
 				data.$select.on("change.selecter", data, _onChange);
 
 				if (!isMobile) {
-					data.$selecter.on("focus.selecter", data, _onFocus)
+					data.$selecter.on("focusin.selecter focus.selecter", data, _onFocus)
 								  .on("blur.selecter", data, _onBlur);
 
 					// handle clicks to associated labels - not on mobile
-					data.$select.on("focus.selecter", data, function(e) {
+					data.$select.on("focusin.selecter focus.selecter", data, function(e) {
 						e.data.$selecter.trigger("focus");
 					});
 				}
