@@ -1,311 +1,354 @@
-.selecter { 
-	position: relative;
-	
-	display: block;
-	margin: 10px 0;
-	z-index: 1;
-	
-	max-width: 30%;
-	
-	
-	// .selecter .selecter-element
-	
-	& &-element {
-		width: 100%;
-		height: 100%;
-		
-		position: absolute;
-		*left: -999999px;
-		left: 0;
-		
-		opacity: 0;
-		z-index: -1;
-		
-		&,
-		&:focus {
-			outline: none;
-			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-			-webkit-tap-highlight-color: transparent;
-		}
-	}
-	
-	
-	// .selecter .selecter-selected
-	
-	&-selected {
-		
-		// Structure
+
+
+	@import "jquery.fs.selecter-config.less";
+
+	.selecter { 
 		position: relative;
 		
-		cursor: pointer;
 		display: block;
-		margin: 0;
-		overflow: hidden;
-		text-overflow: clip;
-		z-index: 2;
+		margin: 10px 0;
+		z-index: 1;
 		
-		// Style
-		background: #F9F9F9 url(jquery.fs.selecter-arrow.png) no-repeat right center;
-		border: 1px solid #ccc;
-		border-radius: 3px;
-		color: #333;
-		font-size: 13px;
-		padding: 8px 10px;
-	}
-	
-	
-	// .selecter .selecter-options
-	
-	& &-options {
-		width: 100%;
-		*width: auto;
-		
-		position: absolute;
-		top: 100%;
-		left: 0;
-		
-		// Structure
-		display: none;
-		margin: 0;
-		max-height: 260px;
-		overflow: auto;
-		overflow-x: hidden;
-		padding: 0;
-		z-index: 50;
-		
-		// Style
-		border: 1px solid #ccc;
-		border-width: 0 1px 1px;
-		background-color: #fefefe;
-		border-radius: 0 0 3px 3px;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-	}
-	
-	
-	// .selecter .selecter-group
-	
-	& &-group {
-		border-bottom: 1px solid #e3e3e3;
-	    color: #999;
-	    display: block;
-	    font-size: 11px;
-	    padding: 5px 10px 4px;
-	    text-transform: uppercase;
-	}
-	
-	
-	// .selecter .selecter-item
-	
-	& &-item {
-	    background: #fff;
-	    border-bottom: 1px solid #e3e3e3;
-	    color: #333;
-	    cursor: pointer;
-	    display: block;
-	    font-size: 13px;
-	    margin: 0;
-	    overflow: hidden;
-	    padding: 8px 10px;
-	    text-overflow: ellipsis;
-	    width: 100%;
-	    
-	    &.placeholder {
-		    display: none;
+		& when (@max-width = true) {
+			max-width: 30%;	
 		}
 		
-		&.selected {
-		    background: #F9F9F9;
+		// .selecter .selecter-element
+		
+		& &-element {
+			width: 100%;
+			height: 100%;
+			
+			position: absolute;
+			*left: -999999px;
+			left: 0;
+			
+			opacity: 0;
+			z-index: -1;
+			
+			&,
+			&:focus {
+				outline: none;
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+				-webkit-tap-highlight-color: transparent;
+			}
 		}
+		
+		
+		// .selecter .selecter-selected
+		
+		& &-selected {
+			position: relative;
+			
+			background: @background-color url(jquery.fs.selecter-arrow.png) no-repeat right center;
+			border: @border-width solid @border-color;
+			color: @text-color;
+			cursor: pointer;
+			display: block;
+			font-size: @font-size;
+			margin: 0;
+			overflow: hidden;
+			padding: @padding;
+			text-overflow: clip;
+			z-index: 2;
+			
+			& when not (@border-radius-outside = 0) {
+				border-radius: @border-radius-outside;
+			}
+		}
+		
+		
+		// .selecter .selecter-options
+		
+		& &-options {
+			width: 100%;
+			*width: auto;
+			max-height: @max-height;
+			
+			position: absolute;
+			top: 100%;
+			left: 0;
+			
+			border: @border-width solid @border-color;
+			border-width: 0 @border-width @border-width;
+			background-color: @options-background-color;
+			display: none;
+			margin: 0;
+			overflow: auto;
+			overflow-x: hidden;
+			padding: 0;
+			z-index: 50;
+			
+			& when not (@border-radius-outside = 0) {
+				border-radius: 0 0 @border-radius-outside @border-radius-outside;
+			}
+			
+			& when not (@options-box-shadow = none) {
+				box-shadow: @options-box-shadow;
+			}	
+		}
+		
+		
+		// .selecter .selecter-group
+		
+		& &-group {
+			border-bottom: @border-width solid @group-border-color;
+		    color: @group-text-color;
+		    display: block;
+		    font-size: @group-font-size;
+		    padding: @group-padding;
+		    text-transform: @group-text-transform;
+		}
+		
+		
+		// .selecter .selecter-item
+		
+		& &-item {
+			width: 100%;
+		
+		    background: @item-background-color;
+		    border-bottom: @item-border-width solid @item-border-color;
+		    color: @item-text-color;
+		    cursor: pointer;
+		    display: block;
+		    font-size: @item-font-size;
+		    margin: 0;
+		    overflow: hidden;
+		    padding: @item-padding;
+		    text-overflow: ellipsis;
+		    
+		    &.placeholder {
+			    display: none;
+			}
+			
+			&.selected {
+			    background: @item-selected-color;
+			}
+			
+			&.disabled {
+			    color: @item-disabled-text-color;
+			    cursor: default;
+			}
+			
+			& when not (@border-radius-inside = 0) {
+				&:first-child {
+				    border-radius: 0;
+				}
+			}
+			
+			&:last-child {
+			    border-bottom: 0;
+			    
+			    & when not (@border-radius-inside = 0) {
+					border-radius: 0 0 @border-radius-inside @border-radius-inside;
+				}
+			}
+			
+			@media screen and (min-width: 980px) {
+				
+				&:hover,
+				&.selected:hover {
+					background-color: @hover-background-color;
+				}
+				
+				&.disabled:hover {
+			        background-color: @disabled-hover-background-color;
+			    }
+			}
+		}
+		
+		
+		// .selecter.open
+		
+		&.open {
+			z-index: 3;
+			
+			.selecter-selected {
+		    	z-index: 51;
+		    	
+		    	& when not (@border-radius-outside = 0) {
+					border-radius: @border-radius-outside @border-radius-outside 0 0;
+				}
+			}
+		}
+		
+		&.open &-selected,
+		&.focus &-selected {
+		    background-color: @open-background-color;
+		    
+		    & when not (@selected-box-shadow = none) {
+			    box-shadow: @selected-box-shadow;
+			}
+		}
+		
+		
+		// .selecter.cover .selecter-options
+		
+		&.cover {
+			
+			.selecter-options {
+			    border-width: @border-width;
+			    top: 0;
+			    
+			    & when not (@border-radius-outside = 0) {
+					border-radius: @border-radius-outside;
+					
+					.selecter-item.first {
+				    	border-radius: @border-radius-outside @border-radius-outside 0 0;
+					}
+				}
+			}
+			
+			&.open .selecter-selected {
+			    z-index: 49;
+			    
+			    & when not (@border-radius-outside = 0) {
+					border-radius: @border-radius-outside @border-radius-outside 0 0;
+				}
+			}
+		}
+		
+	
+		// .selecter.bottom
+		
+		&.bottom {
+			
+			.selecter-options {
+				top: auto;
+				bottom: 100%;
+				
+			    border-width: @border-width @border-width 0;
+			}
+			
+			.selecter-item:last-child {
+			    border: none;
+			}
+			
+			& when not (@border-radius-outside = 0) {
+				
+				// .selecter.bottom.open
+					
+				&.open {
+									
+					.selecter-selected {
+					    border-radius: 0 0 @border-radius-outside @border-radius-outside;
+					}
+					
+					.selecter-options {
+					    border-radius: @border-radius-outside @border-radius-outside 0 0;
+					}
+				}
+			}
+			
+			
+			// .selecter.bottom.cover
+			
+			.cover {
+			
+				.selecter-options {
+					top: auto;
+				    bottom: 0;
+				}
+				
+				& when not (@border-radius-outside = 0) {
+
+					// .selecter.bottom.cover.open
+
+					&.open {
+					
+						.selecter-selected {
+						    border-radius: @border-radius-outside;
+						}
+						
+						.selecter-options {
+						    border-radius: @border-radius-outside;
+						}
+					}
+				}
+			}
+		}
+		
+		
+		// .selecter-multiple .selecter-options
+		
+		&.multiple &-options {
+			width: 100%;
+			
+			position: static;
+		    
+		    border-width: @border-width;
+		    display: block;
+		    
+		    & when not (@border-radius-outside = 0) {
+				border-radius: @border-radius-outside;
+			}
+			
+			& when not (@options-box-shadow = none) {
+				box-shadow: none;
+			}
+		}
+		
+		
+		// .selecter.disabled
 		
 		&.disabled {
-		    color: #999;
-		    cursor: default;
+	
+			.selecter-selected {
+			    background: @disabled-background-color;
+			    border-color: @disabled-border-color;
+			    color: @disabled-text-color;
+			    cursor: default;
+			}
+			
+			.selecter-options {
+			    background: @disabled-background-color;
+			    border-color: @disabled-border-color;
+			}
+			
+			.selecter-group,
+			.selecter-item {
+			    border-color: @disabled-border-color;
+			    color: @disabled-text-color;
+			    cursor: default;
+			}
+			
+			.selecter-item.selected {
+			    background: @disabled-selected-background-color;
+			}
 		}
 		
-		&:first-child {
-		    border-radius: 0;
-		}
 		
-		&:last-child {
-		    border-radius: 0 0 2px 2px;
-		    border-bottom: 0;
+		// .selecter .selecter-options.scroller
+		
+		& &-options.scroller {
+		    overflow: hidden;
+		    
+		    .scroller-content {
+			    max-height: @max-height;
+			    
+			    padding: 0;
+			}
 		}
+	
+	
+		// Media Queries
 		
 		@media screen and (min-width: 980px) {
 			
-			&:hover,
-			&.selected:hover {
-				background-color: #f3f3f3;
-			}
-			
-			&.disabled:hover {
-		        background-color: #fff;
+			&:hover &-selected,
+			&.disabled &-item:hover {
+		        background-color: @hover-background-color;
 		    }
 		}
-	}
-	
-	
-	// .selecter.open
-	
-	&.open {
-		z-index: 3;
 		
-		.selecter-selected {
-	    	border-radius: 3px 3px 0 0;
-	    	z-index: 51;
-		}
-	}
-	
-	&.open &-selected,
-	&.focus &-selected {
-	    background-color: #fff;
-	    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-	}
-	
-	
-	// .selecter.cover .selecter-options
-	
-	&.cover {
+		& when (@max-width = true) {
 		
-		.selecter-options {
-		    border-radius: 3px;
-		    border-width: 1px;
-		    top: 0;
-		    
-		    .selecter-item.first {
-			    border-radius: 3px 3px 0 0;
-			}
-		}
-		
-		&.open .selecter-selected {
-		    border-radius: 3px 3px 0 0;
-		    z-index: 49;
-		}
-	}
-	
-
-	// .selecter.bottom
-	
-	&.bottom {
-		
-		.selecter-options {
-		    border-width: 1px 1px 0;
-		    bottom: 100%;
-		    top: auto;
-		}
-		
-		.selecter-item:last-child {
-		    border: none;
-		}
-		
-		
-		// .selecter.bottom.open
-		
-		&.open {
-
-			.selecter-selected {
-			    border-radius: 0 0 3px 3px;
+			@media screen and (max-width: 740px) {
+				max-width: 40%;
 			}
 			
-			.selecter-options {
-			    border-radius: 3px 3px 0 0;
-			}
-		}
-		
-		// .selecter.bottom.cover
-		
-		.cover {
-		
-			.selecter-options {
-			    bottom: 0;
-			    top: auto;
-			}
-			
-			
-			// .selecter.bottom.cover.open
-			
-			&.open {
-				
-				.selecter-selected {
-				    border-radius: 3px;
-				}
-				
-				.selecter-options {
-				    border-radius: 3px;
-				}
+			@media screen and (max-width: 500px) {
+				max-width: 100%;
 			}
 		}
 	}
-	
-	
-	// .selecter-multiple .selecter-options
-	
-	&.multiple &-options {
-	    border-radius: 3px;
-	    border-width: 1px;
-	    box-shadow: none;
-	    display: block;
-	    position: static;
-	    width: 100%;
-	}
-	
-	
-	// .selecter.disabled
-	
-	&.disabled {
-
-		.selecter-selected {
-		    background: #fff;
-		    border-color: #eee;
-		    color: #ccc;
-		    cursor: default;
-		}
-		
-		.selecter-options {
-		    background: #fff;
-		    border-color: #eee;
-		}
-		
-		.selecter-group,
-		.selecter-item {
-		    border-color: #eee;
-		    color: #ccc;
-		    cursor: default;
-		}
-		
-		.selecter-item.selected {
-		    background: #fafafa;
-		}
-	}
-	
-	
-	// .selecter .selecter-options.scroller
-	
-	& &-options.scroller {
-	    overflow: hidden;
-	    
-	    .scroller-content {
-		    max-height: 260px;
-		    padding: 0;
-		}
-	}
-
-
-	// Media Queries
-	
-	@media screen and (min-width: 980px) {
-		
-		&:hover &-selected,
-		&.disabled &-item:hover {
-	        background-color: #fff;
-	    }
-	}
-	
-	@media screen and (max-width: 740px) {
-		max-width: 40%;
-	}
-	
-	@media screen and (max-width: 500px) {
-		max-width: 100%;
-	}
-}

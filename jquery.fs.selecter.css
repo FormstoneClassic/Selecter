@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.1.10 - 2014-10-15 
+ * Selecter v3.1.10 - 2014-10-16 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -11,6 +11,7 @@
   display: block;
   margin: 10px 0;
   z-index: 1;
+  max-width: 30%;
 }
 .selecter .selecter-element {
   width: 100%;
@@ -27,52 +28,53 @@
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   -webkit-tap-highlight-color: transparent;
 }
-.selecter-selected {
+.selecter .selecter-selected {
   position: relative;
+  background: #f9f9f9 url(jquery.fs.selecter-arrow.png) no-repeat right center;
+  border: 1px solid #cccccc;
+  color: #333333;
   cursor: pointer;
   display: block;
+  font-size: 13px;
   margin: 0;
   overflow: hidden;
+  padding: 8px 10px;
   text-overflow: clip;
   z-index: 2;
-  background: #f9f9f9 url(jquery.fs.selecter-arrow.png) no-repeat right center;
-  border: 1px solid #ccc;
   border-radius: 3px;
-  color: #333;
-  font-size: 13px;
-  padding: 8px 10px;
 }
 .selecter .selecter-options {
   width: 100%;
   *width: auto;
+  max-height: 260px;
   position: absolute;
   top: 100%;
   left: 0;
+  border: 1px solid #cccccc;
+  border-width: 0 1px 1px;
+  background-color: #fefefe;
   display: none;
   margin: 0;
-  max-height: 260px;
   overflow: auto;
   overflow-x: hidden;
   padding: 0;
   z-index: 50;
-  border: 1px solid #ccc;
-  border-width: 0 1px 1px;
-  background-color: #fefefe;
   border-radius: 0 0 3px 3px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 .selecter .selecter-group {
   border-bottom: 1px solid #e3e3e3;
-  color: #999;
+  color: #999999;
   display: block;
   font-size: 11px;
   padding: 5px 10px 4px;
   text-transform: uppercase;
 }
 .selecter .selecter-item {
-  background: #fff;
+  width: 100%;
+  background: #ffffff;
   border-bottom: 1px solid #e3e3e3;
-  color: #333;
+  color: #333333;
   cursor: pointer;
   display: block;
   font-size: 13px;
@@ -80,62 +82,61 @@
   overflow: hidden;
   padding: 8px 10px;
   text-overflow: ellipsis;
-  width: 100%;
 }
 .selecter .selecter-item.placeholder {
   display: none;
 }
 .selecter .selecter-item.selected {
-  background: #F9F9F9;
+  background: #f9f9f9;
 }
 .selecter .selecter-item.disabled {
-  color: #999;
+  color: #999999;
   cursor: default;
 }
 .selecter .selecter-item:first-child {
   border-radius: 0;
 }
 .selecter .selecter-item:last-child {
-  border-radius: 0 0 2px 2px;
   border-bottom: 0;
+  border-radius: 0 0 2px 2px;
 }
 @media screen and (min-width: 980px) {
   .selecter .selecter-item:hover,
   .selecter .selecter-item.selected:hover {
-    background-color: #f3f3f3;
+    background-color: #ffffff;
   }
   .selecter .selecter-item.disabled:hover {
-    background-color: #fff;
+    background-color: #ffffff;
   }
 }
 .selecter.open {
   z-index: 3;
 }
 .selecter.open .selecter-selected {
-  border-radius: 3px 3px 0 0;
   z-index: 51;
+  border-radius: 3px 3px 0 0;
 }
 .selecter.open .selecter-selected,
 .selecter.focus .selecter-selected {
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 .selecter.cover .selecter-options {
-  border-radius: 3px;
   border-width: 1px;
   top: 0;
+  border-radius: 3px;
 }
 .selecter.cover .selecter-options .selecter-item.first {
   border-radius: 3px 3px 0 0;
 }
 .selecter.cover.open .selecter-selected {
-  border-radius: 3px 3px 0 0;
   z-index: 49;
+  border-radius: 3px 3px 0 0;
 }
 .selecter.bottom .selecter-options {
-  border-width: 1px 1px 0;
-  bottom: 100%;
   top: auto;
+  bottom: 100%;
+  border-width: 1px 1px 0;
 }
 .selecter.bottom .selecter-item:last-child {
   border: none;
@@ -147,8 +148,8 @@
   border-radius: 3px 3px 0 0;
 }
 .selecter.bottom .cover .selecter-options {
-  bottom: 0;
   top: auto;
+  bottom: 0;
 }
 .selecter.bottom .cover.open .selecter-selected {
   border-radius: 3px;
@@ -157,27 +158,27 @@
   border-radius: 3px;
 }
 .selecter.multiple .selecter-options {
-  border-radius: 3px;
-  border-width: 1px;
-  box-shadow: none;
-  display: block;
-  position: static;
   width: 100%;
+  position: static;
+  border-width: 1px;
+  display: block;
+  border-radius: 3px;
+  box-shadow: none;
 }
 .selecter.disabled .selecter-selected {
-  background: #fff;
-  border-color: #eee;
-  color: #ccc;
+  background: #ffffff;
+  border-color: #eeeeee;
+  color: #cccccc;
   cursor: default;
 }
 .selecter.disabled .selecter-options {
-  background: #fff;
-  border-color: #eee;
+  background: #ffffff;
+  border-color: #eeeeee;
 }
 .selecter.disabled .selecter-group,
 .selecter.disabled .selecter-item {
-  border-color: #eee;
-  color: #ccc;
+  border-color: #eeeeee;
+  color: #cccccc;
   cursor: default;
 }
 .selecter.disabled .selecter-item.selected {
@@ -193,7 +194,7 @@
 @media screen and (min-width: 980px) {
   .selecter:hover .selecter-selected,
   .selecter.disabled .selecter-item:hover {
-    background-color: #fff;
+    background-color: #ffffff;
   }
 }
 @media screen and (max-width: 740px) {
@@ -206,53 +207,3 @@
     max-width: 100%;
   }
 }
-/* 'Disabled' State */
-/*
-.selecter.disabled .selecter-selected {
-    background: #fff;
-    border-color: #eee;
-    color: #ccc;
-    cursor: default;
-}
-
-.selecter.disabled .selecter-options {
-    background: #fff;
-    border-color: #eee;
-}
-
-.selecter.disabled .selecter-group,
-	.selecter.disabled .selecter-item {
-    border-color: #eee;
-    color: #ccc;
-    cursor: default;
-}
-
-.selecter.disabled .selecter-item.selected {
-    background: #fafafa;
-}
-*/
-/* Scroller Support */
-/*
-.selecter .selecter-options.scroller {
-    overflow: hidden;
-}
-
-.selecter .selecter-options.scroller .scroller-content {
-    max-height: 260px;
-    padding: 0;
-}
-*/
-/* Media Queries */
-/*
-@media screen and (max-width: 740px) {
-    .selecter {
-        max-width: 40%;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .selecter {
-        max-width: 100%;
-    }
-}
-*/
