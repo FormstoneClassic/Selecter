@@ -85,7 +85,10 @@ module.exports = function(grunt) {
 		less: {
 			main: {
 				files: {
-					'<%= pkg.codename %>.css': 'src/<%= pkg.codename %>.less'
+					'<%= pkg.codename %>.css': [
+						'src/<%= pkg.codename %>-config.less',
+						'src/<%= pkg.codename %>.less'
+					]
 				}
 			},
 			min: {
@@ -94,7 +97,10 @@ module.exports = function(grunt) {
 					cleancss: true
 				},
 				files: {
-					'<%= pkg.codename %>.min.css': 'src/<%= pkg.codename %>.less'
+					'<%= pkg.codename %>.min.css': [
+						'src/<%= pkg.codename %>-config.less',
+						'src/<%= pkg.codename %>.less'
+					]
 				}
 			}
 		},

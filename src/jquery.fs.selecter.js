@@ -308,24 +308,19 @@
 						  .on("close.selecter", data, _onClose)
 						  .data("selecter", data);
 
-			// Bind Blur/focus events
-			//if ((!data.links && !isMobile) || isMobile) {
-				data.$select.on("change.selecter", data, _onChange);
+			// Change events
+			data.$select.on("change.selecter", data, _onChange);
 
-				if (!isMobile) {
-					data.$selecter.on("focusin.selecter focus.selecter", data, _onFocus)
-								  .on("blur.selecter", data, _onBlur);
+			// Focus/Blur events
+			if (!isMobile) {
+				data.$selecter.on("focusin.selecter", data, _onFocus)
+							  .on("blur.selecter", data, _onBlur);
 
-					// handle clicks to associated labels - not on mobile
-					data.$select.on("focusin.selecter focus.selecter", data, function(e) {
-						e.data.$selecter.trigger("focus");
-					});
-				}
-
-			//} else {
-				// Disable browser focus/blur for jump links
-				//data.$select.hide();
-			//}
+				// Handle clicks to associated labels
+				data.$select.on("focusin.selecter", data, function(e) {
+					e.data.$selecter.trigger("focus");
+				});
+			}
 		}
 	}
 
@@ -435,16 +430,6 @@
 		data.touchStartEvent.preventDefault();
 
 		data.$selecter.off("touchmove.selecter touchend.selecter");
-
-/*
-		data.$selecter.off("touchmove.selecter touchend.selecter click.selecter");
-
-		// prevent ghosty clicks
-		data.timer = _startTimer(data.timer, 1000, function() {
-			data.$selecter.on("click.selecter", ".selecter-selected", data, _onClick)
-						  .on("click.selecter", ".selecter-item", data, _onSelect);
-		});
-*/
 
 		_onClick(e);
 	}

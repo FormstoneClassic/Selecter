@@ -1,10 +1,11 @@
 /* 
- * Selecter v3.1.13 - 2014-10-17 
+ * Selecter v3.2.0 - 2014-10-17 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
  * Copyright 2014 Ben Plum; MIT Licensed 
  */
+
 
 .selecter {
   position: relative;
@@ -13,11 +14,17 @@
   z-index: 1;
   max-width: 30%;
 }
+.selecter,
+.selecter * {
+  -webkit-user-select: none !important;
+     -moz-user-select: none !important;
+      -ms-user-select: none !important;
+          user-select: none !important;
+}
 .selecter .selecter-element {
   width: 100%;
   height: 100%;
   position: absolute;
-  *left: -999999px;
   left: 0;
   opacity: 0;
   z-index: -1;
@@ -28,31 +35,53 @@
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   -webkit-tap-highlight-color: transparent;
 }
+.no-opacity .selecter .selecter-element {
+  left: -999999px;
+}
 .selecter .selecter-selected {
   position: relative;
-  background: #f9f9f9 url(jquery.fs.selecter-arrow.png) no-repeat right center;
+  background: #ffffff;
   border: 1px solid #cccccc;
-  color: #333333;
+  color: #222222;
   cursor: pointer;
   display: block;
   font-size: 13px;
   margin: 0;
   overflow: hidden;
-  padding: 8px 10px;
+  padding: 10px 15px;
   text-overflow: clip;
   z-index: 2;
   border-radius: 3px;
 }
+.selecter .selecter-selected:after {
+  height: 0;
+  width: 0;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  bottom: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #cccccc;
+  content: '';
+  display: block;
+  margin: auto 0;
+}
+.no-touch .selecter .selecter-selected:hover {
+  color: #333333;
+}
+.no-touch .selecter.disabled .selecter-selected:hover {
+  color: #cccccc;
+}
 .selecter .selecter-options {
   width: 100%;
-  *width: auto;
   max-height: 260px;
   position: absolute;
   top: 100%;
   left: 0;
   border: 1px solid #cccccc;
   border-width: 0 1px 1px;
-  background-color: #fefefe;
+  background-color: #ffffff;
   display: none;
   margin: 0;
   overflow: auto;
@@ -62,32 +91,35 @@
   border-radius: 0 0 3px 3px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
+.no-opacity .selecter .selecter-options {
+  width: auto;
+}
 .selecter .selecter-group {
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid #cccccc;
   color: #999999;
   display: block;
   font-size: 11px;
-  padding: 5px 10px 4px;
+  padding: 10px 15px;
   text-transform: uppercase;
 }
 .selecter .selecter-item {
   width: 100%;
   background: #ffffff;
-  border-bottom: 1px solid #e3e3e3;
-  color: #333333;
+  border-bottom: 1px solid #cccccc;
+  color: #222222;
   cursor: pointer;
   display: block;
   font-size: 13px;
   margin: 0;
   overflow: hidden;
-  padding: 8px 10px;
+  padding: 10px 15px;
   text-overflow: ellipsis;
 }
 .selecter .selecter-item.placeholder {
   display: none;
 }
 .selecter .selecter-item.selected {
-  background: #f9f9f9;
+  background: #eeeeee;
 }
 .selecter .selecter-item.disabled {
   color: #999999;
@@ -100,14 +132,15 @@
   border-bottom: 0;
   border-radius: 0 0 2px 2px;
 }
-@media screen and (min-width: 980px) {
-  .selecter .selecter-item:hover,
-  .selecter .selecter-item.selected:hover {
-    background-color: #ffffff;
-  }
-  .selecter .selecter-item.disabled:hover {
-    background-color: #ffffff;
-  }
+.no-touch .selecter .selecter-item:hover,
+.no-touch .selecter .selecter-item.selected:hover {
+  color: #333333;
+  background-color: #cccccc;
+}
+.selecter .selecter-item.disabled,
+.no-touch .selecter .selecter-item.disabled:hover {
+  color: #cccccc;
+  background-color: #ffffff;
 }
 .selecter.open {
   z-index: 3;
@@ -167,22 +200,28 @@
 }
 .selecter.disabled .selecter-selected {
   background: #ffffff;
-  border-color: #eeeeee;
+  border-color: #cccccc;
   color: #cccccc;
   cursor: default;
 }
 .selecter.disabled .selecter-options {
   background: #ffffff;
-  border-color: #eeeeee;
+  border-color: #cccccc;
 }
 .selecter.disabled .selecter-group,
 .selecter.disabled .selecter-item {
-  border-color: #eeeeee;
+  border-color: #cccccc;
   color: #cccccc;
   cursor: default;
 }
-.selecter.disabled .selecter-item.selected {
+.selecter.disabled .selecter-item.selected,
+.no-touch .selecter.disabled .selecter-item.selected:hover {
   background: #fafafa;
+}
+.selecter.disabled .selecter-item,
+.no-touch .selecter.disabled .selecter-item:hover {
+  color: #cccccc;
+  background-color: #ffffff;
 }
 .selecter .selecter-options.scroller {
   overflow: hidden;
@@ -190,12 +229,6 @@
 .selecter .selecter-options.scroller .scroller-content {
   max-height: 260px;
   padding: 0;
-}
-@media screen and (min-width: 980px) {
-  .selecter:hover .selecter-selected,
-  .selecter.disabled .selecter-item:hover {
-    background-color: #ffffff;
-  }
 }
 @media screen and (max-width: 740px) {
   .selecter {
