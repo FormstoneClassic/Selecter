@@ -293,7 +293,7 @@
 			_buildOptions(data);
 
 			if (!data.multiple) {
-				_update(originalIndex, data);
+				_update(originalIndex-1, data);
 			}
 
 			// Scroller support
