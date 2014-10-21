@@ -404,8 +404,8 @@
 
 		_clearTimer(data.timer);
 
-		data.touchStartX = data.oe.touches[0].clientX;
-		data.touchStartY = data.oe.touches[0].clientY;
+		data.touchStartX = data.touchStartEvent.touches[0].clientX;
+		data.touchStartY = data.touchStartEvent.touches[0].clientY;
 
 		data.$selecter.on("touchmove.selecter", ".selecter-selected", data, _onTouchMove)
 					  .on("touchend.selecter", ".selecter-selected", data, _onTouchEnd);
