@@ -215,10 +215,15 @@
 				opts.links = true;
 			}
 
-			// Test for selected option in case we need to override the custom label
-			var $originalOption = $select.find(":selected");
+			// Grab true original index, only if selected attribute exits
+			var $originalOption = $select.find("[selected]").not(":disabled"),
+				originalOptionIndex = $select.find("option").index($originalOption);
+			
 			if (!opts.multiple && opts.label !== "") {
 				$select.prepend('<option value="" class="selecter-placeholder" selected>' + opts.label + '</option>');
+				if (originalOptionIndex > -1) {
+					originalOptionIndex++;
+				}
 			} else {
 				opts.label = "";
 			}
@@ -227,13 +232,15 @@
 			var $allOptions = $select.find("option, optgroup"),
 				$options = $allOptions.filter("option");
 
-			// update original in case we needed a custom label placeholder
-			$originalOption = $options.filter(":selected");
+			// If we didn't actually have a selected elemtn
+			if (!$originalOption.length) {
+				$originalOption = $options.eq(0);
+			}
 
-			var originalIndex = ($originalOption.length > 0) ? $options.index($originalOption) : 0,
+			// Determine original item
+			var originalIndex = (originalOptionIndex > -1) ? originalOptionIndex : 0,
 				originalLabel = (opts.label !== "") ? opts.label : $originalOption.text(),
 				wrapperTag = "div";
-				//wrapperTag = (opts.links) ? "nav" : "div"; // nav's usage still up for debate...
 
 			// Swap tab index, no more interacting with the actual select!
 			opts.tabIndex = $select[0].tabIndex;
@@ -265,7 +272,6 @@
 			// Build inner
 			if (!opts.multiple) {
 				inner += '<span class="selecter-selected">';
-				// inner += $('<span></span>').text( _trim((($originalOption.text() !== "") ? $originalOption.text() : opts.label), opts.trim) ).html();
 				inner += $('<span></span>').text( _trim(originalLabel, opts.trim) ).html();
 				inner += '</span>';
 			}
@@ -293,7 +299,7 @@
 			_buildOptions(data);
 
 			if (!data.multiple) {
-				_update(originalIndex-1, data);
+				_update(originalIndex, data);
 			}
 
 			// Scroller support
@@ -396,8 +402,8 @@
 
 		_clearTimer(data.timer);
 
-		data.touchStartX = data.oe.touches[0].clientX;
-		data.touchStartY = data.oe.touches[0].clientY;
+		data.touchStartX = data.touchStartEvent.touches[0].clientX;
+		data.touchStartY = data.touchStartEvent.touches[0].clientY;
 
 		data.$selecter.on("touchmove.selecter", ".selecter-selected", data, _onTouchMove)
 					  .on("touchend.selecter", ".selecter-selected", data, _onTouchEnd);

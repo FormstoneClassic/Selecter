@@ -10,8 +10,11 @@
 		<script src="http://formstone.it/js/modernizr.js"></script>
 
 		<!-- Demo Resources -->
+<!--
 		<link href="http://formstone.it/css/demo.css" rel="stylesheet" type="text/css" media="all">
 		<script src="http://formstone.it/js/demo.js"></script>
+-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 		<!--[if IE 8]>
         	<script>var IE8 = true;</script>
@@ -177,7 +180,7 @@
 				<br>
 
 				<!-- MULTIPLE -->
-				<p>Selecter will also automatically detect mutiple select elements:</p>
+				<p>Selecter will also automatically detect multiple select elements:</p>
 
 				<pre class="example"><code class="language-javascript">$("select").selecter();</code></pre>
 
@@ -201,7 +204,7 @@
 
 				<!-- DEFAULT LABEL -->
 				<h2>Default Label</h2>
-				<p>The default label will be displayed on initiallization instead of the selected element.</p>
+				<p>The default label will be displayed on initialization only if an option does not have the <code>selected</code> attribute explicitly defined.</p>
 
 				<pre class="example"><code class="language-javascript">$("select").selecter({
 	label: "Select An Item"
@@ -405,23 +408,6 @@ $("select").selecter("enable", "value");</code></pre>
 				<a href="#" class="button small toggle_selecter_option">Enable Option 'One'</a>
 				<form action="#" method="GET">
 					<select name="selecter_disabled_option" class="selecter_disabled_option">
-						<option value="1" disabled>One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
-						<option value="4">Four</option>
-						<option value="5">Five</option>
-					</select>
-				</form>
-
-				<br>
-
-				<!-- Scroller -->
-				<h2>Scroller</h2>
-				<p>With Scroller Support:</p>
-
-				<h5>Demo</h5>
-				<form action="#" method="GET">
-					<select name="selecter_scroll" class="selecter_scroll">
 						<option value="1" disabled>One</option>
 						<option value="2">Two</option>
 						<option value="3">Three</option>

@@ -8,18 +8,30 @@
 		margin: 10px 0;
 		z-index: 1;
 
+		&:focus {
+			box-shadow: none;
+			outline: none;
+		}
+
 		&,
 		& * {
 			user-select: none !important;
+		}
+
+		&,
+		& *,
+		& *:before,
+		& *:after {
+			box-sizing: border-box;
 		}
 
 		& when (@selecter-max-width = true) {
 			max-width: 30%;
 		}
 
-		// .selecter .selecter-element
+		// .selecter-element
 
-		& &-element {
+		&-element {
 			width: 100%;
 			height: 100%;
 
@@ -44,9 +56,9 @@
 		}
 
 
-		// .selecter .selecter-selected
+		// .selecter-selected
 
-		& &-selected {
+		&-selected {
 			position: relative;
 
 			background: @selecter-background-color;
@@ -83,7 +95,7 @@
 			}
 		}
 
-		.no-touch & &-selected:hover {
+		.no-touch &-selected:hover {
 			color: @selecter-hover-text-color;
 		}
 
@@ -92,9 +104,9 @@
 		}
 
 
-		// .selecter .selecter-options
+		// .selecter-options
 
-		& &-options {
+		&-options {
 			width: 100%;
 			max-height: @selecter-max-height;
 
@@ -120,6 +132,12 @@
 				box-shadow: @selecter-options-box-shadow;
 			}
 
+			// Scroller support
+
+			&.scroller {
+				position: absolute;
+			}
+
 			// - IE8 - opacity check
 
 			.no-opacity & {
@@ -128,9 +146,9 @@
 		}
 
 
-		// .selecter .selecter-group
+		// .selecter-group
 
-		& &-group {
+		&-group {
 			border-bottom: @selecter-border-width solid @selecter-group-border-color;
 			color: @selecter-group-text-color;
 			display: block;
@@ -140,9 +158,9 @@
 		}
 
 
-		// .selecter .selecter-item
+		// .selecter-item
 
-		& &-item {
+		&-item {
 			width: 100%;
 
 			background: @selecter-item-background-color;
@@ -154,6 +172,7 @@
 			margin: 0;
 			overflow: hidden;
 			padding: @selecter-item-padding;
+			text-decoration: none;
 			text-overflow: ellipsis;
 
 			&.placeholder {
@@ -364,9 +383,9 @@
 		}
 
 
-		// .selecter .selecter-options.scroller
+		// .selecter-options.scroller
 
-		& &-options.scroller {
+		&-options.scroller {
 			overflow: hidden;
 
 			.scroller-content {

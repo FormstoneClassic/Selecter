@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.2.0 - 2014-10-17 
+ * Selecter v3.2.0 - 2014-10-21 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -14,6 +14,10 @@
   z-index: 1;
   max-width: 30%;
 }
+.selecter:focus {
+  box-shadow: none;
+  outline: none;
+}
 .selecter,
 .selecter * {
   -webkit-user-select: none !important;
@@ -21,7 +25,14 @@
       -ms-user-select: none !important;
           user-select: none !important;
 }
-.selecter .selecter-element {
+.selecter,
+.selecter *,
+.selecter *:before,
+.selecter *:after {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+.selecter-element {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -29,16 +40,16 @@
   opacity: 0;
   z-index: -1;
 }
-.selecter .selecter-element,
-.selecter .selecter-element:focus {
+.selecter-element,
+.selecter-element:focus {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   -webkit-tap-highlight-color: transparent;
 }
-.no-opacity .selecter .selecter-element {
+.no-opacity .selecter-element {
   left: -999999px;
 }
-.selecter .selecter-selected {
+.selecter-selected {
   position: relative;
   background: #ffffff;
   border: 1px solid #cccccc;
@@ -53,7 +64,7 @@
   z-index: 2;
   border-radius: 3px;
 }
-.selecter .selecter-selected:after {
+.selecter-selected:after {
   height: 0;
   width: 0;
   position: absolute;
@@ -67,13 +78,13 @@
   display: block;
   margin: auto 0;
 }
-.no-touch .selecter .selecter-selected:hover {
+.no-touch .selecter-selected:hover {
   color: #333333;
 }
 .no-touch .selecter.disabled .selecter-selected:hover {
   color: #cccccc;
 }
-.selecter .selecter-options {
+.selecter-options {
   width: 100%;
   max-height: 260px;
   position: absolute;
@@ -91,10 +102,13 @@
   border-radius: 0 0 3px 3px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
-.no-opacity .selecter .selecter-options {
+.selecter-options.scroller {
+  position: absolute;
+}
+.no-opacity .selecter-options {
   width: auto;
 }
-.selecter .selecter-group {
+.selecter-group {
   border-bottom: 1px solid #cccccc;
   color: #999999;
   display: block;
@@ -102,7 +116,7 @@
   padding: 10px 15px;
   text-transform: uppercase;
 }
-.selecter .selecter-item {
+.selecter-item {
   width: 100%;
   background: #ffffff;
   border-bottom: 1px solid #cccccc;
@@ -113,32 +127,33 @@
   margin: 0;
   overflow: hidden;
   padding: 10px 15px;
+  text-decoration: none;
   text-overflow: ellipsis;
 }
-.selecter .selecter-item.placeholder {
+.selecter-item.placeholder {
   display: none;
 }
-.selecter .selecter-item.selected {
+.selecter-item.selected {
   background: #eeeeee;
 }
-.selecter .selecter-item.disabled {
+.selecter-item.disabled {
   color: #999999;
   cursor: default;
 }
-.selecter .selecter-item:first-child {
+.selecter-item:first-child {
   border-radius: 0;
 }
-.selecter .selecter-item:last-child {
+.selecter-item:last-child {
   border-bottom: 0;
   border-radius: 0 0 2px 2px;
 }
-.no-touch .selecter .selecter-item:hover,
-.no-touch .selecter .selecter-item.selected:hover {
+.no-touch .selecter-item:hover,
+.no-touch .selecter-item.selected:hover {
   color: #333333;
   background-color: #cccccc;
 }
-.selecter .selecter-item.disabled,
-.no-touch .selecter .selecter-item.disabled:hover {
+.selecter-item.disabled,
+.no-touch .selecter-item.disabled:hover {
   color: #cccccc;
   background-color: #ffffff;
 }
@@ -223,10 +238,10 @@
   color: #cccccc;
   background-color: #ffffff;
 }
-.selecter .selecter-options.scroller {
+.selecter-options.scroller {
   overflow: hidden;
 }
-.selecter .selecter-options.scroller .scroller-content {
+.selecter-options.scroller .scroller-content {
   max-height: 260px;
   padding: 0;
 }
