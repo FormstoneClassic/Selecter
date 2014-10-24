@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.2.2 - 2014-10-21 
+ * Selecter v3.2.3 - 2014-10-24 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -403,12 +403,9 @@
 	function _onTouchStart(e) {
 		e.stopPropagation();
 
-		var data = e.data,
-			oe = e.originalEvent;
+		var data = e.data;
 
-		data.touchStartEvent = oe;
-
-		_clearTimer(data.timer);
+		data.touchStartEvent = e.originalEvent;
 
 		data.touchStartX = data.touchStartEvent.touches[0].clientX;
 		data.touchStartY = data.touchStartEvent.touches[0].clientY;
@@ -835,37 +832,6 @@
 	 */
 	function _escape(text) {
 		return (typeof text === "string") ? text.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1') : text;
-	}
-
-	/**
-	 * @method private
-	 * @name _startTimer
-	 * @description Starts an internal timer
-	 * @param timer [int] "Timer ID"
-	 * @param time [int] "Time until execution"
-	 * @param callback [int] "Function to execute"
-	 * @param interval [boolean] "Flag for recurring interval"
-	 */
-	function _startTimer(timer, time, func, interval) {
-		_clearTimer(timer, interval);
-		if (interval === true) {
-			return setInterval(func, time);
-		} else {
-			return setTimeout(func, time);
-		}
-	}
-
-	/**
-	 * @method private
-	 * @name _clearTimer
-	 * @description Clears an internal timer
-	 * @param timer [int] "Timer ID"
-	 */
-	function _clearTimer(timer) {
-		if (timer !== null) {
-			clearInterval(timer);
-			timer = null;
-		}
 	}
 
 	$.fn.selecter = function(method) {
