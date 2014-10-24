@@ -10,9 +10,7 @@
     "url": "http://www.benplum.com"
   },
   "ignore": [
-    "*.jquery.json",
-    "Gruntfile.js",
-    "src/"
+    "*.jquery.json"
   ],
   "main": [
     "jquery.fs.selecter.js",
