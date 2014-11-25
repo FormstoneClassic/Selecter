@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.2.3 - 2014-10-24 
+ * Selecter v3.2.3 - 2014-11-25 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -29,8 +29,7 @@
 .selecter *,
 .selecter *:before,
 .selecter *:after {
-  -moz-box-sizing: border-box;
-       box-sizing: border-box;
+  box-sizing: border-box;
 }
 .selecter-element {
   width: 100%;

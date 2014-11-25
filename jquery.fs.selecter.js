@@ -1,5 +1,5 @@
 /* 
- * Selecter v3.2.3 - 2014-10-24 
+ * Selecter v3.2.3 - 2014-11-25 
  * A jQuery plugin for replacing default select elements. Part of the Formstone Library. 
  * http://formstone.it/selecter/ 
  * 
@@ -49,7 +49,7 @@
 		 */
 		defaults: function(opts) {
 			options = $.extend(options, opts || {});
-			return $(this);
+			return (typeof this === 'object') ? $(this) : true;
 		},
 
 		/**
@@ -226,7 +226,7 @@
 			// Grab true original index, only if selected attribute exits
 			var $originalOption = $select.find("[selected]").not(":disabled"),
 				originalOptionIndex = $select.find("option").index($originalOption);
-			
+
 			if (!opts.multiple && opts.label !== "") {
 				$select.prepend('<option value="" class="selecter-placeholder" selected>' + opts.label + '</option>');
 				if (originalOptionIndex > -1) {
