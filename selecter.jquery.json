@@ -26,9 +26,9 @@
     "jquery",
     "formstone"
   ],
-  "docs": "http://formstone.it/selecter/",
-  "demo": "http://formstone.it/selecter/",
-  "download": "https://github.com/Formstone/Selecter",
-  "bugs": "https://github.com/Formstone/Selecter/issues",
-  "homepage": "http://formstone.it/selecter/"
+  "docs": "http://classic.formstone.it/selecter/",
+  "demo": "http://classic.formstone.it/selecter/",
+  "download": "https://github.com/FormstoneClassic/Selecter",
+  "bugs": "https://github.com/FormstoneClassic/Selecter/issues",
+  "homepage": "http://classic.formstone.it/selecter/"
 }

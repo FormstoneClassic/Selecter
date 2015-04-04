@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 		// Auto Prefixer
 		autoprefixer: {
 			options: {
-				borwsers: [ '> 1%', 'last 5 versions', 'Firefox ESR', 'Opera 12.1', '>= ie 8' ]
+				browsers: [ '> 1%', 'last 5 versions', 'Firefox ESR', 'Opera 12.1', 'IE 8', 'IE 9' ]
 			},
 			no_dest: {
 				 src: '*.css'
@@ -128,7 +128,7 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-		//Bower sync
+		// Bower sync
 		sync: {
 			all: {
 				options: {
@@ -142,10 +142,32 @@ module.exports = function(grunt) {
 					}
 				}
 			}
+		},
+		// Watcher - For dev only!!
+		watch: {
+			scripts: {
+				files: [
+					'src/**.js'
+				],
+				tasks: [
+					'jshint',
+					'copy'
+				]
+			},
+			styles: {
+				files: [
+					'src/**.less'
+				],
+				tasks: [
+					'less',
+					'autoprefixer'
+				]
+			}
 		}
 	});
 
 	// Load tasks
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -160,7 +182,8 @@ module.exports = function(grunt) {
 		var pkg = grunt.file.readJSON('package.json'),
 			extra = grunt.file.exists('src/README.md') ? '\n\n---\n\n' + grunt.file.read('src/README.md') : '';
 			destination = "README.md",
-			markdown = '<a href="http://gruntjs.com" target="_blank"><img src="https://cdn.gruntjs.com/builtwith.png" alt="Built with Grunt"></a> \n' +
+			markdown = '<h2>Development of this plugin has ended. Please upgrade to the new <a href="http://formstone.it">Formstone</a>.</h2><br> \n\n' +
+					   '<a href="http://gruntjs.com" target="_blank"><img src="https://cdn.gruntjs.com/builtwith.png" alt="Built with Grunt"></a> \n' +
 					   '# ' + pkg.name + ' \n\n' +
 					   pkg.description + ' \n\n' +
 					   '- [Demo](' + pkg.demo + ') \n' +
